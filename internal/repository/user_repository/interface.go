@@ -2,6 +2,7 @@ package user_repository
 
 import (
 	"context"
+	"crmeb_go/internal/data/user_data"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository/gen"
 )

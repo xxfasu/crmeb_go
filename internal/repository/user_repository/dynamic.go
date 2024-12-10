@@ -1,6 +1,7 @@
 package user_repository
 
 import (
+	"crmeb_go/internal/data/user_data"
 	"gorm.io/gen"
 )
 

@@ -81,6 +81,11 @@ func (j *JWT) CreateToken(loginUserData user_data.LoginUserData) (string, error)
 	return token, nil
 }
 
+func (j *JWT) DeleteToken(token string) error {
+	key := getTokenKey(token)
+	return j.cache.DelCache(key)
+}
+
 func (j *JWT) VerifyToken(loginUserData user_data.LoginUserData) error {
 	expireTime := loginUserData.ExpireTime
 	currentTime := time.Now().Unix() // 获取当前时间，Unix 时间戳，单位为秒
