@@ -2,7 +2,6 @@ package user_service
 
 import (
 	"context"
-	"crmeb_go/internal/data/service_data"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/gen"
@@ -92,7 +91,7 @@ func (s *userService) Login(ctx context.Context, req *validation.Login) (string,
 }
 
 func (s *userService) FindUser(ctx context.Context, req *validation.FindUser) (*model.User, error) {
-	user, err := s.userRepo.GetUserByCondition(ctx, service_data.Condition{
+	user, err := s.userRepo.GetUserByCondition(ctx, user_data.Condition{
 		Email:    req.Email,
 		Nickname: req.Nickname,
 		UserID:   req.UserID,

@@ -325,7 +325,7 @@ type IUserDo interface {
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
 
-	GetUserByCondition(condition service_data.Condition) (result *model.User, err error)
+	GetUserByCondition(condition user_data.Condition) (result *model.User, err error)
 }
 
 // SELECT id,user_id,nickname,email FROM users
@@ -341,7 +341,7 @@ type IUserDo interface {
 //			email = @condition.Email
 //		{{end}}
 //	{{end}}
-func (u userDo) GetUserByCondition(condition service_data.Condition) (result *model.User, err error) {
+func (u userDo) GetUserByCondition(condition user_data.Condition) (result *model.User, err error) {
 	var params []interface{}
 
 	var generateSQL strings.Builder

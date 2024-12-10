@@ -1,7 +1,6 @@
 package user_repository
 
 import (
-	"crmeb_go/internal/data/service_data"
 	"gorm.io/gen"
 )
 
@@ -18,5 +17,5 @@ type Querier interface {
 	// 				email = @condition.Email
 	// 			{{end}}
 	// 		{{end}}
-	GetUserByCondition(condition service_data.Condition) (*gen.T, error)
+	GetUserByCondition(condition user_data.Condition) (*gen.T, error)
 }

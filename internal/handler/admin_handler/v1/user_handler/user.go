@@ -1,7 +1,6 @@
 package user_handler
 
 import (
-	"crmeb_go/internal/data/service_data"
 	"crmeb_go/internal/service/common_service/user_service"
 	"crmeb_go/internal/validation"
 	"crmeb_go/pkg/utils"
@@ -45,7 +44,7 @@ func (h *UserHandler) Login(ctx *gin.Context) {
 		utils.ResError(ctx, err)
 		return
 	}
-	utils.ResSuccess(ctx, service_data.LoginResp{
+	utils.ResSuccess(ctx, user_data.LoginResp{
 		AccessToken: token,
 	})
 }
@@ -77,7 +76,7 @@ func (h *UserHandler) ModifyPassword(ctx *gin.Context) {
 		utils.ResError(ctx, err)
 		return
 	}
-	utils.ResSuccess(ctx, service_data.LoginResp{
+	utils.ResSuccess(ctx, user_data.LoginResp{
 		AccessToken: token,
 	})
 }

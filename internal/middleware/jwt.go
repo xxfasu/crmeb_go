@@ -22,7 +22,8 @@ func NewAuthM(j *jwt.JWT) *AuthM {
 
 func (m *AuthM) StrictAuth() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		tokenString := ctx.Request.Header.Get("Authorization")
+		// tokenString := ctx.Request.Header.Get("Authorization")
+		tokenString := ctx.Request.Header.Get("Authori-zation")
 		if tokenString == "" {
 			logs.Log.WithContext(ctx).Warn("No token", zap.Any("data", map[string]interface{}{
 				"url":    ctx.Request.URL,

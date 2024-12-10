@@ -2,7 +2,6 @@ package user_repository
 
 import (
 	"context"
-	"crmeb_go/internal/data/service_data"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository/gen"
 	"errors"
@@ -46,7 +45,7 @@ func (r *userRepository) GetByEmail(ctx context.Context, email string) (*model.U
 	return userList[0], err
 }
 
-func (r *userRepository) GetUserByCondition(ctx context.Context, condition service_data.Condition) (*model.User, error) {
+func (r *userRepository) GetUserByCondition(ctx context.Context, condition user_data.Condition) (*model.User, error) {
 	user, err := gen.User.WithContext(ctx).GetUserByCondition(condition)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil

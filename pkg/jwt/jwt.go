@@ -1,6 +1,9 @@
 package jwt
 
 import (
+	"context"
+	"crmeb_go/internal/data/user_data"
+	"crmeb_go/pkg/cache"
 	"errors"
 	"strings"
 	"time"
@@ -9,7 +12,7 @@ import (
 )
 
 type JWT struct {
-	key []byte
+	cache *cache.Cache
 }
 
 type MyCustomClaims struct {
@@ -17,8 +20,15 @@ type MyCustomClaims struct {
 	jwt.RegisteredClaims
 }
 
-func NewJwt() *JWT {
-	return &JWT{key: []byte("security.jwt.key")}
+const (
+	MillisMinuteTen = 20 * 60
+	MillisMinute    = 60 * time.Minute
+	ExpireTime      = 5 * 60 * 60
+	RedisTokenKey   = "TOKEN:ADMIN:"
+)
+
+func NewJwt(cache *cache.Cache) *JWT {
+	return &JWT{cache}
 }
 
 func (j *JWT) GenToken(userID string, expiresAt time.Time) (string, error) {
@@ -36,7 +46,7 @@ func (j *JWT) GenToken(userID string, expiresAt time.Time) (string, error) {
 	})
 
 	// Sign and get the complete encoded token as a string using the key
-	tokenString, err := token.SignedString(j.key)
+	tokenString, err := token.SignedString("security.jwt.key")
 	if err != nil {
 		return "", err
 	}
@@ -49,7 +59,7 @@ func (j *JWT) ParseToken(tokenString string) (*MyCustomClaims, error) {
 		return nil, errors.New("token is empty")
 	}
 	token, err := jwt.ParseWithClaims(tokenString, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.key, nil
+		return token, nil
 	})
 	if err != nil {
 		return nil, err
@@ -59,4 +69,41 @@ func (j *JWT) ParseToken(tokenString string) (*MyCustomClaims, error) {
 	} else {
 		return nil, err
 	}
+}
+
+func (j *JWT) CreateToken(loginUserData user_data.LoginUserData) (string, error) {
+	token := strings.Replace(loginUserData.Token, "-", "", -1)
+	loginUserData.Token = token
+	err := j.RefreshToken(loginUserData)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
+}
+
+func (j *JWT) VerifyToken(loginUserData user_data.LoginUserData) error {
+	expireTime := loginUserData.ExpireTime
+	currentTime := time.Now().Unix() // 获取当前时间，Unix 时间戳，单位为秒
+	if expireTime-currentTime <= MillisMinuteTen {
+		err := j.RefreshToken(loginUserData)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (j *JWT) RefreshToken(loginUserData user_data.LoginUserData) error {
+	loginUserData.LoginTime = time.Now().Unix()
+	loginUserData.ExpireTime = loginUserData.LoginTime + ExpireTime
+	key := getTokenKey(loginUserData.Token)
+	err := j.cache.SetCache(context.Background(), key, loginUserData.Token, time.Duration(loginUserData.ExpireTime)*time.Second)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func getTokenKey(uuid string) string {
+	return RedisTokenKey + uuid
 }
