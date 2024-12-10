@@ -1,18 +1,18 @@
 package middleware
 
 import (
-	"github.com/casbin/casbin/v2"
+	"crmeb_go/internal/casbin_service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 type CasbinM struct {
-	e *casbin.Enforcer
+	casbin casbin_service.Service
 }
 
-func NewCasbinM(e *casbin.Enforcer) *CasbinM {
+func NewCasbinM(casbin casbin_service.Service) *CasbinM {
 	return &CasbinM{
-		e: e,
+		casbin: casbin,
 	}
 }
 
@@ -25,7 +25,7 @@ func (m *CasbinM) CasbinMiddleware(obj string, act string) gin.HandlerFunc {
 			return
 		}
 
-		ok, err := m.e.Enforce(userRole, obj, act)
+		ok, err := m.casbin.Enforce(userRole, obj, act)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return

@@ -29,10 +29,10 @@ func New(zapLogger *zap.Logger) gormlogger.Interface {
 	return &Logger{
 		ZapLogger:                 zapLogger,
 		LogLevel:                  gormlogger.Warn,
-		SlowThreshold:             100 * time.Millisecond,
-		Colorful:                  false,
-		IgnoreRecordNotFoundError: false,
-		ParameterizedQueries:      false,
+		SlowThreshold:             200 * time.Millisecond,
+		Colorful:                  true,
+		IgnoreRecordNotFoundError: true,
+		ParameterizedQueries:      true,
 	}
 }
 
