@@ -1,10 +1,6 @@
-package user_data
+package login_user
 
 import "crmeb_go/internal/model"
-
-type LoginResp struct {
-	AccessToken string `json:"accessToken"`
-}
 
 type LoginUserData struct {
 	Token         string            `json:"token"`          // 用户唯一标识

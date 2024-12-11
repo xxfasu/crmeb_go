@@ -2,6 +2,7 @@ package user_service
 
 import (
 	"context"
+	"crmeb_go/internal/common/data/login_user"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/gen"
@@ -18,27 +19,27 @@ import (
 	"time"
 )
 
-func NewUserService(
+func New(
 	cache *cache.Cache,
 	rLock *redsync.Redsync,
 	tm repository.Transaction,
 	userRepo user_repository.UserRepository,
 	jwt *jwt.JWT,
-) UserService {
-	return &userService{
+) Service {
+	return &service{
 		userRepo: userRepo,
 		tx:       tm,
 		jwt:      jwt,
 	}
 }
 
-type userService struct {
+type service struct {
 	userRepo user_repository.UserRepository
 	tx       repository.Transaction
 	jwt      *jwt.JWT
 }
 
-func (s *userService) Register(ctx context.Context, req *validation.Register) error {
+func (s *service) Register(ctx context.Context, req *validation.Register) error {
 	// check username
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)
 	if err != nil {
@@ -72,7 +73,7 @@ func (s *userService) Register(ctx context.Context, req *validation.Register) er
 	return err
 }
 
-func (s *userService) Login(ctx context.Context, req *validation.Login) (string, error) {
+func (s *service) Login(ctx context.Context, req *validation.Login) (string, error) {
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)
 	if err != nil || user == nil {
 		return "", err
@@ -90,8 +91,8 @@ func (s *userService) Login(ctx context.Context, req *validation.Login) (string,
 	return token, nil
 }
 
-func (s *userService) FindUser(ctx context.Context, req *validation.FindUser) (*model.User, error) {
-	user, err := s.userRepo.GetUserByCondition(ctx, user_data.Condition{
+func (s *service) FindUser(ctx context.Context, req *validation.FindUser) (*model.User, error) {
+	user, err := s.userRepo.GetUserByCondition(ctx, login_user.Condition{
 		Email:    req.Email,
 		Nickname: req.Nickname,
 		UserID:   req.UserID,
