@@ -1,20 +1,16 @@
 package oss
 
 import (
-	"context"
-	"crmeb_go/consts"
+	"crmeb_go/constants"
 	"crmeb_go/internal/conf"
-	redis2 "crmeb_go/internal/redis"
 	"crmeb_go/pkg/logs"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/aliyun/alibaba-cloud-sdk-go/services/sts"
-	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"go.uber.org/zap"
 	"sync"
-	"time"
 )
 
 type Client interface {
@@ -34,22 +30,22 @@ var ossClient Client
 var syncOSSClient Client
 
 func InitOSS() error {
-	result, err := redis2.Client.Get(context.Background(), consts.OSSSTSTokenKey).Result()
-	if err != nil {
-		if !errors.Is(err, redis.Nil) {
-			logs.Log.Error("redis err:", zap.Error(err))
-			return err
-		}
-	}
-	if len(result) == 0 {
-		jsonData, err := GenerateSTSToken()
-		if err != nil {
-			logs.Log.Error("GenerateSTSToken err: ", zap.Error(err))
-			return err
-		}
-		redis2.Client.Set(context.Background(), consts.OSSSTSTokenKey, string(jsonData), time.Hour)
-	}
-	registerFactory(consts.AliyunOSS, &AliyunOSSFactory{})
+	// result, err := redis2.Client.Get(context.Background(), enums.OSSSTSTokenKey).Result()
+	// if err != nil {
+	// 	if !errors.Is(err, redis.Nil) {
+	// 		logs.Log.Error("redis err:", zap.Error(err))
+	// 		return err
+	// 	}
+	// }
+	// if len(result) == 0 {
+	// 	jsonData, err := GenerateSTSToken()
+	// 	if err != nil {
+	// 		logs.Log.Error("GenerateSTSToken err: ", zap.Error(err))
+	// 		return err
+	// 	}
+	// 	redis2.Client.Set(context.Background(), enums.OSSSTSTokenKey, string(jsonData), time.Hour)
+	// }
+	registerFactory(constants.AliyunOSS, &AliyunOSSFactory{})
 	return nil
 }
 
@@ -59,7 +55,7 @@ func GetOSSClient() (Client, error) {
 	var flag error
 	once.Do(func() {
 		if len(conf.Config.OSS.Provider) == 0 {
-			conf.Config.OSS.Provider = consts.AliyunOSS
+			conf.Config.OSS.Provider = constants.AliyunOSS
 		}
 		factory, ok := getFactory(conf.Config.OSS.Provider)
 		if !ok {
@@ -91,7 +87,7 @@ func GenerateSTSToken() ([]byte, error) {
 	request.Scheme = "https"
 	request.RoleArn = conf.Config.AliyunOSS.RoleArn
 	request.RoleSessionName = uuid.NewString()
-	request.DurationSeconds = consts.STSTokenDurationSeconds
+	request.DurationSeconds = constants.STSTokenDurationSeconds
 
 	// 4. 获取临时凭证
 	response, err := client.AssumeRole(request)

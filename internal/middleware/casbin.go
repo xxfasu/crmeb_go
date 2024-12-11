@@ -1,16 +1,16 @@
 package middleware
 
 import (
-	"crmeb_go/internal/casbin_service"
+	"crmeb_go/internal/casbin"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 type CasbinM struct {
-	casbin casbin_service.Service
+	casbin casbin.Service
 }
 
-func NewCasbinM(casbin casbin_service.Service) *CasbinM {
+func NewCasbinM(casbin casbin.Service) *CasbinM {
 	return &CasbinM{
 		casbin: casbin,
 	}

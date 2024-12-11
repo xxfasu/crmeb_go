@@ -4,6 +4,7 @@
 package admin
 
 import (
+	"crmeb_go/internal/casbin"
 	"crmeb_go/internal/handler/admin_handler/v1"
 	"crmeb_go/internal/middleware"
 	"crmeb_go/internal/repository"
@@ -25,6 +26,7 @@ func newWire(client *redis.Client, rLock *redsync.Redsync) (*gin.Engine, func(),
 		v1.ProviderSet,
 		admin_routes.ProviderSet,
 		jwt.NewJwt,
+		casbin.InitCasbinEnforcer,
 		cache.InitLocalCache,
 	))
 }

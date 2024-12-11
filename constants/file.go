@@ -1,4 +1,4 @@
-package consts
+package constants
 
 const (
 	PreviewFile  = 1 // 需要的是预览链接

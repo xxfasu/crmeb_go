@@ -43,8 +43,8 @@ func (t *timer) AddTaskByFunc(cronName string, spec string, fun func(), taskName
 	return id, err
 }
 
-// AddTaskByFuncWithSecond 通过函数的方法使用WithSeconds添加任务
-func (t *timer) AddTaskByFuncWithSecond(cronName string, spec string, fun func(), taskName string, option ...cron.Option) (cron.EntryID, error) {
+// AddTaskByFuncWithSeconds 通过函数的方法使用WithSeconds添加任务
+func (t *timer) AddTaskByFuncWithSeconds(cronName string, spec string, fun func(), taskName string, option ...cron.Option) (cron.EntryID, error) {
 	t.Lock()
 	defer t.Unlock()
 	option = append(option, cron.WithSeconds())

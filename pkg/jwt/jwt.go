@@ -5,72 +5,23 @@ import (
 	"crmeb_go/internal/data/user_data"
 	"crmeb_go/pkg/cache"
 	"encoding/json"
-	"errors"
 	"github.com/gin-gonic/gin"
 	"strings"
 	"time"
-
-	"github.com/golang-jwt/jwt/v5"
 )
 
 type JWT struct {
 	cache *cache.Cache
 }
 
-type MyCustomClaims struct {
-	UserID string
-	jwt.RegisteredClaims
-}
-
 const (
 	MillisMinuteTen = 20 * 60
-	MillisMinute    = 60 * time.Minute
 	ExpireTime      = 5 * 60 * 60
 	RedisTokenKey   = "TOKEN:ADMIN:"
 )
 
 func NewJwt(cache *cache.Cache) *JWT {
 	return &JWT{cache}
-}
-
-func (j *JWT) GenToken(userID string, expiresAt time.Time) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, MyCustomClaims{
-		UserID: userID,
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(expiresAt),
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			NotBefore: jwt.NewNumericDate(time.Now()),
-			Issuer:    "",
-			Subject:   "",
-			ID:        "",
-			Audience:  []string{},
-		},
-	})
-
-	// Sign and get the complete encoded token as a string using the key
-	tokenString, err := token.SignedString("security.jwt.key")
-	if err != nil {
-		return "", err
-	}
-	return tokenString, nil
-}
-
-func (j *JWT) ParseToken(tokenString string) (*MyCustomClaims, error) {
-	tokenString = strings.TrimPrefix(tokenString, "Bearer ")
-	if strings.TrimSpace(tokenString) == "" {
-		return nil, errors.New("token is empty")
-	}
-	token, err := jwt.ParseWithClaims(tokenString, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return token, nil
-	})
-	if err != nil {
-		return nil, err
-	}
-	if claims, ok := token.Claims.(*MyCustomClaims); ok && token.Valid {
-		return claims, nil
-	} else {
-		return nil, err
-	}
 }
 
 func (j *JWT) CreateToken(loginUserData user_data.LoginUserData) (string, error) {

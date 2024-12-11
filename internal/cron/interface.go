@@ -5,8 +5,8 @@ import "github.com/robfig/cron/v3"
 type Timer interface {
 	// FindCronList 寻找所有Cron
 	FindCronList() map[string]*taskManager
-	// AddTaskByFuncWithSecond 添加Task 方法形式以秒的形式加入
-	AddTaskByFuncWithSecond(cronName string, spec string, fun func(), taskName string, option ...cron.Option) (cron.EntryID, error) // 添加Task Func以秒的形式加入
+	// AddTaskByFuncWithSeconds 添加Task 方法形式以秒的形式加入
+	AddTaskByFuncWithSeconds(cronName string, spec string, fun func(), taskName string, option ...cron.Option) (cron.EntryID, error) // 添加Task Func以秒的形式加入
 	// AddTaskByJobWithSeconds 添加Task 接口形式以秒的形式加入
 	AddTaskByJobWithSeconds(cronName string, spec string, job interface{ Run() }, taskName string, option ...cron.Option) (cron.EntryID, error)
 	// AddTaskByFunc 通过函数的方法添加任务

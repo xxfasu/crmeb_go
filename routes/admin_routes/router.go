@@ -27,7 +27,6 @@ func NewRouter(
 	router.Use(corsM.Handler())
 	router.Use(logM.RequestLogMiddleware())
 	router.Use(logM.ResponseLogMiddleware())
-	router.Use(authM.NoStrictAuth())
 
 	publicGroup := router.Group("/api")
 	publicGroup.Use(authM.NoStrictAuth())

@@ -1,4 +1,4 @@
-package casbin_service
+package casbin
 
 import (
 	"context"

@@ -1,4 +1,4 @@
-package casbin_service
+package casbin
 
 type Service interface {
 	Enforce(roleID, obj, act string) (bool, error)
