@@ -5,6 +5,7 @@ import (
 	"crmeb_go/constants"
 	"crmeb_go/pkg/cache"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -16,6 +17,7 @@ type Store struct {
 
 // Set 将验证码的 id 和 value 存储到 Redis 中
 func (s *Store) Set(id string, value string) error {
+	value = strings.ToLower(value)
 	key := fmt.Sprintf(constants.CaptchaKeyPrefix, id)
 	return s.cache.SetCache(s.ctx, key, value, s.ttl)
 }

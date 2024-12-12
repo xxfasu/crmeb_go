@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func loadLocal() error {
+func loadLocal(localPath ...string) error {
 
 	// 设置默认值
 	viper.SetDefault("server.port", ":8000")
@@ -18,7 +18,11 @@ func loadLocal() error {
 	// 设置配置文件的类型
 	viper.SetConfigType("toml")
 	// 添加配置文件所在的路径
-	viper.AddConfigPath("./config") // 当前目录
+	if len(localPath) != 0 {
+		viper.AddConfigPath(localPath[0]) // 当前目录
+	} else {
+		viper.AddConfigPath("./config") // 当前目录
+	}
 
 	// 读取配置文件
 	if err := viper.ReadInConfig(); err != nil {

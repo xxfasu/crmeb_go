@@ -4,6 +4,7 @@ import (
 	"context"
 	"crmeb_go/pkg/cache"
 	"github.com/mojocn/base64Captcha"
+	"strings"
 	"time"
 )
 
@@ -30,8 +31,9 @@ func New(cache cache.Cache) Captcha {
 		ctx:   context.Background(),
 	}
 
+	newCaptcha := base64Captcha.NewCaptcha(driver, store)
 	return &captcha{
-		base64Captcha.NewCaptcha(driver, store),
+		newCaptcha,
 	}
 }
 
@@ -41,5 +43,6 @@ func (c *captcha) Gen() (string, string, error) {
 }
 
 func (c *captcha) Verify(id, answer string) bool {
+	answer = strings.ToLower(answer)
 	return c.Captcha.Verify(id, answer, true)
 }

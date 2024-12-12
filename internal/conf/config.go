@@ -77,14 +77,14 @@ type config struct {
 var Config *config
 var Env *env
 
-func InitConfig() error {
-	err := loadEnv()
+func InitConfig(localPath ...string) error {
+	err := loadEnv(localPath...)
 	if err != nil {
 		return err
 	}
 	switch Env.Environment {
 	case "local":
-		err = loadLocal()
+		err = loadLocal(localPath...)
 	case "prod":
 		err = loadNacos()
 	}
@@ -94,7 +94,7 @@ func InitConfig() error {
 	return nil
 }
 
-func loadEnv() error {
+func loadEnv(localPath ...string) error {
 	// 设置默认值
 	viper.SetDefault("environment", "local")
 
@@ -103,7 +103,11 @@ func loadEnv() error {
 	// 设置配置文件的类型
 	viper.SetConfigType("toml")
 	// 添加配置文件所在的路径
-	viper.AddConfigPath("./config") // 当前目录
+	if len(localPath) != 0 {
+		viper.AddConfigPath(localPath[0]) // 当前目录
+	} else {
+		viper.AddConfigPath("./config") // 当前目录
+	}
 
 	// 读取配置文件
 	if err := viper.ReadInConfig(); err != nil {
