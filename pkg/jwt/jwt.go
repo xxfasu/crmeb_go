@@ -11,7 +11,7 @@ import (
 )
 
 type JWT struct {
-	cache *cache.Cache
+	cache cache.Cache
 }
 
 const (
@@ -20,7 +20,7 @@ const (
 	RedisTokenKey   = "TOKEN:ADMIN:"
 )
 
-func NewJwt(cache *cache.Cache) *JWT {
+func NewJwt(cache cache.Cache) *JWT {
 	return &JWT{cache}
 }
 

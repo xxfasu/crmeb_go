@@ -21,10 +21,12 @@ type mysql struct {
 
 // redis 配置结构体
 type redis struct {
-	Addr     string `mapstructure:"addr"`
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
-	DB       int    `mapstructure:"db"`
+	Addr         string   `mapstructure:"addr"`
+	Username     string   `mapstructure:"username"`
+	Password     string   `mapstructure:"password"`
+	DB           int      `mapstructure:"db"`
+	UseCluster   bool     `mapstructure:"use_cluster"`
+	ClusterAddrs []string `mapstructure:"cluster_addrs"`
 }
 
 // oss 配置结构体

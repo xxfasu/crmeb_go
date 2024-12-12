@@ -11,9 +11,9 @@ import (
 	"time"
 )
 
-type Cache struct {
+type cache struct {
 	LocalCache *freecache.Cache
-	RedisCache *redis.Client
+	RedisCache redis.UniversalClient
 }
 
 type StatusInfo struct {
@@ -30,25 +30,21 @@ type KeyInfo struct {
 	Value string // 缓存的值
 }
 
-type Fetcher interface {
-	Fetch(ctx context.Context, key string) (string, error)
-}
-
 type FetcherFunc func(ctx context.Context, key string) (string, error)
 
 func (f FetcherFunc) Fetch(ctx context.Context, key string) (string, error) {
 	return f(ctx, key)
 }
 
-func InitLocalCache(redisCache *redis.Client) *Cache {
+func InitLocalCache(client redis.UniversalClient) Cache {
 	// 创建一个 10MB 大小的缓存
 	cacheSize := 10 * 1024 * 1024 // 10MB
-	cache := freecache.NewCache(cacheSize)
-	return &Cache{LocalCache: cache, RedisCache: redisCache}
+	localCache := freecache.NewCache(cacheSize)
+	return &cache{LocalCache: localCache, RedisCache: client}
 }
 
 // GetCacheStatus 封装的方法：获取缓存命中率、缓存命中数、总请求数
-func (c *Cache) GetCacheStatus() StatusInfo {
+func (c *cache) GetCacheStatus() StatusInfo {
 	hitRate := c.LocalCache.HitRate()             // 获取缓存命中率
 	hitCount := c.LocalCache.HitCount()           // 获取命中次数
 	missCount := c.LocalCache.MissCount()         // 获取未命中次数
@@ -66,7 +62,7 @@ func (c *Cache) GetCacheStatus() StatusInfo {
 }
 
 // GetKeyStatus 封装的方法：获取对应缓存的值和过期时间
-func (c *Cache) GetKeyStatus(key string) KeyInfo {
+func (c *cache) GetKeyStatus(key string) KeyInfo {
 	value, ttl, err := c.LocalCache.GetWithExpiration([]byte(key))
 	if err != nil {
 		logs.Log.Error("Error getting key:", zap.Error(err))
@@ -79,7 +75,7 @@ func (c *Cache) GetKeyStatus(key string) KeyInfo {
 }
 
 // GetLocal 获取本地缓存中的值
-func (c *Cache) GetLocal(key string) (string, error) {
+func (c *cache) GetLocal(key string) (string, error) {
 	if len(key) == 0 {
 		return "", errors.New("key is empty")
 	}
@@ -94,7 +90,7 @@ func (c *Cache) GetLocal(key string) (string, error) {
 }
 
 // GetCache 先从本地缓存获取，若不存在，则从redis获取
-func (c *Cache) GetCache(ctx context.Context, key string) (string, error) {
+func (c *cache) GetCache(ctx context.Context, key string) (string, error) {
 	value, err := c.GetLocal(key)
 	if err != nil {
 		if !errors.Is(err, freecache.ErrNotFound) {
@@ -139,7 +135,7 @@ func (c *Cache) GetCache(ctx context.Context, key string) (string, error) {
 }
 
 // GetCacheOrElse 先从本地缓存获取，若不存在，则从redis获取，若redis也不存在，则调用fetcher
-func (c *Cache) GetCacheOrElse(ctx context.Context, key string, ttl time.Duration, fetcher Fetcher) (string, error) {
+func (c *cache) GetCacheOrElse(ctx context.Context, key string, ttl time.Duration, fetcher Fetcher) (string, error) {
 	value, err := c.GetLocal(key)
 	if err != nil {
 		if !errors.Is(err, freecache.ErrNotFound) {
@@ -188,7 +184,7 @@ func (c *Cache) GetCacheOrElse(ctx context.Context, key string, ttl time.Duratio
 }
 
 // SetLocal 设置本地缓存值
-func (c *Cache) SetLocal(key, value string, ttl time.Duration) error {
+func (c *cache) SetLocal(key, value string, ttl time.Duration) error {
 	if len(key) == 0 {
 		return errors.New("key is empty")
 	}
@@ -204,7 +200,7 @@ func (c *Cache) SetLocal(key, value string, ttl time.Duration) error {
 }
 
 // SetCache 设置redis和本地缓存值
-func (c *Cache) SetCache(ctx context.Context, key, value string, ttl time.Duration) error {
+func (c *cache) SetCache(ctx context.Context, key, value string, ttl time.Duration) error {
 	if len(key) == 0 {
 		return errors.New("key is empty")
 	}
@@ -224,7 +220,7 @@ func (c *Cache) SetCache(ctx context.Context, key, value string, ttl time.Durati
 }
 
 // DelLocal 删除本地缓存值
-func (c *Cache) DelLocal(key string) error {
+func (c *cache) DelLocal(key string) error {
 	if len(key) == 0 {
 		return errors.New("key is empty")
 	}
@@ -236,7 +232,7 @@ func (c *Cache) DelLocal(key string) error {
 }
 
 // DelCache 删除redis和本地缓存值
-func (c *Cache) DelCache(key string) error {
+func (c *cache) DelCache(key string) error {
 	if len(key) == 0 {
 		return errors.New("key is empty")
 	}

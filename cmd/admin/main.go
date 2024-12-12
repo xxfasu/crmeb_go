@@ -2,7 +2,6 @@ package admin
 
 import (
 	"crmeb_go/internal/conf"
-	"crmeb_go/internal/redis"
 	"crmeb_go/pkg/logs"
 	"github.com/gin-gonic/gin"
 	"github.com/kardianos/service"
@@ -45,18 +44,18 @@ func (p *program) run() {
 	if err != nil {
 		panic(err)
 	}
-	client, err := redis.InitRedis()
+	// client, err := redis.InitRedis()
 	if err != nil {
 		panic(err)
 	}
-	rLock := redis.InitRedSync(client)
+	// rLock := redis.InitRedSync(client)
 	logs.InitLog()
-	wire, fn, err := newWire(client, rLock)
-	p.clearFunc = fn
-	if err != nil {
-		panic(err)
-	}
-	p.server = wire
+	// wire, fn, err := newWire(client, rLock)
+	// p.clearFunc = fn
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// p.server = wire
 
 	if err = p.server.Run(conf.Config.System.Port); err != nil {
 		panic(err)

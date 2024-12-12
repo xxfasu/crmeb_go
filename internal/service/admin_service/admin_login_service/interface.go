@@ -7,5 +7,5 @@ import (
 )
 
 type Service interface {
-	SystemAdminLogin(ctx context.Context, req *validation.Login, ip string) (response.SystemLoginResp, error)
+	SystemAdminLogin(ctx context.Context, req *validation.SystemAdminLogin, ip string) (response.SystemLoginResp, error)
 }

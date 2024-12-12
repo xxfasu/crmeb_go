@@ -1,7 +1,7 @@
-package admin
+package admin_task
 
 import (
-	"crmeb_go/internal/task/admin/test_task"
+	"crmeb_go/internal/task/admin_task/test_task"
 	"github.com/google/wire"
 )
 

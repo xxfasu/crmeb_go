@@ -7,12 +7,13 @@
 package admin
 
 import (
-	"crmeb_go/internal/handler/admin_handler/v1/user_handler"
+	"crmeb_go/internal/casbin"
+	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
 	"crmeb_go/internal/middleware"
 	"crmeb_go/internal/repository"
-	"crmeb_go/internal/repository/user_repository"
-	"crmeb_go/internal/service/common_service/user_service"
+	"crmeb_go/internal/service/admin_service/admin_login_service"
 	"crmeb_go/pkg/cache"
+	"crmeb_go/pkg/captcha"
 	"crmeb_go/pkg/jwt"
 	"crmeb_go/routes/admin_routes"
 	"github.com/gin-gonic/gin"
@@ -22,22 +23,28 @@ import (
 
 // Injectors from wire.go:
 
-func newWire(client *redis.Client, rLock *redsync.Redsync) (*gin.Engine, func(), error) {
+func newWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine, func(), error) {
 	recovery := middleware.NewRecoveryM()
 	cors := middleware.NewCorsM()
 	logM := middleware.NewLogM()
-	jwtJWT := jwt.NewJwt()
-	authM := middleware.NewAuthM(jwtJWT)
 	cacheCache := cache.InitLocalCache(client)
+	jwtJWT := jwt.NewJwt(cacheCache)
+	authM := middleware.NewAuthM(jwtJWT)
 	db, cleanup, err := repository.InitDB()
 	if err != nil {
 		return nil, nil, err
 	}
+	service, err := casbin.InitCasbinEnforcer(db)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	casbinM := middleware.NewCasbinM(service)
 	transaction := repository.NewTransaction(db)
-	userRepository := user_repository.NewUserRepository(db)
-	userService := user_service.NewUserService(cacheCache, rLock, transaction, userRepository, jwtJWT)
-	userHandler := user_handler.NewUserHandler(userService)
-	engine := admin_routes.NewRouter(recovery, cors, logM, authM, userHandler)
+	captchaCaptcha := captcha.New(cacheCache)
+	admin_login_serviceService := admin_login_service.New(transaction, jwtJWT, captchaCaptcha)
+	handler := admin_login_handler.New(admin_login_serviceService)
+	engine := admin_routes.NewRouter(recovery, cors, logM, authM, casbinM, handler)
 	return engine, func() {
 		cleanup()
 	}, nil

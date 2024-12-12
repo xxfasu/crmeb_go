@@ -18,7 +18,7 @@ func New(service admin_login_service.Service) *Handler {
 }
 
 func (h *Handler) Login(ctx *gin.Context) {
-	var req validation.Login
+	var req validation.SystemAdminLogin
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return

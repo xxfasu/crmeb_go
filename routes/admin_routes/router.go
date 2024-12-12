@@ -1,7 +1,7 @@
 package admin_routes
 
 import (
-	"crmeb_go/internal/handler/admin_handler/v1/user_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
 	"crmeb_go/internal/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
@@ -15,7 +15,8 @@ func NewRouter(
 	corsM *middleware.Cors,
 	logM *middleware.LogM,
 	authM *middleware.AuthM,
-	userHandler *user_handler.UserHandler,
+	casbinM *middleware.CasbinM,
+	adminLoginHandler *admin_login_handler.Handler,
 ) *gin.Engine {
 	router := gin.New()
 	if true {
@@ -41,7 +42,7 @@ func NewRouter(
 	}
 
 	{
-		adminLoginRouter(publicGroup, privateGroup, userHandler)
+		adminLoginRouter(casbinM, publicGroup, privateGroup, adminLoginHandler)
 	}
 	return router
 }

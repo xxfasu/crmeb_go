@@ -2,4 +2,10 @@ package middleware
 
 import "github.com/google/wire"
 
-var ProviderSet = wire.NewSet(NewCorsM, NewRecoveryM, NewLogM, NewAuthM)
+var ProviderSet = wire.NewSet(
+	NewCorsM,
+	NewRecoveryM,
+	NewLogM,
+	NewAuthM,
+	NewCasbinM,
+)

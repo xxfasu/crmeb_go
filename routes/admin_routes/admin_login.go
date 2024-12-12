@@ -2,10 +2,11 @@ package admin_routes
 
 import (
 	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
+	"crmeb_go/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
-func adminLoginRouter(publicRouter *gin.RouterGroup, privateRouter *gin.RouterGroup, handler *admin_login_handler.Handler) {
+func adminLoginRouter(casbinM *middleware.CasbinM, publicRouter *gin.RouterGroup, privateRouter *gin.RouterGroup, handler *admin_login_handler.Handler) {
 	publicRouter = publicRouter.Group("/admin")
 	privateRouter = privateRouter.Group("/admin")
 	{
