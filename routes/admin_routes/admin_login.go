@@ -10,6 +10,7 @@ func adminLoginRouter(casbinM *middleware.CasbinM, publicRouter *gin.RouterGroup
 	publicRouter = publicRouter.Group("/admin")
 	privateRouter = privateRouter.Group("/admin")
 	{
+		publicRouter.GET("/validate/code/get", handler.GetCode) // 获取验证码
 		publicRouter.POST("/login", handler.Login)
 		publicRouter.POST("/logout", handler.Login)
 		publicRouter.POST("/getAdminInfoByToken", handler.Login)

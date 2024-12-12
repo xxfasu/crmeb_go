@@ -17,16 +17,25 @@ func New(service admin_login_service.Service) *Handler {
 	}
 }
 
+func (h *Handler) GetCode(ctx *gin.Context) {
+	resp, err := h.service.GetCode(ctx)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.OkWithData(ctx, resp)
+}
+
 func (h *Handler) Login(ctx *gin.Context) {
 	var req validation.SystemAdminLogin
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
 	}
-	token, err := h.service.SystemAdminLogin(ctx, &req, ctx.ClientIP())
+	resp, err := h.service.SystemAdminLogin(ctx, &req, ctx.ClientIP())
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
 	}
-	response.OkWithData(ctx, token)
+	response.OkWithData(ctx, resp)
 }

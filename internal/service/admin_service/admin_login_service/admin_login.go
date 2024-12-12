@@ -27,6 +27,17 @@ type service struct {
 	captcha captcha.Captcha
 }
 
+func (s *service) GetCode(ctx context.Context) (response.ValidateCodeResp, error) {
+	var resp response.ValidateCodeResp
+	key, code, err := s.captcha.Gen()
+	if err != nil {
+		return resp, err
+	}
+	resp.Key = key
+	resp.Code = code
+	return resp, nil
+}
+
 func (s *service) SystemAdminLogin(ctx context.Context, req *validation.SystemAdminLogin, ip string) (response.SystemLoginResp, error) {
 	return response.SystemLoginResp{}, nil
 }
