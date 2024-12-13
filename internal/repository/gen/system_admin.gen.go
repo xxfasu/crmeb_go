@@ -36,7 +36,6 @@ func newSystemAdmin(db *gorm.DB, opts ...gen.DOOption) systemAdmin {
 	_systemAdmin.LoginCount = field.NewInt64(tableName, "login_count")
 	_systemAdmin.Level = field.NewInt64(tableName, "level")
 	_systemAdmin.Status = field.NewInt64(tableName, "status")
-	_systemAdmin.IsDel = field.NewInt64(tableName, "is_del")
 	_systemAdmin.Phone = field.NewString(tableName, "phone")
 	_systemAdmin.IsSms = field.NewInt64(tableName, "is_sms")
 	_systemAdmin.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -62,7 +61,6 @@ type systemAdmin struct {
 	LoginCount field.Int64  // 登录次数
 	Level      field.Int64  // 后台管理员级别
 	Status     field.Int64  // 后台管理员状态 1有效0无效
-	IsDel      field.Int64
 	Phone      field.String // 手机号码
 	IsSms      field.Int64  // 是否接收短信
 	CreatedAt  field.Int64
@@ -93,7 +91,6 @@ func (s *systemAdmin) updateTableName(table string) *systemAdmin {
 	s.LoginCount = field.NewInt64(table, "login_count")
 	s.Level = field.NewInt64(table, "level")
 	s.Status = field.NewInt64(table, "status")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.Phone = field.NewString(table, "phone")
 	s.IsSms = field.NewInt64(table, "is_sms")
 	s.CreatedAt = field.NewInt64(table, "created_at")
@@ -125,7 +122,7 @@ func (s *systemAdmin) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *systemAdmin) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 15)
+	s.fieldMap = make(map[string]field.Expr, 14)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["account"] = s.Account
 	s.fieldMap["pwd"] = s.Pwd
@@ -135,7 +132,6 @@ func (s *systemAdmin) fillFieldMap() {
 	s.fieldMap["login_count"] = s.LoginCount
 	s.fieldMap["level"] = s.Level
 	s.fieldMap["status"] = s.Status
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["phone"] = s.Phone
 	s.fieldMap["is_sms"] = s.IsSms
 	s.fieldMap["created_at"] = s.CreatedAt

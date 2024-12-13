@@ -6,7 +6,6 @@ package gen
 
 import (
 	"context"
-	"strings"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -14,13 +13,10 @@ import (
 
 	"gorm.io/gen"
 	"gorm.io/gen/field"
-	"gorm.io/gen/helper"
 
 	"gorm.io/plugin/dbresolver"
 
 	"crmeb_go/internal/model"
-
-	"crmeb_go/internal/data/service_data"
 )
 
 func newUser(db *gorm.DB, opts ...gen.DOOption) user {
@@ -324,48 +320,6 @@ type IUserDo interface {
 	Returning(value interface{}, columns ...string) IUserDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
-
-	GetUserByCondition(condition user_data.Condition) (result *model.User, err error)
-}
-
-// SELECT id,user_id,nickname,email FROM users
-//
-//	{{where}}
-//		{{if condition.Nickname !=""}}
-//			nickname = @condition.Nickname AND
-//		{{end}}
-//		{{if condition.UserID !=""}}
-//			user_id = @condition.UserID AND
-//		{{end}}
-//		{{if condition.Email !=""}}
-//			email = @condition.Email
-//		{{end}}
-//	{{end}}
-func (u userDo) GetUserByCondition(condition user_data.Condition) (result *model.User, err error) {
-	var params []interface{}
-
-	var generateSQL strings.Builder
-	generateSQL.WriteString("SELECT id,user_id,nickname,email FROM users ")
-	var whereSQL0 strings.Builder
-	if condition.Nickname != "" {
-		params = append(params, condition.Nickname)
-		whereSQL0.WriteString("nickname = ? AND ")
-	}
-	if condition.UserID != "" {
-		params = append(params, condition.UserID)
-		whereSQL0.WriteString("user_id = ? AND ")
-	}
-	if condition.Email != "" {
-		params = append(params, condition.Email)
-		whereSQL0.WriteString("email = ? ")
-	}
-	helper.JoinWhereBuilder(&generateSQL, whereSQL0)
-
-	var executeSQL *gorm.DB
-	executeSQL = u.UnderlyingDB().Raw(generateSQL.String(), params...).Take(&result) // ignore_security_alert
-	err = executeSQL.Error
-
-	return
 }
 
 func (u userDo) Debug() IUserDo {

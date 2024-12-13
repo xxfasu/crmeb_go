@@ -6,6 +6,7 @@ package gen
 
 import (
 	"context"
+	"strings"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -13,6 +14,7 @@ import (
 
 	"gorm.io/gen"
 	"gorm.io/gen/field"
+	"gorm.io/gen/helper"
 
 	"gorm.io/plugin/dbresolver"
 
@@ -206,6 +208,34 @@ type ISystemMenuDo interface {
 	Returning(value interface{}, columns ...string) ISystemMenuDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
+
+	GetUserPermission(userID int64) (result []*model.SystemMenu, err error)
+}
+
+// SELECT DISTINCT m.*
+//
+//	FROM eb_system_menu m
+//	RIGHT JOIN eb_system_role_menu rm on rm.menu_id = m.id
+//	RIGHT JOIN eb_system_role r on rm.rid = r.id
+//	RIGHT JOIN eb_system_admin a on FIND_IN_SET(r.id, a.roles)
+//	{{where}}
+//		m.deleted_at = 0 AND r.status = 1 AND a.id = @userID
+//	{{end}}
+func (s systemMenuDo) GetUserPermission(userID int64) (result []*model.SystemMenu, err error) {
+	var params []interface{}
+
+	var generateSQL strings.Builder
+	generateSQL.WriteString("SELECT DISTINCT m.* FROM eb_system_menu m RIGHT JOIN eb_system_role_menu rm on rm.menu_id = m.id RIGHT JOIN eb_system_role r on rm.rid = r.id RIGHT JOIN eb_system_admin a on FIND_IN_SET(r.id, a.roles) ")
+	var whereSQL0 strings.Builder
+	params = append(params, userID)
+	whereSQL0.WriteString("m.deleted_at = 0 AND r.status = 1 AND a.id = ? ")
+	helper.JoinWhereBuilder(&generateSQL, whereSQL0)
+
+	var executeSQL *gorm.DB
+	executeSQL = s.UnderlyingDB().Raw(generateSQL.String(), params...).Find(&result) // ignore_security_alert
+	err = executeSQL.Error
+
+	return
 }
 
 func (s systemMenuDo) Debug() ISystemMenuDo {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crmeb_go/internal/repository/user_repository"
+	"crmeb_go/internal/repository/system_menu_repository"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
@@ -65,13 +65,13 @@ func main() {
 	})
 
 	// 处理表名
-	//g.WithTableNameStrategy(func(tableName string) (targetTableName string) {
-	//	// 需要忽略的表
-	//	if strings.EqualFold(tableName, "tableName") {
-	//		return ""
-	//	}
-	//	return tableName
-	//})
+	g.WithTableNameStrategy(func(tableName string) (targetTableName string) {
+		// 需要忽略的表
+		if strings.EqualFold(tableName, "casbin_rule") {
+			return ""
+		}
+		return tableName
+	})
 
 	// 处理 model名
 	g.WithModelNameStrategy(func(tableName string) (targetTableName string) {
@@ -115,11 +115,11 @@ func main() {
 	softDeleteField := gen.FieldType("deleted_at", "soft_delete.DeletedAt")
 	// 模型自定义选项组
 	fieldOpts := []gen.ModelOpt{jsonField, softDeleteField}
-	g.ApplyBasic(g.GenerateAllTable(fieldOpts...)...)
-	//g.ApplyInterface(func() {}, g.GenerateAllTable(fieldOpts...)...)
-	g.ApplyInterface(func(user_repository.Querier) {}, g.GenerateModel("eb_user", fieldOpts...))
+	models := g.GenerateAllTable(fieldOpts...)
+	g.ApplyBasic(models)
+	// g.ApplyInterface(func() {}, g.GenerateAllTable(fieldOpts...)...)
+	g.ApplyInterface(func(system_menu_repository.Querier) {}, g.GenerateModel("eb_system_menu", fieldOpts...))
 	g.WithImportPkgPath("github.com/shopspring/decimal")
-
 	// 执行并生成代码
 	g.Execute()
 }

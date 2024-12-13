@@ -4,7 +4,7 @@ import (
 	"context"
 	"crmeb_go/internal/conf"
 	"crmeb_go/internal/repository/gen"
-	"crmeb_go/internal/repository/user_repository"
+	"crmeb_go/internal/repository/system_menu_repository"
 	"crmeb_go/pkg/logs"
 	"crmeb_go/pkg/safe"
 	"crmeb_go/pkg/zapgorm2"
@@ -18,7 +18,7 @@ import (
 var ProviderSet = wire.NewSet(
 	InitDB,
 	NewTransaction,
-	user_repository.NewUserRepository,
+	system_menu_repository.New,
 )
 
 type transaction struct {

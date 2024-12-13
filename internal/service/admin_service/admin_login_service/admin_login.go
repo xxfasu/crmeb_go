@@ -4,27 +4,28 @@ import (
 	"context"
 	"crmeb_go/internal/common/response"
 	"crmeb_go/internal/repository"
+	"crmeb_go/internal/service/admin_service/system_menu_service"
 	"crmeb_go/internal/validation"
 	"crmeb_go/pkg/captcha"
-	"crmeb_go/pkg/jwt"
+	"errors"
 )
 
 func New(
 	tm repository.Transaction,
-	jwt *jwt.JWT,
 	captcha captcha.Captcha,
+	systemMenuService system_menu_service.Service,
 ) Service {
 	return &service{
-		tx:      tm,
-		jwt:     jwt,
-		captcha: captcha,
+		tm:                tm,
+		captcha:           captcha,
+		systemMenuService: systemMenuService,
 	}
 }
 
 type service struct {
-	tx      repository.Transaction
-	jwt     *jwt.JWT
-	captcha captcha.Captcha
+	tm                repository.Transaction
+	captcha           captcha.Captcha
+	systemMenuService system_menu_service.Service
 }
 
 func (s *service) GetCode(ctx context.Context) (response.ValidateCodeResp, error) {
@@ -39,5 +40,10 @@ func (s *service) GetCode(ctx context.Context) (response.ValidateCodeResp, error
 }
 
 func (s *service) SystemAdminLogin(ctx context.Context, req *validation.SystemAdminLogin, ip string) (response.SystemLoginResp, error) {
-	return response.SystemLoginResp{}, nil
+	var resp response.SystemLoginResp
+	if !s.captcha.Verify(req.Key, req.Code) {
+		return resp, errors.New("验证码错误")
+	}
+
+	return resp, nil
 }
