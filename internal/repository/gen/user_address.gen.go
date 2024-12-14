@@ -39,8 +39,8 @@ func newUserAddress(db *gorm.DB, opts ...gen.DOOption) userAddress {
 	_userAddress.PostCode = field.NewInt64(tableName, "post_code")
 	_userAddress.Longitude = field.NewString(tableName, "longitude")
 	_userAddress.Latitude = field.NewString(tableName, "latitude")
-	_userAddress.IsDefault = field.NewInt64(tableName, "is_default")
-	_userAddress.IsDel = field.NewInt64(tableName, "is_del")
+	_userAddress.IsDefault = field.NewInt32(tableName, "is_default")
+	_userAddress.IsDel = field.NewInt32(tableName, "is_del")
 	_userAddress.CreatedAt = field.NewInt64(tableName, "created_at")
 	_userAddress.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_userAddress.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -67,8 +67,8 @@ type userAddress struct {
 	PostCode  field.Int64  // 邮编
 	Longitude field.String // 经度
 	Latitude  field.String // 纬度
-	IsDefault field.Int64  // 是否默认
-	IsDel     field.Int64  // 是否删除
+	IsDefault field.Int32  // 是否默认
+	IsDel     field.Int32  // 是否删除
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -100,8 +100,8 @@ func (u *userAddress) updateTableName(table string) *userAddress {
 	u.PostCode = field.NewInt64(table, "post_code")
 	u.Longitude = field.NewString(table, "longitude")
 	u.Latitude = field.NewString(table, "latitude")
-	u.IsDefault = field.NewInt64(table, "is_default")
-	u.IsDel = field.NewInt64(table, "is_del")
+	u.IsDefault = field.NewInt32(table, "is_default")
+	u.IsDel = field.NewInt32(table, "is_del")
 	u.CreatedAt = field.NewInt64(table, "created_at")
 	u.UpdatedAt = field.NewInt64(table, "updated_at")
 	u.DeletedAt = field.NewField(table, "deleted_at")

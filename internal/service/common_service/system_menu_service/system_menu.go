@@ -27,5 +27,13 @@ func (s *service) GetAllPermissions(ctx context.Context) ([]*model.SystemMenu, e
 }
 
 func (s *service) GetUserPermissions(ctx context.Context, userID int64) ([]*model.SystemMenu, error) {
-	return s.systemMenuRepo.GetUserPermission(ctx, userID)
+	return s.systemMenuRepo.GetPermissionsByUserID(ctx, userID)
+}
+
+func (s *service) GetAllMenus(ctx context.Context) ([]*model.SystemMenu, error) {
+	return s.systemMenuRepo.GetAllMenus(ctx)
+}
+
+func (s *service) GetUserMenus(ctx context.Context, userID int64) ([]*model.SystemMenu, error) {
+	return s.systemMenuRepo.GetMenusByUserID(ctx, userID)
 }

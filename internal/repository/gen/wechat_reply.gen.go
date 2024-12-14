@@ -31,7 +31,7 @@ func newWechatReply(db *gorm.DB, opts ...gen.DOOption) wechatReply {
 	_wechatReply.Keywords = field.NewString(tableName, "keywords")
 	_wechatReply.Type = field.NewString(tableName, "type")
 	_wechatReply.Data = field.NewString(tableName, "data")
-	_wechatReply.Status = field.NewInt64(tableName, "status")
+	_wechatReply.Status = field.NewInt32(tableName, "status")
 	_wechatReply.CreatedAt = field.NewInt64(tableName, "created_at")
 	_wechatReply.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_wechatReply.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -50,7 +50,7 @@ type wechatReply struct {
 	Keywords  field.String // 关键字
 	Type      field.String // 回复类型
 	Data      field.String // 回复数据
-	Status    field.Int64  // 回复状态 0=不可用  1 =可用
+	Status    field.Int32  // 回复状态 0=不可用  1 =可用
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -74,7 +74,7 @@ func (w *wechatReply) updateTableName(table string) *wechatReply {
 	w.Keywords = field.NewString(table, "keywords")
 	w.Type = field.NewString(table, "type")
 	w.Data = field.NewString(table, "data")
-	w.Status = field.NewInt64(table, "status")
+	w.Status = field.NewInt32(table, "status")
 	w.CreatedAt = field.NewInt64(table, "created_at")
 	w.UpdatedAt = field.NewInt64(table, "updated_at")
 	w.DeletedAt = field.NewField(table, "deleted_at")

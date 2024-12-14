@@ -29,11 +29,11 @@ func newSmsTemplate(db *gorm.DB, opts ...gen.DOOption) smsTemplate {
 	_smsTemplate.ALL = field.NewAsterisk(tableName)
 	_smsTemplate.ID = field.NewInt64(tableName, "id")
 	_smsTemplate.TempID = field.NewString(tableName, "temp_id")
-	_smsTemplate.TempType = field.NewInt64(tableName, "temp_type")
+	_smsTemplate.TempType = field.NewInt32(tableName, "temp_type")
 	_smsTemplate.Title = field.NewString(tableName, "title")
 	_smsTemplate.Type = field.NewString(tableName, "type")
 	_smsTemplate.TempKey = field.NewString(tableName, "temp_key")
-	_smsTemplate.Status = field.NewInt64(tableName, "status")
+	_smsTemplate.Status = field.NewInt32(tableName, "status")
 	_smsTemplate.Content = field.NewString(tableName, "content")
 	_smsTemplate.CreatedAt = field.NewInt64(tableName, "created_at")
 	_smsTemplate.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -51,11 +51,11 @@ type smsTemplate struct {
 	ALL       field.Asterisk
 	ID        field.Int64  // id
 	TempID    field.String // 短信模板id
-	TempType  field.Int64  // 模板类型
+	TempType  field.Int32  // 模板类型
 	Title     field.String // 模板说明
 	Type      field.String // 类型
 	TempKey   field.String // 模板编号
-	Status    field.Int64  // 状态
+	Status    field.Int32  // 状态
 	Content   field.String // 短息内容
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
@@ -78,11 +78,11 @@ func (s *smsTemplate) updateTableName(table string) *smsTemplate {
 	s.ALL = field.NewAsterisk(table)
 	s.ID = field.NewInt64(table, "id")
 	s.TempID = field.NewString(table, "temp_id")
-	s.TempType = field.NewInt64(table, "temp_type")
+	s.TempType = field.NewInt32(table, "temp_type")
 	s.Title = field.NewString(table, "title")
 	s.Type = field.NewString(table, "type")
 	s.TempKey = field.NewString(table, "temp_key")
-	s.Status = field.NewInt64(table, "status")
+	s.Status = field.NewInt32(table, "status")
 	s.Content = field.NewString(table, "content")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")

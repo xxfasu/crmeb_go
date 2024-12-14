@@ -26,6 +26,18 @@ func (r *repository) GetAllPermissions(ctx context.Context) ([]*model.SystemMenu
 	).Find()
 }
 
-func (r *repository) GetUserPermission(ctx context.Context, userID int64) ([]*model.SystemMenu, error) {
+func (r *repository) GetPermissionsByUserID(ctx context.Context, userID int64) ([]*model.SystemMenu, error) {
 	return gen.SystemMenu.WithContext(ctx).GetUserPermission(userID)
+}
+
+func (r *repository) GetAllMenus(ctx context.Context) ([]*model.SystemMenu, error) {
+	systemMenu := gen.Q.SystemMenu
+	return gen.SystemMenu.WithContext(ctx).Where(
+		systemMenu.IsShow.Is(true),
+		systemMenu.MenuType.Eq("A"),
+	).Find()
+}
+
+func (r *repository) GetMenusByUserID(ctx context.Context, userID int64) ([]*model.SystemMenu, error) {
+	return gen.SystemMenu.WithContext(ctx).GetUserMenus(userID)
 }

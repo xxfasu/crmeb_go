@@ -34,7 +34,7 @@ func newCategory(db *gorm.DB, opts ...gen.DOOption) category {
 	_category.Type = field.NewInt64(tableName, "type")
 	_category.URL = field.NewString(tableName, "url")
 	_category.Extra = field.NewString(tableName, "extra")
-	_category.Status = field.NewInt64(tableName, "status")
+	_category.Status = field.NewBool(tableName, "status")
 	_category.Sort = field.NewInt64(tableName, "sort")
 	_category.CreatedAt = field.NewInt64(tableName, "created_at")
 	_category.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -57,7 +57,7 @@ type category struct {
 	Type      field.Int64  // 类型，1 产品分类，2 附件分类，3 文章分类， 4 设置分类， 5 菜单分类，6 配置分类， 7 秒杀配置
 	URL       field.String // 地址
 	Extra     field.String // 扩展字段 Jsos格式
-	Status    field.Int64  // 状态, 1正常，0失效
+	Status    field.Bool   // 状态, 1正常，0失效
 	Sort      field.Int64  // 排序
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
@@ -85,7 +85,7 @@ func (c *category) updateTableName(table string) *category {
 	c.Type = field.NewInt64(table, "type")
 	c.URL = field.NewString(table, "url")
 	c.Extra = field.NewString(table, "extra")
-	c.Status = field.NewInt64(table, "status")
+	c.Status = field.NewBool(table, "status")
 	c.Sort = field.NewInt64(table, "sort")
 	c.CreatedAt = field.NewInt64(table, "created_at")
 	c.UpdatedAt = field.NewInt64(table, "updated_at")

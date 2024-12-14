@@ -31,13 +31,13 @@ func newSystemNotification(db *gorm.DB, opts ...gen.DOOption) systemNotification
 	_systemNotification.Mark = field.NewString(tableName, "mark")
 	_systemNotification.Type = field.NewString(tableName, "type")
 	_systemNotification.Description = field.NewString(tableName, "description")
-	_systemNotification.IsWechat = field.NewInt64(tableName, "is_wechat")
+	_systemNotification.IsWechat = field.NewInt32(tableName, "is_wechat")
 	_systemNotification.WechatID = field.NewInt64(tableName, "wechat_id")
-	_systemNotification.IsRoutine = field.NewInt64(tableName, "is_routine")
+	_systemNotification.IsRoutine = field.NewInt32(tableName, "is_routine")
 	_systemNotification.RoutineID = field.NewInt64(tableName, "routine_id")
-	_systemNotification.IsSms = field.NewInt64(tableName, "is_sms")
+	_systemNotification.IsSms = field.NewInt32(tableName, "is_sms")
 	_systemNotification.SmsID = field.NewInt64(tableName, "sms_id")
-	_systemNotification.SendType = field.NewInt64(tableName, "send_type")
+	_systemNotification.SendType = field.NewInt32(tableName, "send_type")
 	_systemNotification.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemNotification.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemNotification.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -56,13 +56,13 @@ type systemNotification struct {
 	Mark        field.String // 标识
 	Type        field.String // 通知类型
 	Description field.String // 通知场景说明
-	IsWechat    field.Int64  // 公众号模板消息（0：不存在，1：开启，2：关闭）
+	IsWechat    field.Int32  // 公众号模板消息（0：不存在，1：开启，2：关闭）
 	WechatID    field.Int64  // 模板消息id
-	IsRoutine   field.Int64  // 小程序订阅消息（0：不存在，1：开启，2：关闭）
+	IsRoutine   field.Int32  // 小程序订阅消息（0：不存在，1：开启，2：关闭）
 	RoutineID   field.Int64  // 订阅消息id
-	IsSms       field.Int64  // 发送短信（0：不存在，1：开启，2：关闭）
+	IsSms       field.Int32  // 发送短信（0：不存在，1：开启，2：关闭）
 	SmsID       field.Int64  // 短信id
-	SendType    field.Int64  // 发送类型（1：用户，2：管理员）
+	SendType    field.Int32  // 发送类型（1：用户，2：管理员）
 	CreatedAt   field.Int64
 	UpdatedAt   field.Int64
 	DeletedAt   field.Field
@@ -86,13 +86,13 @@ func (s *systemNotification) updateTableName(table string) *systemNotification {
 	s.Mark = field.NewString(table, "mark")
 	s.Type = field.NewString(table, "type")
 	s.Description = field.NewString(table, "description")
-	s.IsWechat = field.NewInt64(table, "is_wechat")
+	s.IsWechat = field.NewInt32(table, "is_wechat")
 	s.WechatID = field.NewInt64(table, "wechat_id")
-	s.IsRoutine = field.NewInt64(table, "is_routine")
+	s.IsRoutine = field.NewInt32(table, "is_routine")
 	s.RoutineID = field.NewInt64(table, "routine_id")
-	s.IsSms = field.NewInt64(table, "is_sms")
+	s.IsSms = field.NewInt32(table, "is_sms")
 	s.SmsID = field.NewInt64(table, "sms_id")
-	s.SendType = field.NewInt64(table, "send_type")
+	s.SendType = field.NewInt32(table, "send_type")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

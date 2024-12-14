@@ -42,11 +42,11 @@ func newStoreOrder(db *gorm.DB, opts ...gen.DOOption) storeOrder {
 	_storeOrder.DeductionPrice = field.NewField(tableName, "deduction_price")
 	_storeOrder.CouponID = field.NewInt64(tableName, "coupon_id")
 	_storeOrder.CouponPrice = field.NewField(tableName, "coupon_price")
-	_storeOrder.Paid = field.NewInt64(tableName, "paid")
+	_storeOrder.Paid = field.NewInt32(tableName, "paid")
 	_storeOrder.PayTime = field.NewInt64(tableName, "pay_time")
 	_storeOrder.PayType = field.NewString(tableName, "pay_type")
-	_storeOrder.Status = field.NewInt64(tableName, "status")
-	_storeOrder.RefundStatus = field.NewInt64(tableName, "refund_status")
+	_storeOrder.Status = field.NewBool(tableName, "status")
+	_storeOrder.RefundStatus = field.NewInt32(tableName, "refund_status")
 	_storeOrder.RefundReasonWapImg = field.NewString(tableName, "refund_reason_wap_img")
 	_storeOrder.RefundReasonWapExplain = field.NewString(tableName, "refund_reason_wap_explain")
 	_storeOrder.RefundReasonWap = field.NewString(tableName, "refund_reason_wap")
@@ -60,10 +60,10 @@ func newStoreOrder(db *gorm.DB, opts ...gen.DOOption) storeOrder {
 	_storeOrder.UseIntegral = field.NewInt64(tableName, "use_integral")
 	_storeOrder.BackIntegral = field.NewInt64(tableName, "back_integral")
 	_storeOrder.Mark = field.NewString(tableName, "mark")
-	_storeOrder.IsDel = field.NewInt64(tableName, "is_del")
+	_storeOrder.IsDel = field.NewInt32(tableName, "is_del")
 	_storeOrder.Remark = field.NewString(tableName, "remark")
 	_storeOrder.MerID = field.NewInt64(tableName, "mer_id")
-	_storeOrder.IsMerCheck = field.NewInt64(tableName, "is_mer_check")
+	_storeOrder.IsMerCheck = field.NewInt32(tableName, "is_mer_check")
 	_storeOrder.CombinationID = field.NewInt64(tableName, "combination_id")
 	_storeOrder.PinkID = field.NewInt64(tableName, "pink_id")
 	_storeOrder.Cost = field.NewField(tableName, "cost")
@@ -71,17 +71,17 @@ func newStoreOrder(db *gorm.DB, opts ...gen.DOOption) storeOrder {
 	_storeOrder.BargainID = field.NewInt64(tableName, "bargain_id")
 	_storeOrder.VerifyCode = field.NewString(tableName, "verify_code")
 	_storeOrder.StoreID = field.NewInt64(tableName, "store_id")
-	_storeOrder.ShippingType = field.NewInt64(tableName, "shipping_type")
+	_storeOrder.ShippingType = field.NewBool(tableName, "shipping_type")
 	_storeOrder.ClerkID = field.NewInt64(tableName, "clerk_id")
-	_storeOrder.IsChannel = field.NewInt64(tableName, "is_channel")
-	_storeOrder.IsRemind = field.NewInt64(tableName, "is_remind")
-	_storeOrder.IsSystemDel = field.NewInt64(tableName, "is_system_del")
+	_storeOrder.IsChannel = field.NewInt32(tableName, "is_channel")
+	_storeOrder.IsRemind = field.NewInt32(tableName, "is_remind")
+	_storeOrder.IsSystemDel = field.NewBool(tableName, "is_system_del")
 	_storeOrder.DeliveryCode = field.NewString(tableName, "delivery_code")
 	_storeOrder.BargainUserID = field.NewInt64(tableName, "bargain_user_id")
 	_storeOrder.Type = field.NewInt64(tableName, "type")
 	_storeOrder.ProTotalPrice = field.NewField(tableName, "pro_total_price")
 	_storeOrder.BeforePayPrice = field.NewField(tableName, "before_pay_price")
-	_storeOrder.IsAlterPrice = field.NewInt64(tableName, "is_alter_price")
+	_storeOrder.IsAlterPrice = field.NewBool(tableName, "is_alter_price")
 	_storeOrder.OutTradeNo = field.NewString(tableName, "out_trade_no")
 	_storeOrder.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeOrder.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -112,11 +112,11 @@ type storeOrder struct {
 	DeductionPrice         field.Field  // 抵扣金额
 	CouponID               field.Int64  // 优惠券id
 	CouponPrice            field.Field  // 优惠券金额
-	Paid                   field.Int64  // 支付状态
+	Paid                   field.Int32  // 支付状态
 	PayTime                field.Int64
 	PayType                field.String // 支付方式
-	Status                 field.Int64  // 订单状态（0：待发货；1：待收货；2：已收货，待评价；3：已完成；）
-	RefundStatus           field.Int64  // 0 未退款 1 申请中 2 已退款 3 退款中
+	Status                 field.Bool   // 订单状态（0：待发货；1：待收货；2：已收货，待评价；3：已完成；）
+	RefundStatus           field.Int32  // 0 未退款 1 申请中 2 已退款 3 退款中
 	RefundReasonWapImg     field.String // 退款图片
 	RefundReasonWapExplain field.String // 退款用户说明
 	RefundReasonWap        field.String // 前台退款原因
@@ -130,10 +130,10 @@ type storeOrder struct {
 	UseIntegral            field.Int64  // 使用积分
 	BackIntegral           field.Int64  // 给用户退了多少积分
 	Mark                   field.String // 备注
-	IsDel                  field.Int64  // 是否删除
+	IsDel                  field.Int32  // 是否删除
 	Remark                 field.String // 管理员备注
 	MerID                  field.Int64  // 商户ID
-	IsMerCheck             field.Int64
+	IsMerCheck             field.Int32
 	CombinationID          field.Int64  // 拼团商品id0一般商品
 	PinkID                 field.Int64  // 拼团id 0没有拼团
 	Cost                   field.Field  // 成本价
@@ -141,17 +141,17 @@ type storeOrder struct {
 	BargainID              field.Int64  // 砍价id
 	VerifyCode             field.String // 核销码
 	StoreID                field.Int64  // 门店id
-	ShippingType           field.Int64  // 配送方式 1=快递 ，2=门店自提
+	ShippingType           field.Bool   // 配送方式 1=快递 ，2=门店自提
 	ClerkID                field.Int64  // 店员id/核销员id
-	IsChannel              field.Int64  // 支付渠道(0微信公众号1微信小程序2余额)
-	IsRemind               field.Int64  // 消息提醒
-	IsSystemDel            field.Int64  // 后台是否删除
+	IsChannel              field.Int32  // 支付渠道(0微信公众号1微信小程序2余额)
+	IsRemind               field.Int32  // 消息提醒
+	IsSystemDel            field.Bool   // 后台是否删除
 	DeliveryCode           field.String // 快递公司简称
 	BargainUserID          field.Int64  // 用户拼团活动id 0没有
 	Type                   field.Int64  // 订单类型:0-普通订单，1-视频号订单
 	ProTotalPrice          field.Field  // 商品总价
 	BeforePayPrice         field.Field  // 改价前支付金额
-	IsAlterPrice           field.Int64  // 是否改价,0-否，1-是
+	IsAlterPrice           field.Bool   // 是否改价,0-否，1-是
 	OutTradeNo             field.String // 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
 	CreatedAt              field.Int64
 	UpdatedAt              field.Int64
@@ -187,11 +187,11 @@ func (s *storeOrder) updateTableName(table string) *storeOrder {
 	s.DeductionPrice = field.NewField(table, "deduction_price")
 	s.CouponID = field.NewInt64(table, "coupon_id")
 	s.CouponPrice = field.NewField(table, "coupon_price")
-	s.Paid = field.NewInt64(table, "paid")
+	s.Paid = field.NewInt32(table, "paid")
 	s.PayTime = field.NewInt64(table, "pay_time")
 	s.PayType = field.NewString(table, "pay_type")
-	s.Status = field.NewInt64(table, "status")
-	s.RefundStatus = field.NewInt64(table, "refund_status")
+	s.Status = field.NewBool(table, "status")
+	s.RefundStatus = field.NewInt32(table, "refund_status")
 	s.RefundReasonWapImg = field.NewString(table, "refund_reason_wap_img")
 	s.RefundReasonWapExplain = field.NewString(table, "refund_reason_wap_explain")
 	s.RefundReasonWap = field.NewString(table, "refund_reason_wap")
@@ -205,10 +205,10 @@ func (s *storeOrder) updateTableName(table string) *storeOrder {
 	s.UseIntegral = field.NewInt64(table, "use_integral")
 	s.BackIntegral = field.NewInt64(table, "back_integral")
 	s.Mark = field.NewString(table, "mark")
-	s.IsDel = field.NewInt64(table, "is_del")
+	s.IsDel = field.NewInt32(table, "is_del")
 	s.Remark = field.NewString(table, "remark")
 	s.MerID = field.NewInt64(table, "mer_id")
-	s.IsMerCheck = field.NewInt64(table, "is_mer_check")
+	s.IsMerCheck = field.NewInt32(table, "is_mer_check")
 	s.CombinationID = field.NewInt64(table, "combination_id")
 	s.PinkID = field.NewInt64(table, "pink_id")
 	s.Cost = field.NewField(table, "cost")
@@ -216,17 +216,17 @@ func (s *storeOrder) updateTableName(table string) *storeOrder {
 	s.BargainID = field.NewInt64(table, "bargain_id")
 	s.VerifyCode = field.NewString(table, "verify_code")
 	s.StoreID = field.NewInt64(table, "store_id")
-	s.ShippingType = field.NewInt64(table, "shipping_type")
+	s.ShippingType = field.NewBool(table, "shipping_type")
 	s.ClerkID = field.NewInt64(table, "clerk_id")
-	s.IsChannel = field.NewInt64(table, "is_channel")
-	s.IsRemind = field.NewInt64(table, "is_remind")
-	s.IsSystemDel = field.NewInt64(table, "is_system_del")
+	s.IsChannel = field.NewInt32(table, "is_channel")
+	s.IsRemind = field.NewInt32(table, "is_remind")
+	s.IsSystemDel = field.NewBool(table, "is_system_del")
 	s.DeliveryCode = field.NewString(table, "delivery_code")
 	s.BargainUserID = field.NewInt64(table, "bargain_user_id")
 	s.Type = field.NewInt64(table, "type")
 	s.ProTotalPrice = field.NewField(table, "pro_total_price")
 	s.BeforePayPrice = field.NewField(table, "before_pay_price")
-	s.IsAlterPrice = field.NewInt64(table, "is_alter_price")
+	s.IsAlterPrice = field.NewBool(table, "is_alter_price")
 	s.OutTradeNo = field.NewString(table, "out_trade_no")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")

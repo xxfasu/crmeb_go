@@ -31,7 +31,7 @@ func newStoreProductLog(db *gorm.DB, opts ...gen.DOOption) storeProductLog {
 	_storeProductLog.Type = field.NewString(tableName, "type")
 	_storeProductLog.ProductID = field.NewInt64(tableName, "product_id")
 	_storeProductLog.UID = field.NewInt64(tableName, "uid")
-	_storeProductLog.VisitNum = field.NewInt64(tableName, "visit_num")
+	_storeProductLog.VisitNum = field.NewBool(tableName, "visit_num")
 	_storeProductLog.CartNum = field.NewInt64(tableName, "cart_num")
 	_storeProductLog.OrderNum = field.NewInt64(tableName, "order_num")
 	_storeProductLog.PayNum = field.NewInt64(tableName, "pay_num")
@@ -40,7 +40,7 @@ func newStoreProductLog(db *gorm.DB, opts ...gen.DOOption) storeProductLog {
 	_storeProductLog.PayUID = field.NewInt64(tableName, "pay_uid")
 	_storeProductLog.RefundNum = field.NewInt64(tableName, "refund_num")
 	_storeProductLog.RefundPrice = field.NewField(tableName, "refund_price")
-	_storeProductLog.CollectNum = field.NewInt64(tableName, "collect_num")
+	_storeProductLog.CollectNum = field.NewBool(tableName, "collect_num")
 	_storeProductLog.AddTime = field.NewInt64(tableName, "add_time")
 	_storeProductLog.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeProductLog.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -60,7 +60,7 @@ type storeProductLog struct {
 	Type        field.String // 类型visit,cart,order,pay,collect,refund
 	ProductID   field.Int64  // 商品ID
 	UID         field.Int64  // 用户ID
-	VisitNum    field.Int64  // 是否浏览
+	VisitNum    field.Bool   // 是否浏览
 	CartNum     field.Int64  // 加入购物车数量
 	OrderNum    field.Int64  // 下单数量
 	PayNum      field.Int64  // 支付数量
@@ -69,7 +69,7 @@ type storeProductLog struct {
 	PayUID      field.Int64  // 支付用户ID
 	RefundNum   field.Int64  // 退款数量
 	RefundPrice field.Field  // 退款金额
-	CollectNum  field.Int64  // 收藏
+	CollectNum  field.Bool   // 收藏
 	AddTime     field.Int64  // 添加时间
 	CreatedAt   field.Int64
 	UpdatedAt   field.Int64
@@ -94,7 +94,7 @@ func (s *storeProductLog) updateTableName(table string) *storeProductLog {
 	s.Type = field.NewString(table, "type")
 	s.ProductID = field.NewInt64(table, "product_id")
 	s.UID = field.NewInt64(table, "uid")
-	s.VisitNum = field.NewInt64(table, "visit_num")
+	s.VisitNum = field.NewBool(table, "visit_num")
 	s.CartNum = field.NewInt64(table, "cart_num")
 	s.OrderNum = field.NewInt64(table, "order_num")
 	s.PayNum = field.NewInt64(table, "pay_num")
@@ -103,7 +103,7 @@ func (s *storeProductLog) updateTableName(table string) *storeProductLog {
 	s.PayUID = field.NewInt64(table, "pay_uid")
 	s.RefundNum = field.NewInt64(table, "refund_num")
 	s.RefundPrice = field.NewField(table, "refund_price")
-	s.CollectNum = field.NewInt64(table, "collect_num")
+	s.CollectNum = field.NewBool(table, "collect_num")
 	s.AddTime = field.NewInt64(table, "add_time")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")

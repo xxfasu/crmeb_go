@@ -17,7 +17,7 @@ type Category struct {
 	Type      int64                 `gorm:"column:type;type:smallint;default:1;comment:类型，1 产品分类，2 附件分类，3 文章分类， 4 设置分类， 5 菜单分类，6 配置分类， 7 秒杀配置" json:"type"` // 类型，1 产品分类，2 附件分类，3 文章分类， 4 设置分类， 5 菜单分类，6 配置分类， 7 秒杀配置
 	URL       string                `gorm:"column:url;type:varchar(255);comment:地址" json:"url"`                                                             // 地址
 	Extra     string                `gorm:"column:extra;type:text;comment:扩展字段 Jsos格式" json:"extra"`                                                        // 扩展字段 Jsos格式
-	Status    int64                 `gorm:"column:status;type:tinyint(1);not null;default:1;comment:状态, 1正常，0失效" json:"status"`                             // 状态, 1正常，0失效
+	Status    bool                  `gorm:"column:status;type:tinyint(1);not null;default:1;comment:状态, 1正常，0失效" json:"status"`                             // 状态, 1正常，0失效
 	Sort      int64                 `gorm:"column:sort;type:int;not null;default:99999;comment:排序" json:"sort"`                                             // 排序
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`

@@ -34,7 +34,7 @@ func newSystemAttachment(db *gorm.DB, opts ...gen.DOOption) systemAttachment {
 	_systemAttachment.AttSize = field.NewString(tableName, "att_size")
 	_systemAttachment.AttType = field.NewString(tableName, "att_type")
 	_systemAttachment.Pid = field.NewInt64(tableName, "pid")
-	_systemAttachment.ImageType = field.NewInt64(tableName, "image_type")
+	_systemAttachment.ImageType = field.NewInt32(tableName, "image_type")
 	_systemAttachment.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemAttachment.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemAttachment.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -56,7 +56,7 @@ type systemAttachment struct {
 	AttSize   field.String // 附件大小
 	AttType   field.String // 附件类型
 	Pid       field.Int64  // 分类ID0编辑器,1商品图片,2拼团图片,3砍价图片,4秒杀图片,5文章图片,6组合数据图， 7前台用户
-	ImageType field.Int64  // 图片上传类型 1本地 2七牛云 3OSS 4COS
+	ImageType field.Int32  // 图片上传类型 1本地 2七牛云 3OSS 4COS
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -83,7 +83,7 @@ func (s *systemAttachment) updateTableName(table string) *systemAttachment {
 	s.AttSize = field.NewString(table, "att_size")
 	s.AttType = field.NewString(table, "att_type")
 	s.Pid = field.NewInt64(table, "pid")
-	s.ImageType = field.NewInt64(table, "image_type")
+	s.ImageType = field.NewInt32(table, "image_type")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

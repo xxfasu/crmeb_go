@@ -30,14 +30,14 @@ func newUserBill(db *gorm.DB, opts ...gen.DOOption) userBill {
 	_userBill.ID = field.NewInt64(tableName, "id")
 	_userBill.UID = field.NewInt64(tableName, "uid")
 	_userBill.LinkID = field.NewString(tableName, "link_id")
-	_userBill.Pm = field.NewInt64(tableName, "pm")
+	_userBill.Pm = field.NewInt32(tableName, "pm")
 	_userBill.Title = field.NewString(tableName, "title")
 	_userBill.Category = field.NewString(tableName, "category")
 	_userBill.Type = field.NewString(tableName, "type")
 	_userBill.Number = field.NewField(tableName, "number")
 	_userBill.Balance = field.NewField(tableName, "balance")
 	_userBill.Mark = field.NewString(tableName, "mark")
-	_userBill.Status = field.NewInt64(tableName, "status")
+	_userBill.Status = field.NewBool(tableName, "status")
 	_userBill.CreatedAt = field.NewInt64(tableName, "created_at")
 	_userBill.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_userBill.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -55,14 +55,14 @@ type userBill struct {
 	ID        field.Int64  // 用户账单id
 	UID       field.Int64  // 用户uid
 	LinkID    field.String // 关联id
-	Pm        field.Int64  // 0 = 支出 1 = 获得
+	Pm        field.Int32  // 0 = 支出 1 = 获得
 	Title     field.String // 账单标题
 	Category  field.String // 明细种类
 	Type      field.String // 明细类型
 	Number    field.Field  // 明细数字
 	Balance   field.Field  // 剩余
 	Mark      field.String // 备注
-	Status    field.Int64  // 0 = 带确定 1 = 有效 -1 = 无效
+	Status    field.Bool   // 0 = 带确定 1 = 有效 -1 = 无效
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -85,14 +85,14 @@ func (u *userBill) updateTableName(table string) *userBill {
 	u.ID = field.NewInt64(table, "id")
 	u.UID = field.NewInt64(table, "uid")
 	u.LinkID = field.NewString(table, "link_id")
-	u.Pm = field.NewInt64(table, "pm")
+	u.Pm = field.NewInt32(table, "pm")
 	u.Title = field.NewString(table, "title")
 	u.Category = field.NewString(table, "category")
 	u.Type = field.NewString(table, "type")
 	u.Number = field.NewField(table, "number")
 	u.Balance = field.NewField(table, "balance")
 	u.Mark = field.NewString(table, "mark")
-	u.Status = field.NewInt64(table, "status")
+	u.Status = field.NewBool(table, "status")
 	u.CreatedAt = field.NewInt64(table, "created_at")
 	u.UpdatedAt = field.NewInt64(table, "updated_at")
 	u.DeletedAt = field.NewField(table, "deleted_at")

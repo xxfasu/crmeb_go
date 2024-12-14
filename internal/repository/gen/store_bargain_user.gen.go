@@ -33,9 +33,9 @@ func newStoreBargainUser(db *gorm.DB, opts ...gen.DOOption) storeBargainUser {
 	_storeBargainUser.BargainPriceMin = field.NewField(tableName, "bargain_price_min")
 	_storeBargainUser.BargainPrice = field.NewField(tableName, "bargain_price")
 	_storeBargainUser.Price = field.NewField(tableName, "price")
-	_storeBargainUser.Status = field.NewInt64(tableName, "status")
+	_storeBargainUser.Status = field.NewInt32(tableName, "status")
 	_storeBargainUser.AddTime = field.NewInt64(tableName, "add_time")
-	_storeBargainUser.IsDel = field.NewInt64(tableName, "is_del")
+	_storeBargainUser.IsDel = field.NewBool(tableName, "is_del")
 	_storeBargainUser.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeBargainUser.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeBargainUser.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -56,9 +56,9 @@ type storeBargainUser struct {
 	BargainPriceMin field.Field // 砍价的最低价
 	BargainPrice    field.Field // 砍价金额
 	Price           field.Field // 砍掉的价格
-	Status          field.Int64 // 状态 1参与中 2 活动结束参与失败 3活动结束参与成功
+	Status          field.Int32 // 状态 1参与中 2 活动结束参与失败 3活动结束参与成功
 	AddTime         field.Int64 // 参与时间
-	IsDel           field.Int64 // 是否取消
+	IsDel           field.Bool  // 是否取消
 	CreatedAt       field.Int64
 	UpdatedAt       field.Int64
 	DeletedAt       field.Field
@@ -84,9 +84,9 @@ func (s *storeBargainUser) updateTableName(table string) *storeBargainUser {
 	s.BargainPriceMin = field.NewField(table, "bargain_price_min")
 	s.BargainPrice = field.NewField(table, "bargain_price")
 	s.Price = field.NewField(table, "price")
-	s.Status = field.NewInt64(table, "status")
+	s.Status = field.NewInt32(table, "status")
 	s.AddTime = field.NewInt64(table, "add_time")
-	s.IsDel = field.NewInt64(table, "is_del")
+	s.IsDel = field.NewBool(table, "is_del")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

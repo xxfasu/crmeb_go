@@ -21,9 +21,9 @@ type ShippingTemplatesRegion struct {
 	FirstPrice   decimal.Decimal       `gorm:"column:first_price;type:decimal(10,2);not null;default:0.00;comment:首件运费" json:"first_price"`     // 首件运费
 	Renewal      decimal.Decimal       `gorm:"column:renewal;type:decimal(10,2);not null;default:0.00;comment:续件" json:"renewal"`               // 续件
 	RenewalPrice decimal.Decimal       `gorm:"column:renewal_price;type:decimal(10,2);not null;default:0.00;comment:续件运费" json:"renewal_price"` // 续件运费
-	Type         int64                 `gorm:"column:type;type:tinyint(1);not null;default:1;comment:计费方式 1按件数 2按重量 3按体积" json:"type"`          // 计费方式 1按件数 2按重量 3按体积
+	Type         bool                  `gorm:"column:type;type:tinyint(1);not null;default:1;comment:计费方式 1按件数 2按重量 3按体积" json:"type"`          // 计费方式 1按件数 2按重量 3按体积
 	Uniqid       string                `gorm:"column:uniqid;type:varchar(32);not null;comment:分组唯一值" json:"uniqid"`                             // 分组唯一值
-	Status       int64                 `gorm:"column:status;type:tinyint(1);comment:是否无效" json:"status"`                                        // 是否无效
+	Status       bool                  `gorm:"column:status;type:tinyint(1);comment:是否无效" json:"status"`                                        // 是否无效
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt    int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

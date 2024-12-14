@@ -15,7 +15,7 @@ type SystemConfig struct {
 	Title     string                `gorm:"column:title;type:varchar(255);not null;comment:字段提示文字" json:"title"`              // 字段提示文字
 	FormID    int64                 `gorm:"column:form_id;type:int;comment:表单id" json:"form_id"`                              // 表单id
 	Value     string                `gorm:"column:value;type:varchar(5000);comment:值" json:"value"`                           // 值
-	Status    int64                 `gorm:"column:status;type:tinyint(1);comment:是否隐藏" json:"status"`                         // 是否隐藏
+	Status    bool                  `gorm:"column:status;type:tinyint(1);comment:是否隐藏" json:"status"`                         // 是否隐藏
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

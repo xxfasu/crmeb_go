@@ -33,18 +33,18 @@ type StoreSeckill struct {
 	Description  string                `gorm:"column:description;type:text;comment:内容" json:"description"`                                                // 内容
 	StartTime    time.Time             `gorm:"column:start_time;type:datetime;not null;comment:开始时间" json:"start_time"`                                   // 开始时间
 	StopTime     time.Time             `gorm:"column:stop_time;type:datetime;not null;comment:结束时间" json:"stop_time"`                                     // 结束时间
-	Status       int64                 `gorm:"column:status;type:tinyint unsigned;not null;comment:秒杀状态 0=关闭 1=开启" json:"status"`                         // 秒杀状态 0=关闭 1=开启
-	IsPostage    int64                 `gorm:"column:is_postage;type:tinyint unsigned;not null;comment:是否包邮" json:"is_postage"`                           // 是否包邮
-	IsDel        int64                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:删除 0未删除1已删除" json:"is_del"`                            // 删除 0未删除1已删除
+	Status       int32                 `gorm:"column:status;type:tinyint unsigned;not null;comment:秒杀状态 0=关闭 1=开启" json:"status"`                         // 秒杀状态 0=关闭 1=开启
+	IsPostage    int32                 `gorm:"column:is_postage;type:tinyint unsigned;not null;comment:是否包邮" json:"is_postage"`                           // 是否包邮
+	IsDel        int32                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:删除 0未删除1已删除" json:"is_del"`                            // 删除 0未删除1已删除
 	Num          int64                 `gorm:"column:num;type:int unsigned;not null;comment:当天参与活动次数" json:"num"`                                         // 当天参与活动次数
-	IsShow       int64                 `gorm:"column:is_show;type:tinyint unsigned;not null;default:1;comment:显示" json:"is_show"`                         // 显示
+	IsShow       int32                 `gorm:"column:is_show;type:tinyint unsigned;not null;default:1;comment:显示" json:"is_show"`                         // 显示
 	TimeID       int64                 `gorm:"column:time_id;type:int;comment:时间段ID" json:"time_id"`                                                      // 时间段ID
 	TempID       int64                 `gorm:"column:temp_id;type:int;not null;comment:运费模板ID" json:"temp_id"`                                            // 运费模板ID
 	Weight       decimal.Decimal       `gorm:"column:weight;type:decimal(8,2);not null;default:0.00;comment:重量" json:"weight"`                            // 重量
 	Volume       decimal.Decimal       `gorm:"column:volume;type:decimal(8,2);not null;default:0.00;comment:体积" json:"volume"`                            // 体积
 	Quota        int64                 `gorm:"column:quota;type:int;not null;comment:限购总数,随减" json:"quota"`                                               // 限购总数,随减
 	QuotaShow    int64                 `gorm:"column:quota_show;type:int;not null;comment:限购总数显示.不变" json:"quota_show"`                                   // 限购总数显示.不变
-	SpecType     int64                 `gorm:"column:spec_type;type:tinyint(1);not null;comment:规格 0=单 1=多" json:"spec_type"`                             // 规格 0=单 1=多
+	SpecType     bool                  `gorm:"column:spec_type;type:tinyint(1);not null;comment:规格 0=单 1=多" json:"spec_type"`                             // 规格 0=单 1=多
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt    int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

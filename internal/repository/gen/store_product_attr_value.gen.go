@@ -42,11 +42,11 @@ func newStoreProductAttrValue(db *gorm.DB, opts ...gen.DOOption) storeProductAtt
 	_storeProductAttrValue.Volume = field.NewField(tableName, "volume")
 	_storeProductAttrValue.Brokerage = field.NewField(tableName, "brokerage")
 	_storeProductAttrValue.BrokerageTwo = field.NewField(tableName, "brokerage_two")
-	_storeProductAttrValue.Type = field.NewInt64(tableName, "type")
+	_storeProductAttrValue.Type = field.NewBool(tableName, "type")
 	_storeProductAttrValue.Quota = field.NewInt64(tableName, "quota")
 	_storeProductAttrValue.QuotaShow = field.NewInt64(tableName, "quota_show")
 	_storeProductAttrValue.AttrValue = field.NewString(tableName, "attr_value")
-	_storeProductAttrValue.IsDel = field.NewInt64(tableName, "is_del")
+	_storeProductAttrValue.IsDel = field.NewBool(tableName, "is_del")
 	_storeProductAttrValue.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeProductAttrValue.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeProductAttrValue.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -76,11 +76,11 @@ type storeProductAttrValue struct {
 	Volume       field.Field  // 体积
 	Brokerage    field.Field  // 一级返佣
 	BrokerageTwo field.Field  // 二级返佣
-	Type         field.Int64  // 活动类型 0=商品，1=秒杀，2=砍价，3=拼团
+	Type         field.Bool   // 活动类型 0=商品，1=秒杀，2=砍价，3=拼团
 	Quota        field.Int64  // 活动限购数量
 	QuotaShow    field.Int64  // 活动限购数量显示
 	AttrValue    field.String // attr_values 创建更新时的属性对应
-	IsDel        field.Int64  // 是否删除,0-否，1-是
+	IsDel        field.Bool   // 是否删除,0-否，1-是
 	CreatedAt    field.Int64
 	UpdatedAt    field.Int64
 	DeletedAt    field.Field
@@ -115,11 +115,11 @@ func (s *storeProductAttrValue) updateTableName(table string) *storeProductAttrV
 	s.Volume = field.NewField(table, "volume")
 	s.Brokerage = field.NewField(table, "brokerage")
 	s.BrokerageTwo = field.NewField(table, "brokerage_two")
-	s.Type = field.NewInt64(table, "type")
+	s.Type = field.NewBool(table, "type")
 	s.Quota = field.NewInt64(table, "quota")
 	s.QuotaShow = field.NewInt64(table, "quota_show")
 	s.AttrValue = field.NewString(table, "attr_value")
-	s.IsDel = field.NewInt64(table, "is_del")
+	s.IsDel = field.NewBool(table, "is_del")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

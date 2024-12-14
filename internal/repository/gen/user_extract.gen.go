@@ -38,7 +38,7 @@ func newUserExtract(db *gorm.DB, opts ...gen.DOOption) userExtract {
 	_userExtract.Mark = field.NewString(tableName, "mark")
 	_userExtract.Balance = field.NewField(tableName, "balance")
 	_userExtract.FailMsg = field.NewString(tableName, "fail_msg")
-	_userExtract.Status = field.NewInt64(tableName, "status")
+	_userExtract.Status = field.NewInt32(tableName, "status")
 	_userExtract.Wechat = field.NewString(tableName, "wechat")
 	_userExtract.BankName = field.NewString(tableName, "bank_name")
 	_userExtract.QrcodeURL = field.NewString(tableName, "qrcode_url")
@@ -67,7 +67,7 @@ type userExtract struct {
 	Mark         field.String
 	Balance      field.Field
 	FailMsg      field.String // 无效原因
-	Status       field.Int64  // -1 未通过 0 审核中 1 已提现
+	Status       field.Int32  // -1 未通过 0 审核中 1 已提现
 	Wechat       field.String // 微信号
 	BankName     field.String // 银行名称
 	QrcodeURL    field.String // 微信收款二维码
@@ -101,7 +101,7 @@ func (u *userExtract) updateTableName(table string) *userExtract {
 	u.Mark = field.NewString(table, "mark")
 	u.Balance = field.NewField(table, "balance")
 	u.FailMsg = field.NewString(table, "fail_msg")
-	u.Status = field.NewInt64(table, "status")
+	u.Status = field.NewInt32(table, "status")
 	u.Wechat = field.NewString(table, "wechat")
 	u.BankName = field.NewString(table, "bank_name")
 	u.QrcodeURL = field.NewString(table, "qrcode_url")

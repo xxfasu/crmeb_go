@@ -33,7 +33,7 @@ func (m *AuthM) StrictAuth() gin.HandlerFunc {
 			return
 		}
 
-		ctx.Set("userinfo", loginUserData)
+		ctx.Set("user-info", loginUserData)
 		ctx.Next()
 	}
 }
@@ -46,7 +46,7 @@ func (m *AuthM) NoStrictAuth() gin.HandlerFunc {
 			return
 		}
 
-		ctx.Set("userinfo", loginUserData)
+		ctx.Set("resp", loginUserData)
 		ctx.Next()
 	}
 }

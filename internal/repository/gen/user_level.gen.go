@@ -31,10 +31,10 @@ func newUserLevel(db *gorm.DB, opts ...gen.DOOption) userLevel {
 	_userLevel.UID = field.NewInt64(tableName, "uid")
 	_userLevel.LevelID = field.NewInt64(tableName, "level_id")
 	_userLevel.Grade = field.NewInt64(tableName, "grade")
-	_userLevel.Status = field.NewInt64(tableName, "status")
+	_userLevel.Status = field.NewBool(tableName, "status")
 	_userLevel.Mark = field.NewString(tableName, "mark")
-	_userLevel.Remind = field.NewInt64(tableName, "remind")
-	_userLevel.IsDel = field.NewInt64(tableName, "is_del")
+	_userLevel.Remind = field.NewBool(tableName, "remind")
+	_userLevel.IsDel = field.NewBool(tableName, "is_del")
 	_userLevel.Discount = field.NewInt64(tableName, "discount")
 	_userLevel.ExpiredTime = field.NewInt64(tableName, "expired_time")
 	_userLevel.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -55,10 +55,10 @@ type userLevel struct {
 	UID         field.Int64  // 用户uid
 	LevelID     field.Int64  // 等级vip
 	Grade       field.Int64  // 会员等级
-	Status      field.Int64  // 0:禁止,1:正常
+	Status      field.Bool   // 0:禁止,1:正常
 	Mark        field.String // 备注
-	Remind      field.Int64  // 是否已通知
-	IsDel       field.Int64  // 是否删除,0=未删除,1=删除
+	Remind      field.Bool   // 是否已通知
+	IsDel       field.Bool   // 是否删除,0=未删除,1=删除
 	Discount    field.Int64  // 享受折扣
 	ExpiredTime field.Int64
 	CreatedAt   field.Int64
@@ -84,10 +84,10 @@ func (u *userLevel) updateTableName(table string) *userLevel {
 	u.UID = field.NewInt64(table, "uid")
 	u.LevelID = field.NewInt64(table, "level_id")
 	u.Grade = field.NewInt64(table, "grade")
-	u.Status = field.NewInt64(table, "status")
+	u.Status = field.NewBool(table, "status")
 	u.Mark = field.NewString(table, "mark")
-	u.Remind = field.NewInt64(table, "remind")
-	u.IsDel = field.NewInt64(table, "is_del")
+	u.Remind = field.NewBool(table, "remind")
+	u.IsDel = field.NewBool(table, "is_del")
 	u.Discount = field.NewInt64(table, "discount")
 	u.ExpiredTime = field.NewInt64(table, "expired_time")
 	u.CreatedAt = field.NewInt64(table, "created_at")

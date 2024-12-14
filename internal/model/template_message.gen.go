@@ -11,12 +11,12 @@ const TableNameTemplateMessage = "eb_template_message"
 // TemplateMessage 微信模板
 type TemplateMessage struct {
 	ID        int64                 `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:模板id" json:"id"` // 模板id
-	Type      int64                 `gorm:"column:type;type:tinyint(1);not null;comment:0=订阅消息,1=微信模板消息" json:"type"`         // 0=订阅消息,1=微信模板消息
+	Type      bool                  `gorm:"column:type;type:tinyint(1);not null;comment:0=订阅消息,1=微信模板消息" json:"type"`         // 0=订阅消息,1=微信模板消息
 	TempKey   string                `gorm:"column:temp_key;type:char(50);not null;comment:模板编号" json:"temp_key"`              // 模板编号
 	Name      string                `gorm:"column:name;type:char(100);not null;comment:模板名" json:"name"`                      // 模板名
 	Content   string                `gorm:"column:content;type:varchar(1000);not null;comment:回复内容" json:"content"`           // 回复内容
 	TempID    string                `gorm:"column:temp_id;type:char(100);comment:模板ID" json:"temp_id"`                        // 模板ID
-	Status    int64                 `gorm:"column:status;type:tinyint;not null;default:1;comment:状态" json:"status"`           // 状态
+	Status    int32                 `gorm:"column:status;type:tinyint;not null;default:1;comment:状态" json:"status"`           // 状态
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

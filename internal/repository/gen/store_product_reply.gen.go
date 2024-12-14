@@ -33,14 +33,14 @@ func newStoreProductReply(db *gorm.DB, opts ...gen.DOOption) storeProductReply {
 	_storeProductReply.Unique = field.NewString(tableName, "unique")
 	_storeProductReply.ProductID = field.NewInt64(tableName, "product_id")
 	_storeProductReply.ReplyType = field.NewString(tableName, "reply_type")
-	_storeProductReply.ProductScore = field.NewInt64(tableName, "product_score")
-	_storeProductReply.ServiceScore = field.NewInt64(tableName, "service_score")
+	_storeProductReply.ProductScore = field.NewBool(tableName, "product_score")
+	_storeProductReply.ServiceScore = field.NewBool(tableName, "service_score")
 	_storeProductReply.Comment = field.NewString(tableName, "comment")
 	_storeProductReply.Pics = field.NewString(tableName, "pics")
 	_storeProductReply.MerchantReplyContent = field.NewString(tableName, "merchant_reply_content")
 	_storeProductReply.MerchantReplyTime = field.NewInt64(tableName, "merchant_reply_time")
-	_storeProductReply.IsDel = field.NewInt64(tableName, "is_del")
-	_storeProductReply.IsReply = field.NewInt64(tableName, "is_reply")
+	_storeProductReply.IsDel = field.NewInt32(tableName, "is_del")
+	_storeProductReply.IsReply = field.NewBool(tableName, "is_reply")
 	_storeProductReply.Nickname = field.NewString(tableName, "nickname")
 	_storeProductReply.Avatar = field.NewString(tableName, "avatar")
 	_storeProductReply.Sku = field.NewString(tableName, "sku")
@@ -64,14 +64,14 @@ type storeProductReply struct {
 	Unique               field.String // 商品唯一id
 	ProductID            field.Int64  // 商品id
 	ReplyType            field.String // 某种商品类型(普通商品、秒杀商品）
-	ProductScore         field.Int64  // 商品分数
-	ServiceScore         field.Int64  // 服务分数
+	ProductScore         field.Bool   // 商品分数
+	ServiceScore         field.Bool   // 服务分数
 	Comment              field.String // 评论内容
 	Pics                 field.String // 评论图片
 	MerchantReplyContent field.String // 管理员回复内容
 	MerchantReplyTime    field.Int64  // 管理员回复时间
-	IsDel                field.Int64  // 0未删除1已删除
-	IsReply              field.Int64  // 0未回复1已回复
+	IsDel                field.Int32  // 0未删除1已删除
+	IsReply              field.Bool   // 0未回复1已回复
 	Nickname             field.String // 用户名称
 	Avatar               field.String // 用户头像
 	Sku                  field.String // 商品规格属性值,多个,号隔开
@@ -100,14 +100,14 @@ func (s *storeProductReply) updateTableName(table string) *storeProductReply {
 	s.Unique = field.NewString(table, "unique")
 	s.ProductID = field.NewInt64(table, "product_id")
 	s.ReplyType = field.NewString(table, "reply_type")
-	s.ProductScore = field.NewInt64(table, "product_score")
-	s.ServiceScore = field.NewInt64(table, "service_score")
+	s.ProductScore = field.NewBool(table, "product_score")
+	s.ServiceScore = field.NewBool(table, "service_score")
 	s.Comment = field.NewString(table, "comment")
 	s.Pics = field.NewString(table, "pics")
 	s.MerchantReplyContent = field.NewString(table, "merchant_reply_content")
 	s.MerchantReplyTime = field.NewInt64(table, "merchant_reply_time")
-	s.IsDel = field.NewInt64(table, "is_del")
-	s.IsReply = field.NewInt64(table, "is_reply")
+	s.IsDel = field.NewInt32(table, "is_del")
+	s.IsReply = field.NewBool(table, "is_reply")
 	s.Nickname = field.NewString(table, "nickname")
 	s.Avatar = field.NewString(table, "avatar")
 	s.Sku = field.NewString(table, "sku")

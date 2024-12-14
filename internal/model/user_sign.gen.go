@@ -19,7 +19,7 @@ type UserSign struct {
 	Title     string                `gorm:"column:title;type:varchar(255);not null;comment:签到说明" json:"title"`             // 签到说明
 	Number    int64                 `gorm:"column:number;type:int;not null;comment:获得" json:"number"`                      // 获得
 	Balance   int64                 `gorm:"column:balance;type:int;not null;comment:剩余" json:"balance"`                    // 剩余
-	Type      int64                 `gorm:"column:type;type:tinyint(1);not null;default:1;comment:类型，1积分，2经验" json:"type"` // 类型，1积分，2经验
+	Type      bool                  `gorm:"column:type;type:tinyint(1);not null;default:1;comment:类型，1积分，2经验" json:"type"` // 类型，1积分，2经验
 	CreateDay time.Time             `gorm:"column:create_day;type:date;not null;comment:签到日期" json:"create_day"`           // 签到日期
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`

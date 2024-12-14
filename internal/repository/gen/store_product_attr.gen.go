@@ -31,8 +31,8 @@ func newStoreProductAttr(db *gorm.DB, opts ...gen.DOOption) storeProductAttr {
 	_storeProductAttr.ProductID = field.NewInt64(tableName, "product_id")
 	_storeProductAttr.AttrName = field.NewString(tableName, "attr_name")
 	_storeProductAttr.AttrValues = field.NewString(tableName, "attr_values")
-	_storeProductAttr.Type = field.NewInt64(tableName, "type")
-	_storeProductAttr.IsDel = field.NewInt64(tableName, "is_del")
+	_storeProductAttr.Type = field.NewBool(tableName, "type")
+	_storeProductAttr.IsDel = field.NewBool(tableName, "is_del")
 	_storeProductAttr.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeProductAttr.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeProductAttr.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -51,8 +51,8 @@ type storeProductAttr struct {
 	ProductID  field.Int64  // 商品ID
 	AttrName   field.String // 属性名
 	AttrValues field.String // 属性值
-	Type       field.Int64  // 活动类型 0=商品，1=秒杀，2=砍价，3=拼团
-	IsDel      field.Int64  // 是否删除,0-否，1-是
+	Type       field.Bool   // 活动类型 0=商品，1=秒杀，2=砍价，3=拼团
+	IsDel      field.Bool   // 是否删除,0-否，1-是
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
 	DeletedAt  field.Field
@@ -76,8 +76,8 @@ func (s *storeProductAttr) updateTableName(table string) *storeProductAttr {
 	s.ProductID = field.NewInt64(table, "product_id")
 	s.AttrName = field.NewString(table, "attr_name")
 	s.AttrValues = field.NewString(table, "attr_values")
-	s.Type = field.NewInt64(table, "type")
-	s.IsDel = field.NewInt64(table, "is_del")
+	s.Type = field.NewBool(table, "type")
+	s.IsDel = field.NewBool(table, "is_del")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

@@ -29,8 +29,8 @@ func newShippingTemplate(db *gorm.DB, opts ...gen.DOOption) shippingTemplate {
 	_shippingTemplate.ALL = field.NewAsterisk(tableName)
 	_shippingTemplate.ID = field.NewInt64(tableName, "id")
 	_shippingTemplate.Name = field.NewString(tableName, "name")
-	_shippingTemplate.Type = field.NewInt64(tableName, "type")
-	_shippingTemplate.Appoint = field.NewInt64(tableName, "appoint")
+	_shippingTemplate.Type = field.NewBool(tableName, "type")
+	_shippingTemplate.Appoint = field.NewBool(tableName, "appoint")
 	_shippingTemplate.Sort = field.NewInt64(tableName, "sort")
 	_shippingTemplate.CreatedAt = field.NewInt64(tableName, "created_at")
 	_shippingTemplate.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -48,8 +48,8 @@ type shippingTemplate struct {
 	ALL       field.Asterisk
 	ID        field.Int64  // 编号
 	Name      field.String // 模板名称
-	Type      field.Int64  // 计费方式
-	Appoint   field.Int64  // 指定包邮
+	Type      field.Bool   // 计费方式
+	Appoint   field.Bool   // 指定包邮
 	Sort      field.Int64  // 排序
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
@@ -72,8 +72,8 @@ func (s *shippingTemplate) updateTableName(table string) *shippingTemplate {
 	s.ALL = field.NewAsterisk(table)
 	s.ID = field.NewInt64(table, "id")
 	s.Name = field.NewString(table, "name")
-	s.Type = field.NewInt64(table, "type")
-	s.Appoint = field.NewInt64(table, "appoint")
+	s.Type = field.NewBool(table, "type")
+	s.Appoint = field.NewBool(table, "appoint")
 	s.Sort = field.NewInt64(table, "sort")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")

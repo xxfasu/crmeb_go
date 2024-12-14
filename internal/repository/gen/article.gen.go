@@ -39,13 +39,13 @@ func newArticle(db *gorm.DB, opts ...gen.DOOption) article {
 	_article.Sort = field.NewInt64(tableName, "sort")
 	_article.URL = field.NewString(tableName, "url")
 	_article.MediaID = field.NewString(tableName, "media_id")
-	_article.Status = field.NewInt64(tableName, "status")
-	_article.Hide = field.NewInt64(tableName, "hide")
+	_article.Status = field.NewInt32(tableName, "status")
+	_article.Hide = field.NewInt32(tableName, "hide")
 	_article.AdminID = field.NewInt64(tableName, "admin_id")
 	_article.MerID = field.NewInt64(tableName, "mer_id")
 	_article.ProductID = field.NewInt64(tableName, "product_id")
-	_article.IsHot = field.NewInt64(tableName, "is_hot")
-	_article.IsBanner = field.NewInt64(tableName, "is_banner")
+	_article.IsHot = field.NewInt32(tableName, "is_hot")
+	_article.IsBanner = field.NewInt32(tableName, "is_banner")
 	_article.Content = field.NewString(tableName, "content")
 	_article.CreatedAt = field.NewInt64(tableName, "created_at")
 	_article.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -73,13 +73,13 @@ type article struct {
 	Sort          field.Int64  // 排序
 	URL           field.String // 原文链接
 	MediaID       field.String // 微信素材id
-	Status        field.Int64  // 状态
-	Hide          field.Int64  // 是否隐藏
+	Status        field.Int32  // 状态
+	Hide          field.Int32  // 是否隐藏
 	AdminID       field.Int64  // 管理员id
 	MerID         field.Int64  // 商户id
 	ProductID     field.Int64  // 商品关联id
-	IsHot         field.Int64  // 是否热门(小程序)
-	IsBanner      field.Int64  // 是否轮播图(小程序)
+	IsHot         field.Int32  // 是否热门(小程序)
+	IsBanner      field.Int32  // 是否轮播图(小程序)
 	Content       field.String // 文章内容
 	CreatedAt     field.Int64
 	UpdatedAt     field.Int64
@@ -112,13 +112,13 @@ func (a *article) updateTableName(table string) *article {
 	a.Sort = field.NewInt64(table, "sort")
 	a.URL = field.NewString(table, "url")
 	a.MediaID = field.NewString(table, "media_id")
-	a.Status = field.NewInt64(table, "status")
-	a.Hide = field.NewInt64(table, "hide")
+	a.Status = field.NewInt32(table, "status")
+	a.Hide = field.NewInt32(table, "hide")
 	a.AdminID = field.NewInt64(table, "admin_id")
 	a.MerID = field.NewInt64(table, "mer_id")
 	a.ProductID = field.NewInt64(table, "product_id")
-	a.IsHot = field.NewInt64(table, "is_hot")
-	a.IsBanner = field.NewInt64(table, "is_banner")
+	a.IsHot = field.NewInt32(table, "is_hot")
+	a.IsBanner = field.NewInt32(table, "is_banner")
 	a.Content = field.NewString(table, "content")
 	a.CreatedAt = field.NewInt64(table, "created_at")
 	a.UpdatedAt = field.NewInt64(table, "updated_at")

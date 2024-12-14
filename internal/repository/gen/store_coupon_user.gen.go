@@ -35,11 +35,11 @@ func newStoreCouponUser(db *gorm.DB, opts ...gen.DOOption) storeCouponUser {
 	_storeCouponUser.Money = field.NewField(tableName, "money")
 	_storeCouponUser.MinPrice = field.NewField(tableName, "min_price")
 	_storeCouponUser.Type = field.NewString(tableName, "type")
-	_storeCouponUser.Status = field.NewInt64(tableName, "status")
+	_storeCouponUser.Status = field.NewBool(tableName, "status")
 	_storeCouponUser.StartTime = field.NewInt64(tableName, "start_time")
 	_storeCouponUser.EndTime = field.NewInt64(tableName, "end_time")
 	_storeCouponUser.UseTime = field.NewInt64(tableName, "use_time")
-	_storeCouponUser.UseType = field.NewInt64(tableName, "use_type")
+	_storeCouponUser.UseType = field.NewBool(tableName, "use_type")
 	_storeCouponUser.PrimaryKey = field.NewString(tableName, "primary_key")
 	_storeCouponUser.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeCouponUser.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -63,11 +63,11 @@ type storeCouponUser struct {
 	Money      field.Field  // 优惠券的面值
 	MinPrice   field.Field  // 最低消费多少金额可用优惠券
 	Type       field.String // 获取方式，send后台发放, 用户领取 get
-	Status     field.Int64  // 状态（0：未使用，1：已使用, 2:已失效）
+	Status     field.Bool   // 状态（0：未使用，1：已使用, 2:已失效）
 	StartTime  field.Int64
 	EndTime    field.Int64
 	UseTime    field.Int64
-	UseType    field.Int64  // 使用类型 1 全场通用, 2 商品券, 3 品类券
+	UseType    field.Bool   // 使用类型 1 全场通用, 2 商品券, 3 品类券
 	PrimaryKey field.String // 所属商品id / 分类id
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
@@ -96,11 +96,11 @@ func (s *storeCouponUser) updateTableName(table string) *storeCouponUser {
 	s.Money = field.NewField(table, "money")
 	s.MinPrice = field.NewField(table, "min_price")
 	s.Type = field.NewString(table, "type")
-	s.Status = field.NewInt64(table, "status")
+	s.Status = field.NewBool(table, "status")
 	s.StartTime = field.NewInt64(table, "start_time")
 	s.EndTime = field.NewInt64(table, "end_time")
 	s.UseTime = field.NewInt64(table, "use_time")
-	s.UseType = field.NewInt64(table, "use_type")
+	s.UseType = field.NewBool(table, "use_type")
 	s.PrimaryKey = field.NewString(table, "primary_key")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")

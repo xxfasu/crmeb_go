@@ -96,7 +96,6 @@ func main() {
 	g.UseDB(connectDB(MySQLDSN))
 	// 统一数字类型为int64,兼容protobuf和thrift
 	dataMap := map[string]func(detailType gorm.ColumnType) (dataType string){
-		"tinyint":   func(detailType gorm.ColumnType) (dataType string) { return "int64" },
 		"smallint":  func(detailType gorm.ColumnType) (dataType string) { return "int64" },
 		"mediumint": func(detailType gorm.ColumnType) (dataType string) { return "int64" },
 		"bigint":    func(detailType gorm.ColumnType) (dataType string) { return "int64" },
@@ -115,9 +114,7 @@ func main() {
 	softDeleteField := gen.FieldType("deleted_at", "soft_delete.DeletedAt")
 	// 模型自定义选项组
 	fieldOpts := []gen.ModelOpt{jsonField, softDeleteField}
-	models := g.GenerateAllTable(fieldOpts...)
-	g.ApplyBasic(models)
-	// g.ApplyInterface(func() {}, g.GenerateAllTable(fieldOpts...)...)
+	g.ApplyInterface(func() {}, g.GenerateAllTable(fieldOpts...)...)
 	g.ApplyInterface(func(system_menu_repository.Querier) {}, g.GenerateModel("eb_system_menu", fieldOpts...))
 	g.WithImportPkgPath("github.com/shopspring/decimal")
 	// 执行并生成代码

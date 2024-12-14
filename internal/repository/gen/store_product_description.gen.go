@@ -29,7 +29,7 @@ func newStoreProductDescription(db *gorm.DB, opts ...gen.DOOption) storeProductD
 	_storeProductDescription.ALL = field.NewAsterisk(tableName)
 	_storeProductDescription.ProductID = field.NewInt64(tableName, "product_id")
 	_storeProductDescription.Description = field.NewString(tableName, "description")
-	_storeProductDescription.Type = field.NewInt64(tableName, "type")
+	_storeProductDescription.Type = field.NewBool(tableName, "type")
 	_storeProductDescription.ID = field.NewInt64(tableName, "id")
 	_storeProductDescription.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeProductDescription.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -47,7 +47,7 @@ type storeProductDescription struct {
 	ALL         field.Asterisk
 	ProductID   field.Int64  // 商品ID
 	Description field.String // 商品详情
-	Type        field.Int64  // 商品类型
+	Type        field.Bool   // 商品类型
 	ID          field.Int64
 	CreatedAt   field.Int64
 	UpdatedAt   field.Int64
@@ -70,7 +70,7 @@ func (s *storeProductDescription) updateTableName(table string) *storeProductDes
 	s.ALL = field.NewAsterisk(table)
 	s.ProductID = field.NewInt64(table, "product_id")
 	s.Description = field.NewString(table, "description")
-	s.Type = field.NewInt64(table, "type")
+	s.Type = field.NewBool(table, "type")
 	s.ID = field.NewInt64(table, "id")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")

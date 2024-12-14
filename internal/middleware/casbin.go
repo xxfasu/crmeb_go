@@ -16,7 +16,7 @@ func NewCasbinM(casbin casbin.Service) *CasbinM {
 	}
 }
 
-func (m *CasbinM) CasbinMiddleware(obj string, act string) gin.HandlerFunc {
+func (m *CasbinM) CasbinMiddleware(obj string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 从上下文或JWT中提取用户角色
 		userRole := c.GetString("user_role")
@@ -25,7 +25,7 @@ func (m *CasbinM) CasbinMiddleware(obj string, act string) gin.HandlerFunc {
 			return
 		}
 
-		ok, err := m.casbin.Enforce(userRole, obj, act)
+		ok, err := m.casbin.Enforce(userRole, obj, "ALL")
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return

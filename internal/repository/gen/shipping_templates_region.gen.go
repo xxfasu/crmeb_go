@@ -35,9 +35,9 @@ func newShippingTemplatesRegion(db *gorm.DB, opts ...gen.DOOption) shippingTempl
 	_shippingTemplatesRegion.FirstPrice = field.NewField(tableName, "first_price")
 	_shippingTemplatesRegion.Renewal = field.NewField(tableName, "renewal")
 	_shippingTemplatesRegion.RenewalPrice = field.NewField(tableName, "renewal_price")
-	_shippingTemplatesRegion.Type = field.NewInt64(tableName, "type")
+	_shippingTemplatesRegion.Type = field.NewBool(tableName, "type")
 	_shippingTemplatesRegion.Uniqid = field.NewString(tableName, "uniqid")
-	_shippingTemplatesRegion.Status = field.NewInt64(tableName, "status")
+	_shippingTemplatesRegion.Status = field.NewBool(tableName, "status")
 	_shippingTemplatesRegion.CreatedAt = field.NewInt64(tableName, "created_at")
 	_shippingTemplatesRegion.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_shippingTemplatesRegion.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -60,9 +60,9 @@ type shippingTemplatesRegion struct {
 	FirstPrice   field.Field  // 首件运费
 	Renewal      field.Field  // 续件
 	RenewalPrice field.Field  // 续件运费
-	Type         field.Int64  // 计费方式 1按件数 2按重量 3按体积
+	Type         field.Bool   // 计费方式 1按件数 2按重量 3按体积
 	Uniqid       field.String // 分组唯一值
-	Status       field.Int64  // 是否无效
+	Status       field.Bool   // 是否无效
 	CreatedAt    field.Int64
 	UpdatedAt    field.Int64
 	DeletedAt    field.Field
@@ -90,9 +90,9 @@ func (s *shippingTemplatesRegion) updateTableName(table string) *shippingTemplat
 	s.FirstPrice = field.NewField(table, "first_price")
 	s.Renewal = field.NewField(table, "renewal")
 	s.RenewalPrice = field.NewField(table, "renewal_price")
-	s.Type = field.NewInt64(table, "type")
+	s.Type = field.NewBool(table, "type")
 	s.Uniqid = field.NewString(table, "uniqid")
-	s.Status = field.NewInt64(table, "status")
+	s.Status = field.NewBool(table, "status")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

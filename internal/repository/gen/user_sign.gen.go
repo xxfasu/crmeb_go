@@ -32,7 +32,7 @@ func newUserSign(db *gorm.DB, opts ...gen.DOOption) userSign {
 	_userSign.Title = field.NewString(tableName, "title")
 	_userSign.Number = field.NewInt64(tableName, "number")
 	_userSign.Balance = field.NewInt64(tableName, "balance")
-	_userSign.Type = field.NewInt64(tableName, "type")
+	_userSign.Type = field.NewBool(tableName, "type")
 	_userSign.CreateDay = field.NewTime(tableName, "create_day")
 	_userSign.CreatedAt = field.NewInt64(tableName, "created_at")
 	_userSign.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -53,7 +53,7 @@ type userSign struct {
 	Title     field.String // 签到说明
 	Number    field.Int64  // 获得
 	Balance   field.Int64  // 剩余
-	Type      field.Int64  // 类型，1积分，2经验
+	Type      field.Bool   // 类型，1积分，2经验
 	CreateDay field.Time   // 签到日期
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
@@ -79,7 +79,7 @@ func (u *userSign) updateTableName(table string) *userSign {
 	u.Title = field.NewString(table, "title")
 	u.Number = field.NewInt64(table, "number")
 	u.Balance = field.NewInt64(table, "balance")
-	u.Type = field.NewInt64(table, "type")
+	u.Type = field.NewBool(table, "type")
 	u.CreateDay = field.NewTime(table, "create_day")
 	u.CreatedAt = field.NewInt64(table, "created_at")
 	u.UpdatedAt = field.NewInt64(table, "updated_at")

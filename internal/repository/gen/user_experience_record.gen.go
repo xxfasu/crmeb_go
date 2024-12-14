@@ -36,7 +36,7 @@ func newUserExperienceRecord(db *gorm.DB, opts ...gen.DOOption) userExperienceRe
 	_userExperienceRecord.Experience = field.NewInt64(tableName, "experience")
 	_userExperienceRecord.Balance = field.NewInt64(tableName, "balance")
 	_userExperienceRecord.Mark = field.NewString(tableName, "mark")
-	_userExperienceRecord.Status = field.NewInt64(tableName, "status")
+	_userExperienceRecord.Status = field.NewBool(tableName, "status")
 	_userExperienceRecord.CreatedAt = field.NewInt64(tableName, "created_at")
 	_userExperienceRecord.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_userExperienceRecord.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -60,7 +60,7 @@ type userExperienceRecord struct {
 	Experience field.Int64  // 经验
 	Balance    field.Int64  // 剩余
 	Mark       field.String // 备注
-	Status     field.Int64  // 状态：1-成功（保留字段）
+	Status     field.Bool   // 状态：1-成功（保留字段）
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
 	DeletedAt  field.Field
@@ -89,7 +89,7 @@ func (u *userExperienceRecord) updateTableName(table string) *userExperienceReco
 	u.Experience = field.NewInt64(table, "experience")
 	u.Balance = field.NewInt64(table, "balance")
 	u.Mark = field.NewString(table, "mark")
-	u.Status = field.NewInt64(table, "status")
+	u.Status = field.NewBool(table, "status")
 	u.CreatedAt = field.NewInt64(table, "created_at")
 	u.UpdatedAt = field.NewInt64(table, "updated_at")
 	u.DeletedAt = field.NewField(table, "deleted_at")

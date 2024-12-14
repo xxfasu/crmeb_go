@@ -33,8 +33,8 @@ func newSystemStoreStaff(db *gorm.DB, opts ...gen.DOOption) systemStoreStaff {
 	_systemStoreStaff.StoreID = field.NewInt64(tableName, "store_id")
 	_systemStoreStaff.StaffName = field.NewString(tableName, "staff_name")
 	_systemStoreStaff.Phone = field.NewString(tableName, "phone")
-	_systemStoreStaff.VerifyStatus = field.NewInt64(tableName, "verify_status")
-	_systemStoreStaff.Status = field.NewInt64(tableName, "status")
+	_systemStoreStaff.VerifyStatus = field.NewInt32(tableName, "verify_status")
+	_systemStoreStaff.Status = field.NewInt32(tableName, "status")
 	_systemStoreStaff.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemStoreStaff.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemStoreStaff.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -55,8 +55,8 @@ type systemStoreStaff struct {
 	StoreID      field.Int64  // 门店id
 	StaffName    field.String // 店员名称
 	Phone        field.String // 手机号码
-	VerifyStatus field.Int64  // 核销开关
-	Status       field.Int64  // 状态
+	VerifyStatus field.Int32  // 核销开关
+	Status       field.Int32  // 状态
 	CreatedAt    field.Int64
 	UpdatedAt    field.Int64
 	DeletedAt    field.Field
@@ -82,8 +82,8 @@ func (s *systemStoreStaff) updateTableName(table string) *systemStoreStaff {
 	s.StoreID = field.NewInt64(table, "store_id")
 	s.StaffName = field.NewString(table, "staff_name")
 	s.Phone = field.NewString(table, "phone")
-	s.VerifyStatus = field.NewInt64(table, "verify_status")
-	s.Status = field.NewInt64(table, "status")
+	s.VerifyStatus = field.NewInt32(table, "verify_status")
+	s.Status = field.NewInt32(table, "status")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

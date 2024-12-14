@@ -33,12 +33,12 @@ type User struct {
 	Integral       int64                 `gorm:"column:integral;type:int;comment:用户剩余积分" json:"integral"`                                   // 用户剩余积分
 	Experience     int64                 `gorm:"column:experience;type:int unsigned;comment:用户剩余经验" json:"experience"`                      // 用户剩余经验
 	SignNum        int64                 `gorm:"column:sign_num;type:int;comment:连续签到天数" json:"sign_num"`                                   // 连续签到天数
-	Status         int64                 `gorm:"column:status;type:tinyint(1);default:1;comment:1为正常，0为禁止" json:"status"`                   // 1为正常，0为禁止
-	Level          int64                 `gorm:"column:level;type:tinyint unsigned;comment:等级" json:"level"`                                // 等级
+	Status         bool                  `gorm:"column:status;type:tinyint(1);default:1;comment:1为正常，0为禁止" json:"status"`                   // 1为正常，0为禁止
+	Level          int32                 `gorm:"column:level;type:tinyint unsigned;comment:等级" json:"level"`                                // 等级
 	SpreadUID      int64                 `gorm:"column:spread_uid;type:int unsigned;comment:推广员id" json:"spread_uid"`                       // 推广员id
 	SpreadTime     int64                 `gorm:"column:spread_time;type:bigint" json:"spread_time"`
 	UserType       string                `gorm:"column:user_type;type:varchar(32);not null;comment:用户类型" json:"user_type"`                       // 用户类型
-	IsPromoter     int64                 `gorm:"column:is_promoter;type:tinyint unsigned;comment:是否为推广员" json:"is_promoter"`                     // 是否为推广员
+	IsPromoter     int32                 `gorm:"column:is_promoter;type:tinyint unsigned;comment:是否为推广员" json:"is_promoter"`                     // 是否为推广员
 	PayCount       int64                 `gorm:"column:pay_count;type:int unsigned;comment:用户购买次数" json:"pay_count"`                             // 用户购买次数
 	SpreadCount    int64                 `gorm:"column:spread_count;type:int;comment:下级人数" json:"spread_count"`                                  // 下级人数
 	Addres         string                `gorm:"column:addres;type:varchar(255);comment:详细地址" json:"addres"`                                     // 详细地址
@@ -47,9 +47,9 @@ type User struct {
 	LastLoginTime  int64                 `gorm:"column:last_login_time;type:bigint" json:"last_login_time"`
 	CleanTime      int64                 `gorm:"column:clean_time;type:bigint" json:"clean_time"`
 	Path           string                `gorm:"column:path;type:varchar(255);not null;default:/0/;comment:推广等级记录" json:"path"` // 推广等级记录
-	Subscribe      int64                 `gorm:"column:subscribe;type:tinyint;comment:是否关注公众号" json:"subscribe"`                // 是否关注公众号
+	Subscribe      int32                 `gorm:"column:subscribe;type:tinyint;comment:是否关注公众号" json:"subscribe"`                // 是否关注公众号
 	SubscribeTime  int64                 `gorm:"column:subscribe_time;type:bigint" json:"subscribe_time"`
-	Sex            int64                 `gorm:"column:sex;type:tinyint(1);default:1;comment:性别，0未知，1男，2女，3保密" json:"sex"`          // 性别，0未知，1男，2女，3保密
+	Sex            bool                  `gorm:"column:sex;type:tinyint(1);default:1;comment:性别，0未知，1男，2女，3保密" json:"sex"`          // 性别，0未知，1男，2女，3保密
 	Country        string                `gorm:"column:country;type:varchar(20);default:CN;comment:国家，中国CN，其他OTHER" json:"country"` // 国家，中国CN，其他OTHER
 	PromoterTime   int64                 `gorm:"column:promoter_time;type:bigint" json:"promoter_time"`
 	CreatedAt      int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`

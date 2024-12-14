@@ -33,7 +33,7 @@ func newUserRecharge(db *gorm.DB, opts ...gen.DOOption) userRecharge {
 	_userRecharge.Price = field.NewField(tableName, "price")
 	_userRecharge.GivePrice = field.NewField(tableName, "give_price")
 	_userRecharge.RechargeType = field.NewString(tableName, "recharge_type")
-	_userRecharge.Paid = field.NewInt64(tableName, "paid")
+	_userRecharge.Paid = field.NewBool(tableName, "paid")
 	_userRecharge.PayTime = field.NewInt64(tableName, "pay_time")
 	_userRecharge.RefundPrice = field.NewField(tableName, "refund_price")
 	_userRecharge.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -56,7 +56,7 @@ type userRecharge struct {
 	Price        field.Field  // 充值金额
 	GivePrice    field.Field  // 购买赠送金额
 	RechargeType field.String // 充值类型
-	Paid         field.Int64  // 是否充值
+	Paid         field.Bool   // 是否充值
 	PayTime      field.Int64
 	RefundPrice  field.Field // 退款金额
 	CreatedAt    field.Int64
@@ -84,7 +84,7 @@ func (u *userRecharge) updateTableName(table string) *userRecharge {
 	u.Price = field.NewField(table, "price")
 	u.GivePrice = field.NewField(table, "give_price")
 	u.RechargeType = field.NewString(table, "recharge_type")
-	u.Paid = field.NewInt64(table, "paid")
+	u.Paid = field.NewBool(table, "paid")
 	u.PayTime = field.NewInt64(table, "pay_time")
 	u.RefundPrice = field.NewField(table, "refund_price")
 	u.CreatedAt = field.NewInt64(table, "created_at")

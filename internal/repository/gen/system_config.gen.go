@@ -32,7 +32,7 @@ func newSystemConfig(db *gorm.DB, opts ...gen.DOOption) systemConfig {
 	_systemConfig.Title = field.NewString(tableName, "title")
 	_systemConfig.FormID = field.NewInt64(tableName, "form_id")
 	_systemConfig.Value = field.NewString(tableName, "value")
-	_systemConfig.Status = field.NewInt64(tableName, "status")
+	_systemConfig.Status = field.NewBool(tableName, "status")
 	_systemConfig.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemConfig.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemConfig.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -52,7 +52,7 @@ type systemConfig struct {
 	Title     field.String // 字段提示文字
 	FormID    field.Int64  // 表单id
 	Value     field.String // 值
-	Status    field.Int64  // 是否隐藏
+	Status    field.Bool   // 是否隐藏
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -77,7 +77,7 @@ func (s *systemConfig) updateTableName(table string) *systemConfig {
 	s.Title = field.NewString(table, "title")
 	s.FormID = field.NewInt64(table, "form_id")
 	s.Value = field.NewString(table, "value")
-	s.Status = field.NewInt64(table, "status")
+	s.Status = field.NewBool(table, "status")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
