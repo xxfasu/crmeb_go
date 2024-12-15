@@ -44,15 +44,14 @@ func newStoreBargain(db *gorm.DB, opts ...gen.DOOption) storeBargain {
 	_storeBargain.BargainMaxPrice = field.NewField(tableName, "bargain_max_price")
 	_storeBargain.BargainMinPrice = field.NewField(tableName, "bargain_min_price")
 	_storeBargain.BargainNum = field.NewInt64(tableName, "bargain_num")
-	_storeBargain.Status = field.NewInt32(tableName, "status")
+	_storeBargain.Status = field.NewInt64(tableName, "status")
 	_storeBargain.GiveIntegral = field.NewInt64(tableName, "give_integral")
 	_storeBargain.Info = field.NewString(tableName, "info")
 	_storeBargain.Cost = field.NewField(tableName, "cost")
 	_storeBargain.Sort = field.NewInt64(tableName, "sort")
-	_storeBargain.IsHot = field.NewInt32(tableName, "is_hot")
-	_storeBargain.IsDel = field.NewInt32(tableName, "is_del")
+	_storeBargain.IsHot = field.NewInt64(tableName, "is_hot")
 	_storeBargain.AddTime = field.NewInt64(tableName, "add_time")
-	_storeBargain.IsPostage = field.NewInt32(tableName, "is_postage")
+	_storeBargain.IsPostage = field.NewInt64(tableName, "is_postage")
 	_storeBargain.Postage = field.NewField(tableName, "postage")
 	_storeBargain.Rule = field.NewString(tableName, "rule")
 	_storeBargain.Look = field.NewInt64(tableName, "look")
@@ -94,15 +93,14 @@ type storeBargain struct {
 	BargainMaxPrice field.Field  // 用户每次砍价的最大金额
 	BargainMinPrice field.Field  // 用户每次砍价的最小金额
 	BargainNum      field.Int64  // 帮砍次数——单个商品用户可以帮砍的次数
-	Status          field.Int32  // 砍价状态 0(到砍价时间不自动开启)  1(到砍价时间自动开启时间)
+	Status          field.Int64  // 砍价状态 0(到砍价时间不自动开启)  1(到砍价时间自动开启时间)
 	GiveIntegral    field.Int64  // 反多少积分
 	Info            field.String // 砍价活动简介
 	Cost            field.Field  // 成本价
 	Sort            field.Int64  // 排序
-	IsHot           field.Int32  // 是否推荐0不推荐1推荐
-	IsDel           field.Int32  // 是否删除 0未删除 1删除
+	IsHot           field.Int64  // 是否推荐0不推荐1推荐
 	AddTime         field.Int64  // 添加时间
-	IsPostage       field.Int32  // 是否包邮 0不包邮 1包邮
+	IsPostage       field.Int64  // 是否包邮 0不包邮 1包邮
 	Postage         field.Field  // 邮费
 	Rule            field.String // 砍价规则
 	Look            field.Int64  // 砍价商品浏览量
@@ -149,15 +147,14 @@ func (s *storeBargain) updateTableName(table string) *storeBargain {
 	s.BargainMaxPrice = field.NewField(table, "bargain_max_price")
 	s.BargainMinPrice = field.NewField(table, "bargain_min_price")
 	s.BargainNum = field.NewInt64(table, "bargain_num")
-	s.Status = field.NewInt32(table, "status")
+	s.Status = field.NewInt64(table, "status")
 	s.GiveIntegral = field.NewInt64(table, "give_integral")
 	s.Info = field.NewString(table, "info")
 	s.Cost = field.NewField(table, "cost")
 	s.Sort = field.NewInt64(table, "sort")
-	s.IsHot = field.NewInt32(table, "is_hot")
-	s.IsDel = field.NewInt32(table, "is_del")
+	s.IsHot = field.NewInt64(table, "is_hot")
 	s.AddTime = field.NewInt64(table, "add_time")
-	s.IsPostage = field.NewInt32(table, "is_postage")
+	s.IsPostage = field.NewInt64(table, "is_postage")
 	s.Postage = field.NewField(table, "postage")
 	s.Rule = field.NewString(table, "rule")
 	s.Look = field.NewInt64(table, "look")
@@ -199,7 +196,7 @@ func (s *storeBargain) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (s *storeBargain) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 39)
+	s.fieldMap = make(map[string]field.Expr, 38)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["product_id"] = s.ProductID
 	s.fieldMap["title"] = s.Title
@@ -223,7 +220,6 @@ func (s *storeBargain) fillFieldMap() {
 	s.fieldMap["cost"] = s.Cost
 	s.fieldMap["sort"] = s.Sort
 	s.fieldMap["is_hot"] = s.IsHot
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["add_time"] = s.AddTime
 	s.fieldMap["is_postage"] = s.IsPostage
 	s.fieldMap["postage"] = s.Postage

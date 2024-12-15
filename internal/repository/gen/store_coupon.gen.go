@@ -30,22 +30,21 @@ func newStoreCoupon(db *gorm.DB, opts ...gen.DOOption) storeCoupon {
 	_storeCoupon.ID = field.NewInt64(tableName, "id")
 	_storeCoupon.Name = field.NewString(tableName, "name")
 	_storeCoupon.Money = field.NewField(tableName, "money")
-	_storeCoupon.IsLimited = field.NewBool(tableName, "is_limited")
+	_storeCoupon.IsLimited = field.NewInt64(tableName, "is_limited")
 	_storeCoupon.Total = field.NewInt64(tableName, "total")
 	_storeCoupon.LastTotal = field.NewInt64(tableName, "last_total")
-	_storeCoupon.UseType = field.NewInt32(tableName, "use_type")
+	_storeCoupon.UseType = field.NewInt64(tableName, "use_type")
 	_storeCoupon.PrimaryKey = field.NewString(tableName, "primary_key")
 	_storeCoupon.MinPrice = field.NewField(tableName, "min_price")
 	_storeCoupon.ReceiveStartTime = field.NewInt64(tableName, "receive_start_time")
 	_storeCoupon.ReceiveEndTime = field.NewInt64(tableName, "receive_end_time")
-	_storeCoupon.IsFixedTime = field.NewBool(tableName, "is_fixed_time")
+	_storeCoupon.IsFixedTime = field.NewInt64(tableName, "is_fixed_time")
 	_storeCoupon.UseStartTime = field.NewInt64(tableName, "use_start_time")
 	_storeCoupon.UseEndTime = field.NewInt64(tableName, "use_end_time")
 	_storeCoupon.Day = field.NewInt64(tableName, "day")
-	_storeCoupon.Type = field.NewInt32(tableName, "type")
+	_storeCoupon.Type = field.NewInt64(tableName, "type")
 	_storeCoupon.Sort = field.NewInt64(tableName, "sort")
-	_storeCoupon.Status = field.NewInt32(tableName, "status")
-	_storeCoupon.IsDel = field.NewInt32(tableName, "is_del")
+	_storeCoupon.Status = field.NewInt64(tableName, "status")
 	_storeCoupon.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeCoupon.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeCoupon.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -63,22 +62,21 @@ type storeCoupon struct {
 	ID               field.Int64  // 优惠券表ID
 	Name             field.String // 优惠券名称
 	Money            field.Field  // 兑换的优惠券面值
-	IsLimited        field.Bool   // 是否限量, 默认0 不限量， 1限量
+	IsLimited        field.Int64  // 是否限量, 默认0 不限量， 1限量
 	Total            field.Int64  // 发放总数
 	LastTotal        field.Int64  // 剩余数量
-	UseType          field.Int32  // 使用类型 1 全场通用, 2 商品券, 3 品类券
+	UseType          field.Int64  // 使用类型 1 全场通用, 2 商品券, 3 品类券
 	PrimaryKey       field.String // 所属商品id / 分类id
 	MinPrice         field.Field  // 最低消费，0代表不限制
 	ReceiveStartTime field.Int64
 	ReceiveEndTime   field.Int64
-	IsFixedTime      field.Bool // 是否固定使用时间, 默认0 否， 1是
+	IsFixedTime      field.Int64 // 是否固定使用时间, 默认0 否， 1是
 	UseStartTime     field.Int64
 	UseEndTime       field.Int64
 	Day              field.Int64 // 天数
-	Type             field.Int32 // 优惠券类型 1 手动领取, 2 新人券, 3 赠送券
+	Type             field.Int64 // 优惠券类型 1 手动领取, 2 新人券, 3 赠送券
 	Sort             field.Int64 // 排序
-	Status           field.Int32 // 状态（0：关闭，1：开启）
-	IsDel            field.Int32 // 是否删除 状态（0：否，1：是）
+	Status           field.Int64 // 状态（0：关闭，1：开启）
 	CreatedAt        field.Int64
 	UpdatedAt        field.Int64
 	DeletedAt        field.Field
@@ -101,22 +99,21 @@ func (s *storeCoupon) updateTableName(table string) *storeCoupon {
 	s.ID = field.NewInt64(table, "id")
 	s.Name = field.NewString(table, "name")
 	s.Money = field.NewField(table, "money")
-	s.IsLimited = field.NewBool(table, "is_limited")
+	s.IsLimited = field.NewInt64(table, "is_limited")
 	s.Total = field.NewInt64(table, "total")
 	s.LastTotal = field.NewInt64(table, "last_total")
-	s.UseType = field.NewInt32(table, "use_type")
+	s.UseType = field.NewInt64(table, "use_type")
 	s.PrimaryKey = field.NewString(table, "primary_key")
 	s.MinPrice = field.NewField(table, "min_price")
 	s.ReceiveStartTime = field.NewInt64(table, "receive_start_time")
 	s.ReceiveEndTime = field.NewInt64(table, "receive_end_time")
-	s.IsFixedTime = field.NewBool(table, "is_fixed_time")
+	s.IsFixedTime = field.NewInt64(table, "is_fixed_time")
 	s.UseStartTime = field.NewInt64(table, "use_start_time")
 	s.UseEndTime = field.NewInt64(table, "use_end_time")
 	s.Day = field.NewInt64(table, "day")
-	s.Type = field.NewInt32(table, "type")
+	s.Type = field.NewInt64(table, "type")
 	s.Sort = field.NewInt64(table, "sort")
-	s.Status = field.NewInt32(table, "status")
-	s.IsDel = field.NewInt32(table, "is_del")
+	s.Status = field.NewInt64(table, "status")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -146,7 +143,7 @@ func (s *storeCoupon) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *storeCoupon) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 22)
+	s.fieldMap = make(map[string]field.Expr, 21)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["money"] = s.Money
@@ -165,7 +162,6 @@ func (s *storeCoupon) fillFieldMap() {
 	s.fieldMap["type"] = s.Type
 	s.fieldMap["sort"] = s.Sort
 	s.fieldMap["status"] = s.Status
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt

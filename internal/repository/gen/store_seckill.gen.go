@@ -45,18 +45,17 @@ func newStoreSeckill(db *gorm.DB, opts ...gen.DOOption) storeSeckill {
 	_storeSeckill.Description = field.NewString(tableName, "description")
 	_storeSeckill.StartTime = field.NewTime(tableName, "start_time")
 	_storeSeckill.StopTime = field.NewTime(tableName, "stop_time")
-	_storeSeckill.Status = field.NewInt32(tableName, "status")
-	_storeSeckill.IsPostage = field.NewInt32(tableName, "is_postage")
-	_storeSeckill.IsDel = field.NewInt32(tableName, "is_del")
+	_storeSeckill.Status = field.NewInt64(tableName, "status")
+	_storeSeckill.IsPostage = field.NewInt64(tableName, "is_postage")
 	_storeSeckill.Num = field.NewInt64(tableName, "num")
-	_storeSeckill.IsShow = field.NewInt32(tableName, "is_show")
+	_storeSeckill.IsShow = field.NewInt64(tableName, "is_show")
 	_storeSeckill.TimeID = field.NewInt64(tableName, "time_id")
 	_storeSeckill.TempID = field.NewInt64(tableName, "temp_id")
 	_storeSeckill.Weight = field.NewField(tableName, "weight")
 	_storeSeckill.Volume = field.NewField(tableName, "volume")
 	_storeSeckill.Quota = field.NewInt64(tableName, "quota")
 	_storeSeckill.QuotaShow = field.NewInt64(tableName, "quota_show")
-	_storeSeckill.SpecType = field.NewBool(tableName, "spec_type")
+	_storeSeckill.SpecType = field.NewInt64(tableName, "spec_type")
 	_storeSeckill.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeSeckill.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeSeckill.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -89,18 +88,17 @@ type storeSeckill struct {
 	Description  field.String // 内容
 	StartTime    field.Time   // 开始时间
 	StopTime     field.Time   // 结束时间
-	Status       field.Int32  // 秒杀状态 0=关闭 1=开启
-	IsPostage    field.Int32  // 是否包邮
-	IsDel        field.Int32  // 删除 0未删除1已删除
+	Status       field.Int64  // 秒杀状态 0=关闭 1=开启
+	IsPostage    field.Int64  // 是否包邮
 	Num          field.Int64  // 当天参与活动次数
-	IsShow       field.Int32  // 显示
+	IsShow       field.Int64  // 显示
 	TimeID       field.Int64  // 时间段ID
 	TempID       field.Int64  // 运费模板ID
 	Weight       field.Field  // 重量
 	Volume       field.Field  // 体积
 	Quota        field.Int64  // 限购总数,随减
 	QuotaShow    field.Int64  // 限购总数显示.不变
-	SpecType     field.Bool   // 规格 0=单 1=多
+	SpecType     field.Int64  // 规格 0=单 1=多
 	CreatedAt    field.Int64
 	UpdatedAt    field.Int64
 	DeletedAt    field.Field
@@ -138,18 +136,17 @@ func (s *storeSeckill) updateTableName(table string) *storeSeckill {
 	s.Description = field.NewString(table, "description")
 	s.StartTime = field.NewTime(table, "start_time")
 	s.StopTime = field.NewTime(table, "stop_time")
-	s.Status = field.NewInt32(table, "status")
-	s.IsPostage = field.NewInt32(table, "is_postage")
-	s.IsDel = field.NewInt32(table, "is_del")
+	s.Status = field.NewInt64(table, "status")
+	s.IsPostage = field.NewInt64(table, "is_postage")
 	s.Num = field.NewInt64(table, "num")
-	s.IsShow = field.NewInt32(table, "is_show")
+	s.IsShow = field.NewInt64(table, "is_show")
 	s.TimeID = field.NewInt64(table, "time_id")
 	s.TempID = field.NewInt64(table, "temp_id")
 	s.Weight = field.NewField(table, "weight")
 	s.Volume = field.NewField(table, "volume")
 	s.Quota = field.NewInt64(table, "quota")
 	s.QuotaShow = field.NewInt64(table, "quota_show")
-	s.SpecType = field.NewBool(table, "spec_type")
+	s.SpecType = field.NewInt64(table, "spec_type")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -181,7 +178,7 @@ func (s *storeSeckill) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (s *storeSeckill) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 33)
+	s.fieldMap = make(map[string]field.Expr, 32)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["product_id"] = s.ProductID
 	s.fieldMap["image"] = s.Image
@@ -202,7 +199,6 @@ func (s *storeSeckill) fillFieldMap() {
 	s.fieldMap["stop_time"] = s.StopTime
 	s.fieldMap["status"] = s.Status
 	s.fieldMap["is_postage"] = s.IsPostage
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["num"] = s.Num
 	s.fieldMap["is_show"] = s.IsShow
 	s.fieldMap["time_id"] = s.TimeID

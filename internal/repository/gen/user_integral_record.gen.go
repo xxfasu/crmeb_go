@@ -36,7 +36,7 @@ func newUserIntegralRecord(db *gorm.DB, opts ...gen.DOOption) userIntegralRecord
 	_userIntegralRecord.Integral = field.NewInt64(tableName, "integral")
 	_userIntegralRecord.Balance = field.NewInt64(tableName, "balance")
 	_userIntegralRecord.Mark = field.NewString(tableName, "mark")
-	_userIntegralRecord.Status = field.NewBool(tableName, "status")
+	_userIntegralRecord.Status = field.NewInt64(tableName, "status")
 	_userIntegralRecord.FrozenTime = field.NewInt64(tableName, "frozen_time")
 	_userIntegralRecord.ThawTime = field.NewInt64(tableName, "thaw_time")
 	_userIntegralRecord.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -62,7 +62,7 @@ type userIntegralRecord struct {
 	Integral   field.Int64  // 积分
 	Balance    field.Int64  // 剩余
 	Mark       field.String // 备注
-	Status     field.Bool   // 状态：1-订单创建，2-冻结期，3-完成，4-失效（订单退款）
+	Status     field.Int64  // 状态：1-订单创建，2-冻结期，3-完成，4-失效（订单退款）
 	FrozenTime field.Int64  // 冻结期时间（天）
 	ThawTime   field.Int64  // 解冻时间
 	CreatedAt  field.Int64
@@ -93,7 +93,7 @@ func (u *userIntegralRecord) updateTableName(table string) *userIntegralRecord {
 	u.Integral = field.NewInt64(table, "integral")
 	u.Balance = field.NewInt64(table, "balance")
 	u.Mark = field.NewString(table, "mark")
-	u.Status = field.NewBool(table, "status")
+	u.Status = field.NewInt64(table, "status")
 	u.FrozenTime = field.NewInt64(table, "frozen_time")
 	u.ThawTime = field.NewInt64(table, "thaw_time")
 	u.CreatedAt = field.NewInt64(table, "created_at")

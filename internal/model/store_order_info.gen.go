@@ -28,8 +28,8 @@ type StoreOrderInfo struct {
 	Weight       decimal.Decimal       `gorm:"column:weight;type:decimal(8,2) unsigned;not null;comment:重量" json:"weight"`                       // 重量
 	Volume       decimal.Decimal       `gorm:"column:volume;type:decimal(8,2) unsigned;not null;comment:体积" json:"volume"`                       // 体积
 	GiveIntegral int64                 `gorm:"column:give_integral;type:int unsigned;not null;comment:赠送积分" json:"give_integral"`                // 赠送积分
-	IsReply      bool                  `gorm:"column:is_reply;type:tinyint(1);not null;comment:是否评价，0-未评价，1-已评价" json:"is_reply"`                // 是否评价，0-未评价，1-已评价
-	IsSub        bool                  `gorm:"column:is_sub;type:tinyint(1);not null;comment:是否单独分佣,0-否，1-是" json:"is_sub"`                      // 是否单独分佣,0-否，1-是
+	IsReply      int64                 `gorm:"column:is_reply;type:tinyint(1);not null;comment:是否评价，0-未评价，1-已评价" json:"is_reply"`                // 是否评价，0-未评价，1-已评价
+	IsSub        int64                 `gorm:"column:is_sub;type:tinyint(1);not null;comment:是否单独分佣,0-否，1-是" json:"is_sub"`                      // 是否单独分佣,0-否，1-是
 	VipPrice     decimal.Decimal       `gorm:"column:vip_price;type:decimal(8,2) unsigned;not null;comment:会员价" json:"vip_price"`                // 会员价
 	ProductType  int64                 `gorm:"column:product_type;type:int;not null;comment:商品类型:0-普通，1-秒杀，2-砍价，3-拼团，4-视频号" json:"product_type"` // 商品类型:0-普通，1-秒杀，2-砍价，3-拼团，4-视频号
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`

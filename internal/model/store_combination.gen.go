@@ -27,12 +27,11 @@ type StoreCombination struct {
 	Sales         int64                 `gorm:"column:sales;type:int unsigned;not null;comment:销量" json:"sales"`                    // 销量
 	Stock         int64                 `gorm:"column:stock;type:int unsigned;not null;comment:库存" json:"stock"`                    // 库存
 	AddTime       int64                 `gorm:"column:add_time;type:bigint;not null;comment:添加时间" json:"add_time"`                  // 添加时间
-	IsHost        int32                 `gorm:"column:is_host;type:tinyint unsigned;not null;comment:推荐" json:"is_host"`            // 推荐
-	IsShow        int32                 `gorm:"column:is_show;type:tinyint unsigned;not null;comment:商品状态" json:"is_show"`          // 商品状态
-	IsDel         int32                 `gorm:"column:is_del;type:tinyint unsigned;not null" json:"is_del"`
-	Combination   int32                 `gorm:"column:combination;type:tinyint unsigned;default:1" json:"combination"`
-	MerUse        int32                 `gorm:"column:mer_use;type:tinyint unsigned;comment:商户是否可用1可用0不可用" json:"mer_use"`                 // 商户是否可用1可用0不可用
-	IsPostage     int32                 `gorm:"column:is_postage;type:tinyint unsigned;comment:是否包邮1是0否" json:"is_postage"`                // 是否包邮1是0否
+	IsHost        int64                 `gorm:"column:is_host;type:tinyint unsigned;not null;comment:推荐" json:"is_host"`            // 推荐
+	IsShow        int64                 `gorm:"column:is_show;type:tinyint unsigned;not null;comment:商品状态" json:"is_show"`          // 商品状态
+	Combination   int64                 `gorm:"column:combination;type:tinyint unsigned;default:1" json:"combination"`
+	MerUse        int64                 `gorm:"column:mer_use;type:tinyint unsigned;comment:商户是否可用1可用0不可用" json:"mer_use"`                 // 商户是否可用1可用0不可用
+	IsPostage     int64                 `gorm:"column:is_postage;type:tinyint unsigned;comment:是否包邮1是0否" json:"is_postage"`                // 是否包邮1是0否
 	Postage       decimal.Decimal       `gorm:"column:postage;type:decimal(10,2) unsigned;comment:邮费" json:"postage"`                      // 邮费
 	StartTime     int64                 `gorm:"column:start_time;type:bigint unsigned;not null;comment:拼团开始时间" json:"start_time"`          // 拼团开始时间
 	StopTime      int64                 `gorm:"column:stop_time;type:bigint unsigned;not null;comment:拼团结束时间" json:"stop_time"`            // 拼团结束时间

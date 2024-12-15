@@ -31,7 +31,7 @@ func newSystemGroupDatum(db *gorm.DB, opts ...gen.DOOption) systemGroupDatum {
 	_systemGroupDatum.Gid = field.NewInt64(tableName, "gid")
 	_systemGroupDatum.Value = field.NewString(tableName, "value")
 	_systemGroupDatum.Sort = field.NewInt64(tableName, "sort")
-	_systemGroupDatum.Status = field.NewBool(tableName, "status")
+	_systemGroupDatum.Status = field.NewInt64(tableName, "status")
 	_systemGroupDatum.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemGroupDatum.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemGroupDatum.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -50,7 +50,7 @@ type systemGroupDatum struct {
 	Gid       field.Int64  // 对应的数据组id
 	Value     field.String // 数据组对应的数据值（json数据）
 	Sort      field.Int64  // 数据排序
-	Status    field.Bool   // 状态（1：开启；2：关闭；）
+	Status    field.Int64  // 状态（1：开启；2：关闭；）
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -74,7 +74,7 @@ func (s *systemGroupDatum) updateTableName(table string) *systemGroupDatum {
 	s.Gid = field.NewInt64(table, "gid")
 	s.Value = field.NewString(table, "value")
 	s.Sort = field.NewInt64(table, "sort")
-	s.Status = field.NewBool(table, "status")
+	s.Status = field.NewInt64(table, "status")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

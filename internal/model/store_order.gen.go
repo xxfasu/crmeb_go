@@ -28,11 +28,11 @@ type StoreOrder struct {
 	DeductionPrice         decimal.Decimal       `gorm:"column:deduction_price;type:decimal(8,2) unsigned;not null;default:0.00;comment:抵扣金额" json:"deduction_price"` // 抵扣金额
 	CouponID               int64                 `gorm:"column:coupon_id;type:int unsigned;not null;comment:优惠券id" json:"coupon_id"`                                  // 优惠券id
 	CouponPrice            decimal.Decimal       `gorm:"column:coupon_price;type:decimal(8,2) unsigned;not null;default:0.00;comment:优惠券金额" json:"coupon_price"`      // 优惠券金额
-	Paid                   int32                 `gorm:"column:paid;type:tinyint unsigned;not null;comment:支付状态" json:"paid"`                                         // 支付状态
+	Paid                   int64                 `gorm:"column:paid;type:tinyint unsigned;not null;comment:支付状态" json:"paid"`                                         // 支付状态
 	PayTime                int64                 `gorm:"column:pay_time;type:bigint" json:"pay_time"`
 	PayType                string                `gorm:"column:pay_type;type:varchar(32);not null;comment:支付方式" json:"pay_type"`                                   // 支付方式
-	Status                 bool                  `gorm:"column:status;type:tinyint(1);not null;comment:订单状态（0：待发货；1：待收货；2：已收货，待评价；3：已完成；）" json:"status"`          // 订单状态（0：待发货；1：待收货；2：已收货，待评价；3：已完成；）
-	RefundStatus           int32                 `gorm:"column:refund_status;type:tinyint unsigned;not null;comment:0 未退款 1 申请中 2 已退款 3 退款中" json:"refund_status"` // 0 未退款 1 申请中 2 已退款 3 退款中
+	Status                 int64                 `gorm:"column:status;type:tinyint(1);not null;comment:订单状态（0：待发货；1：待收货；2：已收货，待评价；3：已完成；）" json:"status"`          // 订单状态（0：待发货；1：待收货；2：已收货，待评价；3：已完成；）
+	RefundStatus           int64                 `gorm:"column:refund_status;type:tinyint unsigned;not null;comment:0 未退款 1 申请中 2 已退款 3 退款中" json:"refund_status"` // 0 未退款 1 申请中 2 已退款 3 退款中
 	RefundReasonWapImg     string                `gorm:"column:refund_reason_wap_img;type:varchar(5000);comment:退款图片" json:"refund_reason_wap_img"`                // 退款图片
 	RefundReasonWapExplain string                `gorm:"column:refund_reason_wap_explain;type:varchar(255);comment:退款用户说明" json:"refund_reason_wap_explain"`       // 退款用户说明
 	RefundReasonWap        string                `gorm:"column:refund_reason_wap;type:varchar(255);comment:前台退款原因" json:"refund_reason_wap"`                       // 前台退款原因
@@ -46,10 +46,9 @@ type StoreOrder struct {
 	UseIntegral            int64                 `gorm:"column:use_integral;type:int;comment:使用积分" json:"use_integral"`                                         // 使用积分
 	BackIntegral           int64                 `gorm:"column:back_integral;type:int;comment:给用户退了多少积分" json:"back_integral"`                                  // 给用户退了多少积分
 	Mark                   string                `gorm:"column:mark;type:varchar(512);not null;comment:备注" json:"mark"`                                         // 备注
-	IsDel                  int32                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:是否删除" json:"is_del"`                               // 是否删除
 	Remark                 string                `gorm:"column:remark;type:varchar(512);comment:管理员备注" json:"remark"`                                           // 管理员备注
 	MerID                  int64                 `gorm:"column:mer_id;type:int unsigned;not null;comment:商户ID" json:"mer_id"`                                   // 商户ID
-	IsMerCheck             int32                 `gorm:"column:is_mer_check;type:tinyint unsigned;not null" json:"is_mer_check"`
+	IsMerCheck             int64                 `gorm:"column:is_mer_check;type:tinyint unsigned;not null" json:"is_mer_check"`
 	CombinationID          int64                 `gorm:"column:combination_id;type:int unsigned;comment:拼团商品id0一般商品" json:"combination_id"`                                // 拼团商品id0一般商品
 	PinkID                 int64                 `gorm:"column:pink_id;type:int unsigned;not null;comment:拼团id 0没有拼团" json:"pink_id"`                                      // 拼团id 0没有拼团
 	Cost                   decimal.Decimal       `gorm:"column:cost;type:decimal(8,2) unsigned;not null;comment:成本价" json:"cost"`                                          // 成本价
@@ -57,17 +56,17 @@ type StoreOrder struct {
 	BargainID              int64                 `gorm:"column:bargain_id;type:int unsigned;comment:砍价id" json:"bargain_id"`                                               // 砍价id
 	VerifyCode             string                `gorm:"column:verify_code;type:varchar(12);not null;comment:核销码" json:"verify_code"`                                      // 核销码
 	StoreID                int64                 `gorm:"column:store_id;type:int;not null;comment:门店id" json:"store_id"`                                                   // 门店id
-	ShippingType           bool                  `gorm:"column:shipping_type;type:tinyint(1);not null;default:1;comment:配送方式 1=快递 ，2=门店自提" json:"shipping_type"`           // 配送方式 1=快递 ，2=门店自提
+	ShippingType           int64                 `gorm:"column:shipping_type;type:tinyint(1);not null;default:1;comment:配送方式 1=快递 ，2=门店自提" json:"shipping_type"`           // 配送方式 1=快递 ，2=门店自提
 	ClerkID                int64                 `gorm:"column:clerk_id;type:int;not null;comment:店员id/核销员id" json:"clerk_id"`                                             // 店员id/核销员id
-	IsChannel              int32                 `gorm:"column:is_channel;type:tinyint unsigned;comment:支付渠道(0微信公众号1微信小程序2余额)" json:"is_channel"`                          // 支付渠道(0微信公众号1微信小程序2余额)
-	IsRemind               int32                 `gorm:"column:is_remind;type:tinyint unsigned;comment:消息提醒" json:"is_remind"`                                             // 消息提醒
-	IsSystemDel            bool                  `gorm:"column:is_system_del;type:tinyint(1);comment:后台是否删除" json:"is_system_del"`                                         // 后台是否删除
+	IsChannel              int64                 `gorm:"column:is_channel;type:tinyint unsigned;comment:支付渠道(0微信公众号1微信小程序2余额)" json:"is_channel"`                          // 支付渠道(0微信公众号1微信小程序2余额)
+	IsRemind               int64                 `gorm:"column:is_remind;type:tinyint unsigned;comment:消息提醒" json:"is_remind"`                                             // 消息提醒
+	IsSystemDel            int64                 `gorm:"column:is_system_del;type:tinyint(1);comment:后台是否删除" json:"is_system_del"`                                         // 后台是否删除
 	DeliveryCode           string                `gorm:"column:delivery_code;type:varchar(50);comment:快递公司简称" json:"delivery_code"`                                        // 快递公司简称
 	BargainUserID          int64                 `gorm:"column:bargain_user_id;type:int unsigned;not null;comment:用户拼团活动id 0没有" json:"bargain_user_id"`                    // 用户拼团活动id 0没有
 	Type                   int64                 `gorm:"column:type;type:int;not null;comment:订单类型:0-普通订单，1-视频号订单" json:"type"`                                            // 订单类型:0-普通订单，1-视频号订单
 	ProTotalPrice          decimal.Decimal       `gorm:"column:pro_total_price;type:decimal(8,2) unsigned;not null;default:0.00;comment:商品总价" json:"pro_total_price"`      // 商品总价
 	BeforePayPrice         decimal.Decimal       `gorm:"column:before_pay_price;type:decimal(8,2) unsigned;not null;default:0.00;comment:改价前支付金额" json:"before_pay_price"` // 改价前支付金额
-	IsAlterPrice           bool                  `gorm:"column:is_alter_price;type:tinyint(1);not null;comment:是否改价,0-否，1-是" json:"is_alter_price"`                        // 是否改价,0-否，1-是
+	IsAlterPrice           int64                 `gorm:"column:is_alter_price;type:tinyint(1);not null;comment:是否改价,0-否，1-是" json:"is_alter_price"`                        // 是否改价,0-否，1-是
 	OutTradeNo             string                `gorm:"column:out_trade_no;type:varchar(32);comment:商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号" json:"out_trade_no"`             // 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
 	CreatedAt              int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt              int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`

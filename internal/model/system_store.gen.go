@@ -21,8 +21,7 @@ type SystemStore struct {
 	Longitude       string                `gorm:"column:longitude;type:char(25);not null;comment:经度" json:"longitude"`                     // 经度
 	ValidTime       string                `gorm:"column:valid_time;type:varchar(100);not null;comment:核销有效日期" json:"valid_time"`           // 核销有效日期
 	DayTime         string                `gorm:"column:day_time;type:varchar(100);not null;comment:每日营业开关时间" json:"day_time"`             // 每日营业开关时间
-	IsShow          bool                  `gorm:"column:is_show;type:tinyint(1);not null;default:1;comment:是否显示" json:"is_show"`           // 是否显示
-	IsDel           bool                  `gorm:"column:is_del;type:tinyint(1);not null;comment:是否删除" json:"is_del"`                       // 是否删除
+	IsShow          int64                 `gorm:"column:is_show;type:tinyint(1);not null;default:1;comment:是否显示" json:"is_show"`           // 是否显示
 	CreatedAt       int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt       int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt       soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

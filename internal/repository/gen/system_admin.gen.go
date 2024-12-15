@@ -34,10 +34,10 @@ func newSystemAdmin(db *gorm.DB, opts ...gen.DOOption) systemAdmin {
 	_systemAdmin.Roles = field.NewString(tableName, "roles")
 	_systemAdmin.LastIP = field.NewString(tableName, "last_ip")
 	_systemAdmin.LoginCount = field.NewInt64(tableName, "login_count")
-	_systemAdmin.Level = field.NewInt32(tableName, "level")
-	_systemAdmin.Status = field.NewInt32(tableName, "status")
+	_systemAdmin.Level = field.NewInt64(tableName, "level")
+	_systemAdmin.Status = field.NewInt64(tableName, "status")
 	_systemAdmin.Phone = field.NewString(tableName, "phone")
-	_systemAdmin.IsSms = field.NewInt32(tableName, "is_sms")
+	_systemAdmin.IsSms = field.NewInt64(tableName, "is_sms")
 	_systemAdmin.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemAdmin.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemAdmin.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -59,10 +59,10 @@ type systemAdmin struct {
 	Roles      field.String // 后台管理员权限(menus_id)
 	LastIP     field.String // 后台管理员最后一次登录ip
 	LoginCount field.Int64  // 登录次数
-	Level      field.Int32  // 后台管理员级别
-	Status     field.Int32  // 后台管理员状态 1有效0无效
+	Level      field.Int64  // 后台管理员级别
+	Status     field.Int64  // 后台管理员状态 1有效0无效
 	Phone      field.String // 手机号码
-	IsSms      field.Int32  // 是否接收短信
+	IsSms      field.Int64  // 是否接收短信
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
 	DeletedAt  field.Field
@@ -89,10 +89,10 @@ func (s *systemAdmin) updateTableName(table string) *systemAdmin {
 	s.Roles = field.NewString(table, "roles")
 	s.LastIP = field.NewString(table, "last_ip")
 	s.LoginCount = field.NewInt64(table, "login_count")
-	s.Level = field.NewInt32(table, "level")
-	s.Status = field.NewInt32(table, "status")
+	s.Level = field.NewInt64(table, "level")
+	s.Status = field.NewInt64(table, "status")
 	s.Phone = field.NewString(table, "phone")
-	s.IsSms = field.NewInt32(table, "is_sms")
+	s.IsSms = field.NewInt64(table, "is_sms")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

@@ -44,31 +44,30 @@ func newStoreProduct(db *gorm.DB, opts ...gen.DOOption) storeProduct {
 	_storeProduct.Sort = field.NewInt64(tableName, "sort")
 	_storeProduct.Sales = field.NewInt64(tableName, "sales")
 	_storeProduct.Stock = field.NewInt64(tableName, "stock")
-	_storeProduct.IsShow = field.NewBool(tableName, "is_show")
-	_storeProduct.IsHot = field.NewBool(tableName, "is_hot")
-	_storeProduct.IsBenefit = field.NewBool(tableName, "is_benefit")
-	_storeProduct.IsBest = field.NewBool(tableName, "is_best")
-	_storeProduct.IsNew = field.NewBool(tableName, "is_new")
+	_storeProduct.IsShow = field.NewInt64(tableName, "is_show")
+	_storeProduct.IsHot = field.NewInt64(tableName, "is_hot")
+	_storeProduct.IsBenefit = field.NewInt64(tableName, "is_benefit")
+	_storeProduct.IsBest = field.NewInt64(tableName, "is_best")
+	_storeProduct.IsNew = field.NewInt64(tableName, "is_new")
 	_storeProduct.AddTime = field.NewInt64(tableName, "add_time")
-	_storeProduct.IsPostage = field.NewInt32(tableName, "is_postage")
-	_storeProduct.IsDel = field.NewInt32(tableName, "is_del")
-	_storeProduct.MerUse = field.NewInt32(tableName, "mer_use")
+	_storeProduct.IsPostage = field.NewInt64(tableName, "is_postage")
+	_storeProduct.MerUse = field.NewInt64(tableName, "mer_use")
 	_storeProduct.GiveIntegral = field.NewInt64(tableName, "give_integral")
 	_storeProduct.Cost = field.NewField(tableName, "cost")
-	_storeProduct.IsSeckill = field.NewInt32(tableName, "is_seckill")
-	_storeProduct.IsBargain = field.NewInt32(tableName, "is_bargain")
-	_storeProduct.IsGood = field.NewBool(tableName, "is_good")
-	_storeProduct.IsSub = field.NewBool(tableName, "is_sub")
+	_storeProduct.IsSeckill = field.NewInt64(tableName, "is_seckill")
+	_storeProduct.IsBargain = field.NewInt64(tableName, "is_bargain")
+	_storeProduct.IsGood = field.NewInt64(tableName, "is_good")
+	_storeProduct.IsSub = field.NewInt64(tableName, "is_sub")
 	_storeProduct.Ficti = field.NewInt64(tableName, "ficti")
 	_storeProduct.Browse = field.NewInt64(tableName, "browse")
 	_storeProduct.CodePath = field.NewString(tableName, "code_path")
 	_storeProduct.SoureLink = field.NewString(tableName, "soure_link")
 	_storeProduct.VideoLink = field.NewString(tableName, "video_link")
 	_storeProduct.TempID = field.NewInt64(tableName, "temp_id")
-	_storeProduct.SpecType = field.NewBool(tableName, "spec_type")
+	_storeProduct.SpecType = field.NewInt64(tableName, "spec_type")
 	_storeProduct.Activity = field.NewString(tableName, "activity")
 	_storeProduct.FlatPattern = field.NewString(tableName, "flat_pattern")
-	_storeProduct.IsRecycle = field.NewBool(tableName, "is_recycle")
+	_storeProduct.IsRecycle = field.NewInt64(tableName, "is_recycle")
 	_storeProduct.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeProduct.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeProduct.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -100,31 +99,30 @@ type storeProduct struct {
 	Sort         field.Int64  // 排序
 	Sales        field.Int64  // 销量
 	Stock        field.Int64  // 库存
-	IsShow       field.Bool   // 状态（0：未上架，1：上架）
-	IsHot        field.Bool   // 是否热卖
-	IsBenefit    field.Bool   // 是否优惠
-	IsBest       field.Bool   // 是否精品
-	IsNew        field.Bool   // 是否新品
+	IsShow       field.Int64  // 状态（0：未上架，1：上架）
+	IsHot        field.Int64  // 是否热卖
+	IsBenefit    field.Int64  // 是否优惠
+	IsBest       field.Int64  // 是否精品
+	IsNew        field.Int64  // 是否新品
 	AddTime      field.Int64  // 添加时间
-	IsPostage    field.Int32  // 是否包邮
-	IsDel        field.Int32  // 是否删除
-	MerUse       field.Int32  // 商户是否代理 0不可代理1可代理
+	IsPostage    field.Int64  // 是否包邮
+	MerUse       field.Int64  // 商户是否代理 0不可代理1可代理
 	GiveIntegral field.Int64  // 获得积分
 	Cost         field.Field  // 成本价
-	IsSeckill    field.Int32  // 秒杀状态 0 未开启 1已开启
-	IsBargain    field.Int32  // 砍价状态 0未开启 1开启
-	IsGood       field.Bool   // 是否优品推荐
-	IsSub        field.Bool   // 是否单独分佣
+	IsSeckill    field.Int64  // 秒杀状态 0 未开启 1已开启
+	IsBargain    field.Int64  // 砍价状态 0未开启 1开启
+	IsGood       field.Int64  // 是否优品推荐
+	IsSub        field.Int64  // 是否单独分佣
 	Ficti        field.Int64  // 虚拟销量
 	Browse       field.Int64  // 浏览量
 	CodePath     field.String // 商品二维码地址(用户小程序海报)
 	SoureLink    field.String // 淘宝京东1688类型
 	VideoLink    field.String // 主图视频链接
 	TempID       field.Int64  // 运费模板ID
-	SpecType     field.Bool   // 规格 0单 1多
+	SpecType     field.Int64  // 规格 0单 1多
 	Activity     field.String // 活动显示排序0=默认, 1=秒杀，2=砍价，3=拼团
 	FlatPattern  field.String // 展示图
-	IsRecycle    field.Bool   // 是否回收站
+	IsRecycle    field.Int64  // 是否回收站
 	CreatedAt    field.Int64
 	UpdatedAt    field.Int64
 	DeletedAt    field.Field
@@ -161,31 +159,30 @@ func (s *storeProduct) updateTableName(table string) *storeProduct {
 	s.Sort = field.NewInt64(table, "sort")
 	s.Sales = field.NewInt64(table, "sales")
 	s.Stock = field.NewInt64(table, "stock")
-	s.IsShow = field.NewBool(table, "is_show")
-	s.IsHot = field.NewBool(table, "is_hot")
-	s.IsBenefit = field.NewBool(table, "is_benefit")
-	s.IsBest = field.NewBool(table, "is_best")
-	s.IsNew = field.NewBool(table, "is_new")
+	s.IsShow = field.NewInt64(table, "is_show")
+	s.IsHot = field.NewInt64(table, "is_hot")
+	s.IsBenefit = field.NewInt64(table, "is_benefit")
+	s.IsBest = field.NewInt64(table, "is_best")
+	s.IsNew = field.NewInt64(table, "is_new")
 	s.AddTime = field.NewInt64(table, "add_time")
-	s.IsPostage = field.NewInt32(table, "is_postage")
-	s.IsDel = field.NewInt32(table, "is_del")
-	s.MerUse = field.NewInt32(table, "mer_use")
+	s.IsPostage = field.NewInt64(table, "is_postage")
+	s.MerUse = field.NewInt64(table, "mer_use")
 	s.GiveIntegral = field.NewInt64(table, "give_integral")
 	s.Cost = field.NewField(table, "cost")
-	s.IsSeckill = field.NewInt32(table, "is_seckill")
-	s.IsBargain = field.NewInt32(table, "is_bargain")
-	s.IsGood = field.NewBool(table, "is_good")
-	s.IsSub = field.NewBool(table, "is_sub")
+	s.IsSeckill = field.NewInt64(table, "is_seckill")
+	s.IsBargain = field.NewInt64(table, "is_bargain")
+	s.IsGood = field.NewInt64(table, "is_good")
+	s.IsSub = field.NewInt64(table, "is_sub")
 	s.Ficti = field.NewInt64(table, "ficti")
 	s.Browse = field.NewInt64(table, "browse")
 	s.CodePath = field.NewString(table, "code_path")
 	s.SoureLink = field.NewString(table, "soure_link")
 	s.VideoLink = field.NewString(table, "video_link")
 	s.TempID = field.NewInt64(table, "temp_id")
-	s.SpecType = field.NewBool(table, "spec_type")
+	s.SpecType = field.NewInt64(table, "spec_type")
 	s.Activity = field.NewString(table, "activity")
 	s.FlatPattern = field.NewString(table, "flat_pattern")
-	s.IsRecycle = field.NewBool(table, "is_recycle")
+	s.IsRecycle = field.NewInt64(table, "is_recycle")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -217,7 +214,7 @@ func (s *storeProduct) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (s *storeProduct) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 45)
+	s.fieldMap = make(map[string]field.Expr, 44)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["mer_id"] = s.MerID
 	s.fieldMap["image"] = s.Image
@@ -242,7 +239,6 @@ func (s *storeProduct) fillFieldMap() {
 	s.fieldMap["is_new"] = s.IsNew
 	s.fieldMap["add_time"] = s.AddTime
 	s.fieldMap["is_postage"] = s.IsPostage
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["mer_use"] = s.MerUse
 	s.fieldMap["give_integral"] = s.GiveIntegral
 	s.fieldMap["cost"] = s.Cost

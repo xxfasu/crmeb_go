@@ -21,11 +21,11 @@ type StoreCouponUser struct {
 	Money      decimal.Decimal       `gorm:"column:money;type:decimal(8,2) unsigned;not null;default:0.00;comment:优惠券的面值" json:"money"`                // 优惠券的面值
 	MinPrice   decimal.Decimal       `gorm:"column:min_price;type:decimal(8,2) unsigned;not null;default:0.00;comment:最低消费多少金额可用优惠券" json:"min_price"` // 最低消费多少金额可用优惠券
 	Type       string                `gorm:"column:type;type:varchar(32);not null;default:send;comment:获取方式，send后台发放, 用户领取 get" json:"type"`           // 获取方式，send后台发放, 用户领取 get
-	Status     bool                  `gorm:"column:status;type:tinyint(1);not null;comment:状态（0：未使用，1：已使用, 2:已失效）" json:"status"`                      // 状态（0：未使用，1：已使用, 2:已失效）
+	Status     int64                 `gorm:"column:status;type:tinyint(1);not null;comment:状态（0：未使用，1：已使用, 2:已失效）" json:"status"`                      // 状态（0：未使用，1：已使用, 2:已失效）
 	StartTime  int64                 `gorm:"column:start_time;type:bigint" json:"start_time"`
 	EndTime    int64                 `gorm:"column:end_time;type:bigint" json:"end_time"`
 	UseTime    int64                 `gorm:"column:use_time;type:bigint" json:"use_time"`
-	UseType    bool                  `gorm:"column:use_type;type:tinyint(1);default:1;comment:使用类型 1 全场通用, 2 商品券, 3 品类券" json:"use_type"` // 使用类型 1 全场通用, 2 商品券, 3 品类券
+	UseType    int64                 `gorm:"column:use_type;type:tinyint(1);default:1;comment:使用类型 1 全场通用, 2 商品券, 3 品类券" json:"use_type"` // 使用类型 1 全场通用, 2 商品券, 3 品类券
 	PrimaryKey string                `gorm:"column:primary_key;type:varchar(255);comment:所属商品id / 分类id" json:"primary_key"`               // 所属商品id / 分类id
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt  int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`

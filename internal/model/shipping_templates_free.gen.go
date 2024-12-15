@@ -19,9 +19,9 @@ type ShippingTemplatesFree struct {
 	Title     string                `gorm:"column:title;type:text;comment:描述" json:"title"`                                    // 描述
 	Number    decimal.Decimal       `gorm:"column:number;type:decimal(10,2);not null;default:0.00;comment:包邮件数" json:"number"` // 包邮件数
 	Price     decimal.Decimal       `gorm:"column:price;type:decimal(10,2);not null;default:0.00;comment:包邮金额" json:"price"`   // 包邮金额
-	Type      bool                  `gorm:"column:type;type:tinyint(1);not null;default:1;comment:计费方式" json:"type"`           // 计费方式
+	Type      int64                 `gorm:"column:type;type:tinyint(1);not null;default:1;comment:计费方式" json:"type"`           // 计费方式
 	Uniqid    string                `gorm:"column:uniqid;type:varchar(32);not null;comment:分组唯一值" json:"uniqid"`               // 分组唯一值
-	Status    bool                  `gorm:"column:status;type:tinyint(1);comment:是否无效" json:"status"`                          // 是否无效
+	Status    int64                 `gorm:"column:status;type:tinyint(1);comment:是否无效" json:"status"`                          // 是否无效
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

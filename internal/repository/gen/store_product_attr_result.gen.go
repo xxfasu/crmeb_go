@@ -31,7 +31,7 @@ func newStoreProductAttrResult(db *gorm.DB, opts ...gen.DOOption) storeProductAt
 	_storeProductAttrResult.ProductID = field.NewInt64(tableName, "product_id")
 	_storeProductAttrResult.Result = field.NewString(tableName, "result")
 	_storeProductAttrResult.ChangeTime = field.NewInt64(tableName, "change_time")
-	_storeProductAttrResult.Type = field.NewBool(tableName, "type")
+	_storeProductAttrResult.Type = field.NewInt64(tableName, "type")
 	_storeProductAttrResult.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeProductAttrResult.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeProductAttrResult.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -50,7 +50,7 @@ type storeProductAttrResult struct {
 	ProductID  field.Int64  // 商品ID
 	Result     field.String // 商品属性参数
 	ChangeTime field.Int64  // 上次修改时间
-	Type       field.Bool   // 活动类型 0=商品，1=秒杀，2=砍价，3=拼团
+	Type       field.Int64  // 活动类型 0=商品，1=秒杀，2=砍价，3=拼团
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
 	DeletedAt  field.Field
@@ -74,7 +74,7 @@ func (s *storeProductAttrResult) updateTableName(table string) *storeProductAttr
 	s.ProductID = field.NewInt64(table, "product_id")
 	s.Result = field.NewString(table, "result")
 	s.ChangeTime = field.NewInt64(table, "change_time")
-	s.Type = field.NewBool(table, "type")
+	s.Type = field.NewInt64(table, "type")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

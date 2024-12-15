@@ -30,31 +30,30 @@ type StoreProduct struct {
 	Sort         int64                 `gorm:"column:sort;type:smallint;not null;comment:排序" json:"sort"`                                       // 排序
 	Sales        int64                 `gorm:"column:sales;type:mediumint unsigned;not null;comment:销量" json:"sales"`                           // 销量
 	Stock        int64                 `gorm:"column:stock;type:mediumint unsigned;not null;comment:库存" json:"stock"`                           // 库存
-	IsShow       bool                  `gorm:"column:is_show;type:tinyint(1);not null;default:1;comment:状态（0：未上架，1：上架）" json:"is_show"`         // 状态（0：未上架，1：上架）
-	IsHot        bool                  `gorm:"column:is_hot;type:tinyint(1);not null;comment:是否热卖" json:"is_hot"`                               // 是否热卖
-	IsBenefit    bool                  `gorm:"column:is_benefit;type:tinyint(1);not null;comment:是否优惠" json:"is_benefit"`                       // 是否优惠
-	IsBest       bool                  `gorm:"column:is_best;type:tinyint(1);not null;comment:是否精品" json:"is_best"`                             // 是否精品
-	IsNew        bool                  `gorm:"column:is_new;type:tinyint(1);not null;comment:是否新品" json:"is_new"`                               // 是否新品
+	IsShow       int64                 `gorm:"column:is_show;type:tinyint(1);not null;default:1;comment:状态（0：未上架，1：上架）" json:"is_show"`         // 状态（0：未上架，1：上架）
+	IsHot        int64                 `gorm:"column:is_hot;type:tinyint(1);not null;comment:是否热卖" json:"is_hot"`                               // 是否热卖
+	IsBenefit    int64                 `gorm:"column:is_benefit;type:tinyint(1);not null;comment:是否优惠" json:"is_benefit"`                       // 是否优惠
+	IsBest       int64                 `gorm:"column:is_best;type:tinyint(1);not null;comment:是否精品" json:"is_best"`                             // 是否精品
+	IsNew        int64                 `gorm:"column:is_new;type:tinyint(1);not null;comment:是否新品" json:"is_new"`                               // 是否新品
 	AddTime      int64                 `gorm:"column:add_time;type:int unsigned;not null;comment:添加时间" json:"add_time"`                         // 添加时间
-	IsPostage    int32                 `gorm:"column:is_postage;type:tinyint unsigned;not null;comment:是否包邮" json:"is_postage"`                 // 是否包邮
-	IsDel        int32                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:是否删除" json:"is_del"`                         // 是否删除
-	MerUse       int32                 `gorm:"column:mer_use;type:tinyint unsigned;not null;comment:商户是否代理 0不可代理1可代理" json:"mer_use"`           // 商户是否代理 0不可代理1可代理
+	IsPostage    int64                 `gorm:"column:is_postage;type:tinyint unsigned;not null;comment:是否包邮" json:"is_postage"`                 // 是否包邮
+	MerUse       int64                 `gorm:"column:mer_use;type:tinyint unsigned;not null;comment:商户是否代理 0不可代理1可代理" json:"mer_use"`           // 商户是否代理 0不可代理1可代理
 	GiveIntegral int64                 `gorm:"column:give_integral;type:int;comment:获得积分" json:"give_integral"`                                 // 获得积分
 	Cost         decimal.Decimal       `gorm:"column:cost;type:decimal(8,2) unsigned;not null;default:0.00;comment:成本价" json:"cost"`            // 成本价
-	IsSeckill    int32                 `gorm:"column:is_seckill;type:tinyint unsigned;not null;comment:秒杀状态 0 未开启 1已开启" json:"is_seckill"`      // 秒杀状态 0 未开启 1已开启
-	IsBargain    int32                 `gorm:"column:is_bargain;type:tinyint unsigned;comment:砍价状态 0未开启 1开启" json:"is_bargain"`                 // 砍价状态 0未开启 1开启
-	IsGood       bool                  `gorm:"column:is_good;type:tinyint(1);not null;comment:是否优品推荐" json:"is_good"`                           // 是否优品推荐
-	IsSub        bool                  `gorm:"column:is_sub;type:tinyint(1);not null;comment:是否单独分佣" json:"is_sub"`                             // 是否单独分佣
+	IsSeckill    int64                 `gorm:"column:is_seckill;type:tinyint unsigned;not null;comment:秒杀状态 0 未开启 1已开启" json:"is_seckill"`      // 秒杀状态 0 未开启 1已开启
+	IsBargain    int64                 `gorm:"column:is_bargain;type:tinyint unsigned;comment:砍价状态 0未开启 1开启" json:"is_bargain"`                 // 砍价状态 0未开启 1开启
+	IsGood       int64                 `gorm:"column:is_good;type:tinyint(1);not null;comment:是否优品推荐" json:"is_good"`                           // 是否优品推荐
+	IsSub        int64                 `gorm:"column:is_sub;type:tinyint(1);not null;comment:是否单独分佣" json:"is_sub"`                             // 是否单独分佣
 	Ficti        int64                 `gorm:"column:ficti;type:mediumint;default:100;comment:虚拟销量" json:"ficti"`                               // 虚拟销量
 	Browse       int64                 `gorm:"column:browse;type:int;comment:浏览量" json:"browse"`                                                // 浏览量
 	CodePath     string                `gorm:"column:code_path;type:varchar(64);not null;comment:商品二维码地址(用户小程序海报)" json:"code_path"`            // 商品二维码地址(用户小程序海报)
 	SoureLink    string                `gorm:"column:soure_link;type:varchar(255);comment:淘宝京东1688类型" json:"soure_link"`                        // 淘宝京东1688类型
 	VideoLink    string                `gorm:"column:video_link;type:varchar(200);not null;comment:主图视频链接" json:"video_link"`                   // 主图视频链接
 	TempID       int64                 `gorm:"column:temp_id;type:int;not null;default:1;comment:运费模板ID" json:"temp_id"`                        // 运费模板ID
-	SpecType     bool                  `gorm:"column:spec_type;type:tinyint(1);not null;comment:规格 0单 1多" json:"spec_type"`                     // 规格 0单 1多
+	SpecType     int64                 `gorm:"column:spec_type;type:tinyint(1);not null;comment:规格 0单 1多" json:"spec_type"`                     // 规格 0单 1多
 	Activity     string                `gorm:"column:activity;type:varchar(255);not null;comment:活动显示排序0=默认, 1=秒杀，2=砍价，3=拼团" json:"activity"`   // 活动显示排序0=默认, 1=秒杀，2=砍价，3=拼团
 	FlatPattern  string                `gorm:"column:flat_pattern;type:varchar(1000);not null;comment:展示图" json:"flat_pattern"`                 // 展示图
-	IsRecycle    bool                  `gorm:"column:is_recycle;type:tinyint(1);not null;comment:是否回收站" json:"is_recycle"`                      // 是否回收站
+	IsRecycle    int64                 `gorm:"column:is_recycle;type:tinyint(1);not null;comment:是否回收站" json:"is_recycle"`                      // 是否回收站
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt    int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

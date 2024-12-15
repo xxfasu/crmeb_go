@@ -18,8 +18,7 @@ type SystemMenu struct {
 	Component string                `gorm:"column:component;type:varchar(200);comment:组件路径" json:"component"`                      // 组件路径
 	MenuType  string                `gorm:"column:menu_type;type:varchar(2);default:M;comment:类型，M-目录，C-菜单，A-按钮" json:"menu_type"` // 类型，M-目录，C-菜单，A-按钮
 	Sort      int64                 `gorm:"column:sort;type:int;not null;default:99999;comment:排序" json:"sort"`                    // 排序
-	IsShow    bool                  `gorm:"column:is_show;type:tinyint(1);not null;default:1;comment:显示状态" json:"is_show"`         // 显示状态
-	IsDelte   int32                 `gorm:"column:is_delte;type:tinyint unsigned;comment:是否删除" json:"is_delte"`                    // 是否删除
+	IsShow    int64                 `gorm:"column:is_show;type:tinyint(1);not null;default:1;comment:显示状态" json:"is_show"`         // 显示状态
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

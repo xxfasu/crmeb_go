@@ -24,7 +24,7 @@ type UserExtract struct {
 	Mark         string                `gorm:"column:mark;type:varchar(512)" json:"mark"`
 	Balance      decimal.Decimal       `gorm:"column:balance;type:decimal(8,2) unsigned;default:0.00" json:"balance"`
 	FailMsg      string                `gorm:"column:fail_msg;type:varchar(128);comment:无效原因" json:"fail_msg"`        // 无效原因
-	Status       int32                 `gorm:"column:status;type:tinyint;comment:-1 未通过 0 审核中 1 已提现" json:"status"`   // -1 未通过 0 审核中 1 已提现
+	Status       int64                 `gorm:"column:status;type:tinyint;comment:-1 未通过 0 审核中 1 已提现" json:"status"`   // -1 未通过 0 审核中 1 已提现
 	Wechat       string                `gorm:"column:wechat;type:varchar(15);comment:微信号" json:"wechat"`              // 微信号
 	BankName     string                `gorm:"column:bank_name;type:varchar(512);comment:银行名称" json:"bank_name"`      // 银行名称
 	QrcodeURL    string                `gorm:"column:qrcode_url;type:varchar(512);comment:微信收款二维码" json:"qrcode_url"` // 微信收款二维码

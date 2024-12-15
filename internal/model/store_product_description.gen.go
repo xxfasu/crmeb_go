@@ -12,7 +12,7 @@ const TableNameStoreProductDescription = "eb_store_product_description"
 type StoreProductDescription struct {
 	ProductID   int64                 `gorm:"column:product_id;type:int;not null;comment:商品ID" json:"product_id"`    // 商品ID
 	Description string                `gorm:"column:description;type:text;not null;comment:商品详情" json:"description"` // 商品详情
-	Type        bool                  `gorm:"column:type;type:tinyint(1);not null;comment:商品类型" json:"type"`         // 商品类型
+	Type        int64                 `gorm:"column:type;type:tinyint(1);not null;comment:商品类型" json:"type"`         // 商品类型
 	ID          int64                 `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true" json:"id"`
 	CreatedAt   int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt   int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`

@@ -30,8 +30,8 @@ func newSystemRole(db *gorm.DB, opts ...gen.DOOption) systemRole {
 	_systemRole.ID = field.NewInt64(tableName, "id")
 	_systemRole.RoleName = field.NewString(tableName, "role_name")
 	_systemRole.Rules = field.NewString(tableName, "rules")
-	_systemRole.Level = field.NewInt32(tableName, "level")
-	_systemRole.Status = field.NewInt32(tableName, "status")
+	_systemRole.Level = field.NewInt64(tableName, "level")
+	_systemRole.Status = field.NewInt64(tableName, "status")
 	_systemRole.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemRole.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemRole.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -49,8 +49,8 @@ type systemRole struct {
 	ID        field.Int64  // 身份管理id
 	RoleName  field.String // 身份管理名称
 	Rules     field.String // 身份管理权限(menus_id)
-	Level     field.Int32
-	Status    field.Int32 // 状态
+	Level     field.Int64
+	Status    field.Int64 // 状态
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -73,8 +73,8 @@ func (s *systemRole) updateTableName(table string) *systemRole {
 	s.ID = field.NewInt64(table, "id")
 	s.RoleName = field.NewString(table, "role_name")
 	s.Rules = field.NewString(table, "rules")
-	s.Level = field.NewInt32(table, "level")
-	s.Status = field.NewInt32(table, "status")
+	s.Level = field.NewInt64(table, "level")
+	s.Status = field.NewInt64(table, "status")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

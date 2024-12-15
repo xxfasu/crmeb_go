@@ -28,11 +28,10 @@ type StoreProductAttrValue struct {
 	Volume       decimal.Decimal       `gorm:"column:volume;type:decimal(8,2);not null;default:0.00;comment:体积" json:"volume"`                  // 体积
 	Brokerage    decimal.Decimal       `gorm:"column:brokerage;type:decimal(8,2);not null;default:0.00;comment:一级返佣" json:"brokerage"`          // 一级返佣
 	BrokerageTwo decimal.Decimal       `gorm:"column:brokerage_two;type:decimal(8,2);not null;default:0.00;comment:二级返佣" json:"brokerage_two"`  // 二级返佣
-	Type         bool                  `gorm:"column:type;type:tinyint(1);comment:活动类型 0=商品，1=秒杀，2=砍价，3=拼团" json:"type"`                        // 活动类型 0=商品，1=秒杀，2=砍价，3=拼团
+	Type         int64                 `gorm:"column:type;type:tinyint(1);comment:活动类型 0=商品，1=秒杀，2=砍价，3=拼团" json:"type"`                        // 活动类型 0=商品，1=秒杀，2=砍价，3=拼团
 	Quota        int64                 `gorm:"column:quota;type:int;comment:活动限购数量" json:"quota"`                                               // 活动限购数量
 	QuotaShow    int64                 `gorm:"column:quota_show;type:int;comment:活动限购数量显示" json:"quota_show"`                                   // 活动限购数量显示
 	AttrValue    string                `gorm:"column:attr_value;type:text;comment:attr_values 创建更新时的属性对应" json:"attr_value"`                    // attr_values 创建更新时的属性对应
-	IsDel        bool                  `gorm:"column:is_del;type:tinyint(1);not null;comment:是否删除,0-否，1-是" json:"is_del"`                       // 是否删除,0-否，1-是
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt    int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

@@ -28,12 +28,12 @@ func newTemplateMessage(db *gorm.DB, opts ...gen.DOOption) templateMessage {
 	tableName := _templateMessage.templateMessageDo.TableName()
 	_templateMessage.ALL = field.NewAsterisk(tableName)
 	_templateMessage.ID = field.NewInt64(tableName, "id")
-	_templateMessage.Type = field.NewBool(tableName, "type")
+	_templateMessage.Type = field.NewInt64(tableName, "type")
 	_templateMessage.TempKey = field.NewString(tableName, "temp_key")
 	_templateMessage.Name = field.NewString(tableName, "name")
 	_templateMessage.Content = field.NewString(tableName, "content")
 	_templateMessage.TempID = field.NewString(tableName, "temp_id")
-	_templateMessage.Status = field.NewInt32(tableName, "status")
+	_templateMessage.Status = field.NewInt64(tableName, "status")
 	_templateMessage.CreatedAt = field.NewInt64(tableName, "created_at")
 	_templateMessage.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_templateMessage.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -49,12 +49,12 @@ type templateMessage struct {
 
 	ALL       field.Asterisk
 	ID        field.Int64  // 模板id
-	Type      field.Bool   // 0=订阅消息,1=微信模板消息
+	Type      field.Int64  // 0=订阅消息,1=微信模板消息
 	TempKey   field.String // 模板编号
 	Name      field.String // 模板名
 	Content   field.String // 回复内容
 	TempID    field.String // 模板ID
-	Status    field.Int32  // 状态
+	Status    field.Int64  // 状态
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -75,12 +75,12 @@ func (t templateMessage) As(alias string) *templateMessage {
 func (t *templateMessage) updateTableName(table string) *templateMessage {
 	t.ALL = field.NewAsterisk(table)
 	t.ID = field.NewInt64(table, "id")
-	t.Type = field.NewBool(table, "type")
+	t.Type = field.NewInt64(table, "type")
 	t.TempKey = field.NewString(table, "temp_key")
 	t.Name = field.NewString(table, "name")
 	t.Content = field.NewString(table, "content")
 	t.TempID = field.NewString(table, "temp_id")
-	t.Status = field.NewInt32(table, "status")
+	t.Status = field.NewInt64(table, "status")
 	t.CreatedAt = field.NewInt64(table, "created_at")
 	t.UpdatedAt = field.NewInt64(table, "updated_at")
 	t.DeletedAt = field.NewField(table, "deleted_at")

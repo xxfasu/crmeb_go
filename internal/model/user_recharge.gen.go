@@ -19,7 +19,7 @@ type UserRecharge struct {
 	Price        decimal.Decimal       `gorm:"column:price;type:decimal(8,2);comment:充值金额" json:"price"`                                   // 充值金额
 	GivePrice    decimal.Decimal       `gorm:"column:give_price;type:decimal(8,2);not null;default:0.00;comment:购买赠送金额" json:"give_price"` // 购买赠送金额
 	RechargeType string                `gorm:"column:recharge_type;type:varchar(32);comment:充值类型" json:"recharge_type"`                    // 充值类型
-	Paid         bool                  `gorm:"column:paid;type:tinyint(1);comment:是否充值" json:"paid"`                                       // 是否充值
+	Paid         int64                 `gorm:"column:paid;type:tinyint(1);comment:是否充值" json:"paid"`                                       // 是否充值
 	PayTime      int64                 `gorm:"column:pay_time;type:bigint" json:"pay_time"`
 	RefundPrice  decimal.Decimal       `gorm:"column:refund_price;type:decimal(10,2);default:0.00;comment:退款金额" json:"refund_price"` // 退款金额
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`

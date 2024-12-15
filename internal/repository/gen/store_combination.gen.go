@@ -41,12 +41,11 @@ func newStoreCombination(db *gorm.DB, opts ...gen.DOOption) storeCombination {
 	_storeCombination.Sales = field.NewInt64(tableName, "sales")
 	_storeCombination.Stock = field.NewInt64(tableName, "stock")
 	_storeCombination.AddTime = field.NewInt64(tableName, "add_time")
-	_storeCombination.IsHost = field.NewInt32(tableName, "is_host")
-	_storeCombination.IsShow = field.NewInt32(tableName, "is_show")
-	_storeCombination.IsDel = field.NewInt32(tableName, "is_del")
-	_storeCombination.Combination = field.NewInt32(tableName, "combination")
-	_storeCombination.MerUse = field.NewInt32(tableName, "mer_use")
-	_storeCombination.IsPostage = field.NewInt32(tableName, "is_postage")
+	_storeCombination.IsHost = field.NewInt64(tableName, "is_host")
+	_storeCombination.IsShow = field.NewInt64(tableName, "is_show")
+	_storeCombination.Combination = field.NewInt64(tableName, "combination")
+	_storeCombination.MerUse = field.NewInt64(tableName, "mer_use")
+	_storeCombination.IsPostage = field.NewInt64(tableName, "is_postage")
 	_storeCombination.Postage = field.NewField(tableName, "postage")
 	_storeCombination.StartTime = field.NewInt64(tableName, "start_time")
 	_storeCombination.StopTime = field.NewInt64(tableName, "stop_time")
@@ -91,12 +90,11 @@ type storeCombination struct {
 	Sales         field.Int64  // 销量
 	Stock         field.Int64  // 库存
 	AddTime       field.Int64  // 添加时间
-	IsHost        field.Int32  // 推荐
-	IsShow        field.Int32  // 商品状态
-	IsDel         field.Int32
-	Combination   field.Int32
-	MerUse        field.Int32  // 商户是否可用1可用0不可用
-	IsPostage     field.Int32  // 是否包邮1是0否
+	IsHost        field.Int64  // 推荐
+	IsShow        field.Int64  // 商品状态
+	Combination   field.Int64
+	MerUse        field.Int64  // 商户是否可用1可用0不可用
+	IsPostage     field.Int64  // 是否包邮1是0否
 	Postage       field.Field  // 邮费
 	StartTime     field.Int64  // 拼团开始时间
 	StopTime      field.Int64  // 拼团结束时间
@@ -146,12 +144,11 @@ func (s *storeCombination) updateTableName(table string) *storeCombination {
 	s.Sales = field.NewInt64(table, "sales")
 	s.Stock = field.NewInt64(table, "stock")
 	s.AddTime = field.NewInt64(table, "add_time")
-	s.IsHost = field.NewInt32(table, "is_host")
-	s.IsShow = field.NewInt32(table, "is_show")
-	s.IsDel = field.NewInt32(table, "is_del")
-	s.Combination = field.NewInt32(table, "combination")
-	s.MerUse = field.NewInt32(table, "mer_use")
-	s.IsPostage = field.NewInt32(table, "is_postage")
+	s.IsHost = field.NewInt64(table, "is_host")
+	s.IsShow = field.NewInt64(table, "is_show")
+	s.Combination = field.NewInt64(table, "combination")
+	s.MerUse = field.NewInt64(table, "mer_use")
+	s.IsPostage = field.NewInt64(table, "is_postage")
 	s.Postage = field.NewField(table, "postage")
 	s.StartTime = field.NewInt64(table, "start_time")
 	s.StopTime = field.NewInt64(table, "stop_time")
@@ -199,7 +196,7 @@ func (s *storeCombination) GetFieldByName(fieldName string) (field.OrderExpr, bo
 }
 
 func (s *storeCombination) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 39)
+	s.fieldMap = make(map[string]field.Expr, 38)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["product_id"] = s.ProductID
 	s.fieldMap["mer_id"] = s.MerID
@@ -216,7 +213,6 @@ func (s *storeCombination) fillFieldMap() {
 	s.fieldMap["add_time"] = s.AddTime
 	s.fieldMap["is_host"] = s.IsHost
 	s.fieldMap["is_show"] = s.IsShow
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["combination"] = s.Combination
 	s.fieldMap["mer_use"] = s.MerUse
 	s.fieldMap["is_postage"] = s.IsPostage

@@ -19,7 +19,7 @@ type UserIntegralRecord struct {
 	Integral   int64                 `gorm:"column:integral;type:int;not null;comment:积分" json:"integral"`                                              // 积分
 	Balance    int64                 `gorm:"column:balance;type:int;not null;comment:剩余" json:"balance"`                                                // 剩余
 	Mark       string                `gorm:"column:mark;type:varchar(512);not null;comment:备注" json:"mark"`                                             // 备注
-	Status     bool                  `gorm:"column:status;type:tinyint(1);not null;default:1;comment:状态：1-订单创建，2-冻结期，3-完成，4-失效（订单退款）" json:"status"`    // 状态：1-订单创建，2-冻结期，3-完成，4-失效（订单退款）
+	Status     int64                 `gorm:"column:status;type:tinyint(1);not null;default:1;comment:状态：1-订单创建，2-冻结期，3-完成，4-失效（订单退款）" json:"status"`    // 状态：1-订单创建，2-冻结期，3-完成，4-失效（订单退款）
 	FrozenTime int64                 `gorm:"column:frozen_time;type:int;not null;comment:冻结期时间（天）" json:"frozen_time"`                                  // 冻结期时间（天）
 	ThawTime   int64                 `gorm:"column:thaw_time;type:bigint;not null;comment:解冻时间" json:"thaw_time"`                                       // 解冻时间
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`

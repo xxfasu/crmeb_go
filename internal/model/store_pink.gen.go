@@ -26,10 +26,10 @@ type StorePink struct {
 	AddTime    int64                 `gorm:"column:add_time;type:bigint;not null;comment:开始时间" json:"add_time"`                           // 开始时间
 	StopTime   int64                 `gorm:"column:stop_time;type:bigint;not null;comment:结束时间" json:"stop_time"`                         // 结束时间
 	KID        int64                 `gorm:"column:k_id;type:int unsigned;not null;comment:团长id 0为团长" json:"k_id"`                        // 团长id 0为团长
-	IsTpl      int32                 `gorm:"column:is_tpl;type:tinyint unsigned;not null;comment:是否发送模板消息0未发送1已发送" json:"is_tpl"`         // 是否发送模板消息0未发送1已发送
-	IsRefund   int32                 `gorm:"column:is_refund;type:tinyint unsigned;not null;comment:是否退款 0未退款 1已退款" json:"is_refund"`     // 是否退款 0未退款 1已退款
-	Status     int32                 `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态1进行中2已完成3未完成" json:"status"` // 状态1进行中2已完成3未完成
-	IsVirtual  bool                  `gorm:"column:is_virtual;type:tinyint(1);not null;comment:是否虚拟拼团" json:"is_virtual"`                 // 是否虚拟拼团
+	IsTpl      int64                 `gorm:"column:is_tpl;type:tinyint unsigned;not null;comment:是否发送模板消息0未发送1已发送" json:"is_tpl"`         // 是否发送模板消息0未发送1已发送
+	IsRefund   int64                 `gorm:"column:is_refund;type:tinyint unsigned;not null;comment:是否退款 0未退款 1已退款" json:"is_refund"`     // 是否退款 0未退款 1已退款
+	Status     int64                 `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态1进行中2已完成3未完成" json:"status"` // 状态1进行中2已完成3未完成
+	IsVirtual  int64                 `gorm:"column:is_virtual;type:tinyint(1);not null;comment:是否虚拟拼团" json:"is_virtual"`                 // 是否虚拟拼团
 	Nickname   string                `gorm:"column:nickname;type:varchar(64);not null;comment:用户昵称" json:"nickname"`                      // 用户昵称
 	Avatar     string                `gorm:"column:avatar;type:varchar(256);not null;comment:用户头像" json:"avatar"`                         // 用户头像
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`

@@ -19,7 +19,7 @@ type UserExperienceRecord struct {
 	Experience int64                 `gorm:"column:experience;type:int;not null;comment:经验" json:"experience"`                                          // 经验
 	Balance    int64                 `gorm:"column:balance;type:int;not null;comment:剩余" json:"balance"`                                                // 剩余
 	Mark       string                `gorm:"column:mark;type:varchar(512);not null;comment:备注" json:"mark"`                                             // 备注
-	Status     bool                  `gorm:"column:status;type:tinyint(1);not null;default:1;comment:状态：1-成功（保留字段）" json:"status"`                      // 状态：1-成功（保留字段）
+	Status     int64                 `gorm:"column:status;type:tinyint(1);not null;default:1;comment:状态：1-成功（保留字段）" json:"status"`                      // 状态：1-成功（保留字段）
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt  int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

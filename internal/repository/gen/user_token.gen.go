@@ -30,7 +30,7 @@ func newUserToken(db *gorm.DB, opts ...gen.DOOption) userToken {
 	_userToken.ID = field.NewInt64(tableName, "id")
 	_userToken.UID = field.NewInt64(tableName, "uid")
 	_userToken.Token = field.NewString(tableName, "token")
-	_userToken.Type = field.NewBool(tableName, "type")
+	_userToken.Type = field.NewInt64(tableName, "type")
 	_userToken.ExpiresTime = field.NewTime(tableName, "expires_time")
 	_userToken.LoginIP = field.NewString(tableName, "login_ip")
 	_userToken.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -49,7 +49,7 @@ type userToken struct {
 	ID          field.Int64
 	UID         field.Int64  // 用户 id
 	Token       field.String // token
-	Type        field.Bool   // 类型，1 公众号， 2 小程序, 3 unionid, 5AppIos,6AppAndroid,7ios
+	Type        field.Int64  // 类型，1 公众号， 2 小程序, 3 unionid, 5AppIos,6AppAndroid,7ios
 	ExpiresTime field.Time   // 到期时间
 	LoginIP     field.String // 登录ip
 	CreatedAt   field.Int64
@@ -74,7 +74,7 @@ func (u *userToken) updateTableName(table string) *userToken {
 	u.ID = field.NewInt64(table, "id")
 	u.UID = field.NewInt64(table, "uid")
 	u.Token = field.NewString(table, "token")
-	u.Type = field.NewBool(table, "type")
+	u.Type = field.NewInt64(table, "type")
 	u.ExpiresTime = field.NewTime(table, "expires_time")
 	u.LoginIP = field.NewString(table, "login_ip")
 	u.CreatedAt = field.NewInt64(table, "created_at")

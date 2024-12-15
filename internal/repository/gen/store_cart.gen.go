@@ -33,11 +33,11 @@ func newStoreCart(db *gorm.DB, opts ...gen.DOOption) storeCart {
 	_storeCart.ProductID = field.NewInt64(tableName, "product_id")
 	_storeCart.ProductAttrUnique = field.NewString(tableName, "product_attr_unique")
 	_storeCart.CartNum = field.NewInt64(tableName, "cart_num")
-	_storeCart.IsNew = field.NewBool(tableName, "is_new")
+	_storeCart.IsNew = field.NewInt64(tableName, "is_new")
 	_storeCart.CombinationID = field.NewInt64(tableName, "combination_id")
 	_storeCart.SeckillID = field.NewInt64(tableName, "seckill_id")
 	_storeCart.BargainID = field.NewInt64(tableName, "bargain_id")
-	_storeCart.Status = field.NewBool(tableName, "status")
+	_storeCart.Status = field.NewInt64(tableName, "status")
 	_storeCart.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeCart.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeCart.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -58,11 +58,11 @@ type storeCart struct {
 	ProductID         field.Int64  // 商品ID
 	ProductAttrUnique field.String // 商品属性
 	CartNum           field.Int64  // 商品数量
-	IsNew             field.Bool   // 是否为立即购买
+	IsNew             field.Int64  // 是否为立即购买
 	CombinationID     field.Int64  // 拼团id
 	SeckillID         field.Int64  // 秒杀商品ID
 	BargainID         field.Int64  // 砍价id
-	Status            field.Bool   // 购物车状态
+	Status            field.Int64  // 购物车状态
 	CreatedAt         field.Int64
 	UpdatedAt         field.Int64
 	DeletedAt         field.Field
@@ -88,11 +88,11 @@ func (s *storeCart) updateTableName(table string) *storeCart {
 	s.ProductID = field.NewInt64(table, "product_id")
 	s.ProductAttrUnique = field.NewString(table, "product_attr_unique")
 	s.CartNum = field.NewInt64(table, "cart_num")
-	s.IsNew = field.NewBool(table, "is_new")
+	s.IsNew = field.NewInt64(table, "is_new")
 	s.CombinationID = field.NewInt64(table, "combination_id")
 	s.SeckillID = field.NewInt64(table, "seckill_id")
 	s.BargainID = field.NewInt64(table, "bargain_id")
-	s.Status = field.NewBool(table, "status")
+	s.Status = field.NewInt64(table, "status")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

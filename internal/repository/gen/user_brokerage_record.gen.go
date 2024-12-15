@@ -36,7 +36,7 @@ func newUserBrokerageRecord(db *gorm.DB, opts ...gen.DOOption) userBrokerageReco
 	_userBrokerageRecord.Price = field.NewField(tableName, "price")
 	_userBrokerageRecord.Balance = field.NewField(tableName, "balance")
 	_userBrokerageRecord.Mark = field.NewString(tableName, "mark")
-	_userBrokerageRecord.Status = field.NewBool(tableName, "status")
+	_userBrokerageRecord.Status = field.NewInt64(tableName, "status")
 	_userBrokerageRecord.FrozenTime = field.NewInt64(tableName, "frozen_time")
 	_userBrokerageRecord.ThawTime = field.NewInt64(tableName, "thaw_time")
 	_userBrokerageRecord.BrokerageLevel = field.NewInt64(tableName, "brokerage_level")
@@ -63,7 +63,7 @@ type userBrokerageRecord struct {
 	Price          field.Field  // 金额
 	Balance        field.Field  // 剩余
 	Mark           field.String // 备注
-	Status         field.Bool   // 状态：1-订单创建，2-冻结期，3-完成，4-失效（订单退款），5-提现申请
+	Status         field.Int64  // 状态：1-订单创建，2-冻结期，3-完成，4-失效（订单退款），5-提现申请
 	FrozenTime     field.Int64  // 冻结期时间（天）
 	ThawTime       field.Int64  // 解冻时间
 	BrokerageLevel field.Int64  // 分销等级
@@ -95,7 +95,7 @@ func (u *userBrokerageRecord) updateTableName(table string) *userBrokerageRecord
 	u.Price = field.NewField(table, "price")
 	u.Balance = field.NewField(table, "balance")
 	u.Mark = field.NewString(table, "mark")
-	u.Status = field.NewBool(table, "status")
+	u.Status = field.NewInt64(table, "status")
 	u.FrozenTime = field.NewInt64(table, "frozen_time")
 	u.ThawTime = field.NewInt64(table, "thaw_time")
 	u.BrokerageLevel = field.NewInt64(table, "brokerage_level")

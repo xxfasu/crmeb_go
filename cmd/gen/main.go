@@ -96,6 +96,7 @@ func main() {
 	g.UseDB(connectDB(MySQLDSN))
 	// 统一数字类型为int64,兼容protobuf和thrift
 	dataMap := map[string]func(detailType gorm.ColumnType) (dataType string){
+		"tinyint":   func(detailType gorm.ColumnType) (dataType string) { return "int64" },
 		"smallint":  func(detailType gorm.ColumnType) (dataType string) { return "int64" },
 		"mediumint": func(detailType gorm.ColumnType) (dataType string) { return "int64" },
 		"bigint":    func(detailType gorm.ColumnType) (dataType string) { return "int64" },

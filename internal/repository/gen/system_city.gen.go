@@ -36,7 +36,7 @@ func newSystemCity(db *gorm.DB, opts ...gen.DOOption) systemCity {
 	_systemCity.MergerName = field.NewString(tableName, "merger_name")
 	_systemCity.Lng = field.NewString(tableName, "lng")
 	_systemCity.Lat = field.NewString(tableName, "lat")
-	_systemCity.IsShow = field.NewBool(tableName, "is_show")
+	_systemCity.IsShow = field.NewInt64(tableName, "is_show")
 	_systemCity.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemCity.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemCity.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -60,7 +60,7 @@ type systemCity struct {
 	MergerName field.String // 合并名称
 	Lng        field.String // 经度
 	Lat        field.String // 纬度
-	IsShow     field.Bool   // 是否展示
+	IsShow     field.Int64  // 是否展示
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
 	DeletedAt  field.Field
@@ -89,7 +89,7 @@ func (s *systemCity) updateTableName(table string) *systemCity {
 	s.MergerName = field.NewString(table, "merger_name")
 	s.Lng = field.NewString(table, "lng")
 	s.Lat = field.NewString(table, "lat")
-	s.IsShow = field.NewBool(table, "is_show")
+	s.IsShow = field.NewInt64(table, "is_show")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")

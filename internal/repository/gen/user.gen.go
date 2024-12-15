@@ -47,12 +47,12 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 	_user.Integral = field.NewInt64(tableName, "integral")
 	_user.Experience = field.NewInt64(tableName, "experience")
 	_user.SignNum = field.NewInt64(tableName, "sign_num")
-	_user.Status = field.NewBool(tableName, "status")
-	_user.Level = field.NewInt32(tableName, "level")
+	_user.Status = field.NewInt64(tableName, "status")
+	_user.Level = field.NewInt64(tableName, "level")
 	_user.SpreadUID = field.NewInt64(tableName, "spread_uid")
 	_user.SpreadTime = field.NewInt64(tableName, "spread_time")
 	_user.UserType = field.NewString(tableName, "user_type")
-	_user.IsPromoter = field.NewInt32(tableName, "is_promoter")
+	_user.IsPromoter = field.NewInt64(tableName, "is_promoter")
 	_user.PayCount = field.NewInt64(tableName, "pay_count")
 	_user.SpreadCount = field.NewInt64(tableName, "spread_count")
 	_user.Addres = field.NewString(tableName, "addres")
@@ -61,9 +61,9 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 	_user.LastLoginTime = field.NewInt64(tableName, "last_login_time")
 	_user.CleanTime = field.NewInt64(tableName, "clean_time")
 	_user.Path = field.NewString(tableName, "path")
-	_user.Subscribe = field.NewInt32(tableName, "subscribe")
+	_user.Subscribe = field.NewInt64(tableName, "subscribe")
 	_user.SubscribeTime = field.NewInt64(tableName, "subscribe_time")
-	_user.Sex = field.NewBool(tableName, "sex")
+	_user.Sex = field.NewInt64(tableName, "sex")
 	_user.Country = field.NewString(tableName, "country")
 	_user.PromoterTime = field.NewInt64(tableName, "promoter_time")
 	_user.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -100,12 +100,12 @@ type user struct {
 	Integral       field.Int64  // 用户剩余积分
 	Experience     field.Int64  // 用户剩余经验
 	SignNum        field.Int64  // 连续签到天数
-	Status         field.Bool   // 1为正常，0为禁止
-	Level          field.Int32  // 等级
+	Status         field.Int64  // 1为正常，0为禁止
+	Level          field.Int64  // 等级
 	SpreadUID      field.Int64  // 推广员id
 	SpreadTime     field.Int64
 	UserType       field.String // 用户类型
-	IsPromoter     field.Int32  // 是否为推广员
+	IsPromoter     field.Int64  // 是否为推广员
 	PayCount       field.Int64  // 用户购买次数
 	SpreadCount    field.Int64  // 下级人数
 	Addres         field.String // 详细地址
@@ -114,9 +114,9 @@ type user struct {
 	LastLoginTime  field.Int64
 	CleanTime      field.Int64
 	Path           field.String // 推广等级记录
-	Subscribe      field.Int32  // 是否关注公众号
+	Subscribe      field.Int64  // 是否关注公众号
 	SubscribeTime  field.Int64
-	Sex            field.Bool   // 性别，0未知，1男，2女，3保密
+	Sex            field.Int64  // 性别，0未知，1男，2女，3保密
 	Country        field.String // 国家，中国CN，其他OTHER
 	PromoterTime   field.Int64
 	CreatedAt      field.Int64
@@ -158,12 +158,12 @@ func (u *user) updateTableName(table string) *user {
 	u.Integral = field.NewInt64(table, "integral")
 	u.Experience = field.NewInt64(table, "experience")
 	u.SignNum = field.NewInt64(table, "sign_num")
-	u.Status = field.NewBool(table, "status")
-	u.Level = field.NewInt32(table, "level")
+	u.Status = field.NewInt64(table, "status")
+	u.Level = field.NewInt64(table, "level")
 	u.SpreadUID = field.NewInt64(table, "spread_uid")
 	u.SpreadTime = field.NewInt64(table, "spread_time")
 	u.UserType = field.NewString(table, "user_type")
-	u.IsPromoter = field.NewInt32(table, "is_promoter")
+	u.IsPromoter = field.NewInt64(table, "is_promoter")
 	u.PayCount = field.NewInt64(table, "pay_count")
 	u.SpreadCount = field.NewInt64(table, "spread_count")
 	u.Addres = field.NewString(table, "addres")
@@ -172,9 +172,9 @@ func (u *user) updateTableName(table string) *user {
 	u.LastLoginTime = field.NewInt64(table, "last_login_time")
 	u.CleanTime = field.NewInt64(table, "clean_time")
 	u.Path = field.NewString(table, "path")
-	u.Subscribe = field.NewInt32(table, "subscribe")
+	u.Subscribe = field.NewInt64(table, "subscribe")
 	u.SubscribeTime = field.NewInt64(table, "subscribe_time")
-	u.Sex = field.NewBool(table, "sex")
+	u.Sex = field.NewInt64(table, "sex")
 	u.Country = field.NewString(table, "country")
 	u.PromoterTime = field.NewInt64(table, "promoter_time")
 	u.CreatedAt = field.NewInt64(table, "created_at")

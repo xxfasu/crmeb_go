@@ -30,15 +30,15 @@ func newExpress(db *gorm.DB, opts ...gen.DOOption) express {
 	_express.ID = field.NewInt64(tableName, "id")
 	_express.Code = field.NewString(tableName, "code")
 	_express.Name = field.NewString(tableName, "name")
-	_express.PartnerID = field.NewBool(tableName, "partner_id")
-	_express.PartnerKey = field.NewBool(tableName, "partner_key")
-	_express.Net = field.NewBool(tableName, "net")
+	_express.PartnerID = field.NewInt64(tableName, "partner_id")
+	_express.PartnerKey = field.NewInt64(tableName, "partner_key")
+	_express.Net = field.NewInt64(tableName, "net")
 	_express.Account = field.NewString(tableName, "account")
 	_express.Password = field.NewString(tableName, "password")
 	_express.NetName = field.NewString(tableName, "net_name")
 	_express.Sort = field.NewInt64(tableName, "sort")
-	_express.IsShow = field.NewBool(tableName, "is_show")
-	_express.Status = field.NewBool(tableName, "status")
+	_express.IsShow = field.NewInt64(tableName, "is_show")
+	_express.Status = field.NewInt64(tableName, "status")
 	_express.CreatedAt = field.NewInt64(tableName, "created_at")
 	_express.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_express.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -56,15 +56,15 @@ type express struct {
 	ID         field.Int64  // 快递公司id
 	Code       field.String // 快递公司简称
 	Name       field.String // 快递公司全称
-	PartnerID  field.Bool   // 是否需要月结账号
-	PartnerKey field.Bool   // 是否需要月结密码
-	Net        field.Bool   // 是否需要取件网店
+	PartnerID  field.Int64  // 是否需要月结账号
+	PartnerKey field.Int64  // 是否需要月结密码
+	Net        field.Int64  // 是否需要取件网店
 	Account    field.String // 账号
 	Password   field.String // 密码
 	NetName    field.String // 网点名称
 	Sort       field.Int64  // 排序
-	IsShow     field.Bool   // 是否显示
-	Status     field.Bool   // 是否可用
+	IsShow     field.Int64  // 是否显示
+	Status     field.Int64  // 是否可用
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
 	DeletedAt  field.Field
@@ -87,15 +87,15 @@ func (e *express) updateTableName(table string) *express {
 	e.ID = field.NewInt64(table, "id")
 	e.Code = field.NewString(table, "code")
 	e.Name = field.NewString(table, "name")
-	e.PartnerID = field.NewBool(table, "partner_id")
-	e.PartnerKey = field.NewBool(table, "partner_key")
-	e.Net = field.NewBool(table, "net")
+	e.PartnerID = field.NewInt64(table, "partner_id")
+	e.PartnerKey = field.NewInt64(table, "partner_key")
+	e.Net = field.NewInt64(table, "net")
 	e.Account = field.NewString(table, "account")
 	e.Password = field.NewString(table, "password")
 	e.NetName = field.NewString(table, "net_name")
 	e.Sort = field.NewInt64(table, "sort")
-	e.IsShow = field.NewBool(table, "is_show")
-	e.Status = field.NewBool(table, "status")
+	e.IsShow = field.NewInt64(table, "is_show")
+	e.Status = field.NewInt64(table, "status")
 	e.CreatedAt = field.NewInt64(table, "created_at")
 	e.UpdatedAt = field.NewInt64(table, "updated_at")
 	e.DeletedAt = field.NewField(table, "deleted_at")

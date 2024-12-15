@@ -40,10 +40,10 @@ func newStorePink(db *gorm.DB, opts ...gen.DOOption) storePink {
 	_storePink.AddTime = field.NewInt64(tableName, "add_time")
 	_storePink.StopTime = field.NewInt64(tableName, "stop_time")
 	_storePink.KID = field.NewInt64(tableName, "k_id")
-	_storePink.IsTpl = field.NewInt32(tableName, "is_tpl")
-	_storePink.IsRefund = field.NewInt32(tableName, "is_refund")
-	_storePink.Status = field.NewInt32(tableName, "status")
-	_storePink.IsVirtual = field.NewBool(tableName, "is_virtual")
+	_storePink.IsTpl = field.NewInt64(tableName, "is_tpl")
+	_storePink.IsRefund = field.NewInt64(tableName, "is_refund")
+	_storePink.Status = field.NewInt64(tableName, "status")
+	_storePink.IsVirtual = field.NewInt64(tableName, "is_virtual")
 	_storePink.Nickname = field.NewString(tableName, "nickname")
 	_storePink.Avatar = field.NewString(tableName, "avatar")
 	_storePink.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -73,10 +73,10 @@ type storePink struct {
 	AddTime    field.Int64  // 开始时间
 	StopTime   field.Int64  // 结束时间
 	KID        field.Int64  // 团长id 0为团长
-	IsTpl      field.Int32  // 是否发送模板消息0未发送1已发送
-	IsRefund   field.Int32  // 是否退款 0未退款 1已退款
-	Status     field.Int32  // 状态1进行中2已完成3未完成
-	IsVirtual  field.Bool   // 是否虚拟拼团
+	IsTpl      field.Int64  // 是否发送模板消息0未发送1已发送
+	IsRefund   field.Int64  // 是否退款 0未退款 1已退款
+	Status     field.Int64  // 状态1进行中2已完成3未完成
+	IsVirtual  field.Int64  // 是否虚拟拼团
 	Nickname   field.String // 用户昵称
 	Avatar     field.String // 用户头像
 	CreatedAt  field.Int64
@@ -111,10 +111,10 @@ func (s *storePink) updateTableName(table string) *storePink {
 	s.AddTime = field.NewInt64(table, "add_time")
 	s.StopTime = field.NewInt64(table, "stop_time")
 	s.KID = field.NewInt64(table, "k_id")
-	s.IsTpl = field.NewInt32(table, "is_tpl")
-	s.IsRefund = field.NewInt32(table, "is_refund")
-	s.Status = field.NewInt32(table, "status")
-	s.IsVirtual = field.NewBool(table, "is_virtual")
+	s.IsTpl = field.NewInt64(table, "is_tpl")
+	s.IsRefund = field.NewInt64(table, "is_refund")
+	s.Status = field.NewInt64(table, "status")
+	s.IsVirtual = field.NewInt64(table, "is_virtual")
 	s.Nickname = field.NewString(table, "nickname")
 	s.Avatar = field.NewString(table, "avatar")
 	s.CreatedAt = field.NewInt64(table, "created_at")

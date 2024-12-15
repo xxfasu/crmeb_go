@@ -38,8 +38,7 @@ func newSystemStore(db *gorm.DB, opts ...gen.DOOption) systemStore {
 	_systemStore.Longitude = field.NewString(tableName, "longitude")
 	_systemStore.ValidTime = field.NewString(tableName, "valid_time")
 	_systemStore.DayTime = field.NewString(tableName, "day_time")
-	_systemStore.IsShow = field.NewBool(tableName, "is_show")
-	_systemStore.IsDel = field.NewBool(tableName, "is_del")
+	_systemStore.IsShow = field.NewInt64(tableName, "is_show")
 	_systemStore.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemStore.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemStore.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -65,8 +64,7 @@ type systemStore struct {
 	Longitude       field.String // 经度
 	ValidTime       field.String // 核销有效日期
 	DayTime         field.String // 每日营业开关时间
-	IsShow          field.Bool   // 是否显示
-	IsDel           field.Bool   // 是否删除
+	IsShow          field.Int64  // 是否显示
 	CreatedAt       field.Int64
 	UpdatedAt       field.Int64
 	DeletedAt       field.Field
@@ -97,8 +95,7 @@ func (s *systemStore) updateTableName(table string) *systemStore {
 	s.Longitude = field.NewString(table, "longitude")
 	s.ValidTime = field.NewString(table, "valid_time")
 	s.DayTime = field.NewString(table, "day_time")
-	s.IsShow = field.NewBool(table, "is_show")
-	s.IsDel = field.NewBool(table, "is_del")
+	s.IsShow = field.NewInt64(table, "is_show")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -128,7 +125,7 @@ func (s *systemStore) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *systemStore) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 16)
+	s.fieldMap = make(map[string]field.Expr, 15)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["introduction"] = s.Introduction
@@ -141,7 +138,6 @@ func (s *systemStore) fillFieldMap() {
 	s.fieldMap["valid_time"] = s.ValidTime
 	s.fieldMap["day_time"] = s.DayTime
 	s.fieldMap["is_show"] = s.IsShow
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt

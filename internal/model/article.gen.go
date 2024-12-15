@@ -22,13 +22,13 @@ type Article struct {
 	Sort          int64                 `gorm:"column:sort;type:int unsigned;not null;comment:排序" json:"sort"`                       // 排序
 	URL           string                `gorm:"column:url;type:varchar(255);comment:原文链接" json:"url"`                                // 原文链接
 	MediaID       string                `gorm:"column:media_id;type:varchar(100);comment:微信素材id" json:"media_id"`                    // 微信素材id
-	Status        int32                 `gorm:"column:status;type:tinyint unsigned;not null;comment:状态" json:"status"`               // 状态
-	Hide          int32                 `gorm:"column:hide;type:tinyint unsigned;not null;comment:是否隐藏" json:"hide"`                 // 是否隐藏
+	Status        int64                 `gorm:"column:status;type:tinyint unsigned;not null;comment:状态" json:"status"`               // 状态
+	Hide          int64                 `gorm:"column:hide;type:tinyint unsigned;not null;comment:是否隐藏" json:"hide"`                 // 是否隐藏
 	AdminID       int64                 `gorm:"column:admin_id;type:int unsigned;not null;comment:管理员id" json:"admin_id"`            // 管理员id
 	MerID         int64                 `gorm:"column:mer_id;type:int unsigned;comment:商户id" json:"mer_id"`                          // 商户id
 	ProductID     int64                 `gorm:"column:product_id;type:int;not null;comment:商品关联id" json:"product_id"`                // 商品关联id
-	IsHot         int32                 `gorm:"column:is_hot;type:tinyint unsigned;not null;comment:是否热门(小程序)" json:"is_hot"`        // 是否热门(小程序)
-	IsBanner      int32                 `gorm:"column:is_banner;type:tinyint unsigned;not null;comment:是否轮播图(小程序)" json:"is_banner"` // 是否轮播图(小程序)
+	IsHot         int64                 `gorm:"column:is_hot;type:tinyint unsigned;not null;comment:是否热门(小程序)" json:"is_hot"`        // 是否热门(小程序)
+	IsBanner      int64                 `gorm:"column:is_banner;type:tinyint unsigned;not null;comment:是否轮播图(小程序)" json:"is_banner"` // 是否轮播图(小程序)
 	Content       string                `gorm:"column:content;type:text;not null;comment:文章内容" json:"content"`                       // 文章内容
 	CreatedAt     int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt     int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
