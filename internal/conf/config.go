@@ -14,6 +14,18 @@ type system struct {
 	Host string `mapstructure:"host"`
 }
 
+// CrmebConfig 表示 Crmeb 的配置
+type CrmebConfig struct {
+	Version                    string `toml:"version"`                        // 当前代码版本
+	Domain                     string `toml:"domain"`                         // 配合swagger使用，待部署域名
+	WechatApiURL               string `toml:"wechat_api_url"`                 // 请求微信接口的专用服务器
+	WechatJsAPIDebug           bool   `toml:"wechat_js_api_debug"`            // 微信js api系列是否开启调试模式
+	WechatJsAPIBeta            bool   `toml:"wechat_js_api_beta"`             // 微信js api是否是beta版本
+	AsyncConfig                bool   `toml:"async_config"`                   // 是否同步config表数据到redis
+	AsyncWeChatProgramTempList bool   `toml:"async_wechat_program_temp_list"` // 是否同步小程序公共模板库
+	ImagePath                  string `toml:"image_path"`                     // 服务器图片路径配置，斜杠结尾
+}
+
 // mysql 配置结构体
 type mysql struct {
 	Source string `mapstructure:"source"`
@@ -66,6 +78,7 @@ type zapLog struct {
 // Config 总配置结构体
 type config struct {
 	System      system      `mapstructure:"system"`
+	CrmebConfig CrmebConfig `mapstructure:"crmeb_config"`
 	Mysql       mysql       `mapstructure:"mysql"`
 	Redis       redis       `mapstructure:"redis"`
 	OSS         oss         `mapstructure:"oss"`

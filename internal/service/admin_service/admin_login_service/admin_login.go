@@ -2,11 +2,13 @@ package admin_login_service
 
 import (
 	"context"
+	"crmeb_go/constants"
 	"crmeb_go/internal/common/data/login_user"
 	"crmeb_go/internal/common/response"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/system_admin_repository"
+	"crmeb_go/internal/service/common_service/system_config_service"
 	"crmeb_go/internal/service/common_service/system_menu_service"
 	"crmeb_go/internal/validation"
 	"crmeb_go/pkg/captcha"
@@ -23,23 +25,26 @@ func New(
 	captcha captcha.Captcha,
 	jwt *jwt.JWT,
 	systemMenuService system_menu_service.Service,
+	systemConfigService system_config_service.Service,
 	systemAdminRepo system_admin_repository.Repository,
 ) Service {
 	return &service{
-		tm:                tm,
-		captcha:           captcha,
-		jwt:               jwt,
-		systemMenuService: systemMenuService,
-		systemAdminRepo:   systemAdminRepo,
+		tm:                  tm,
+		captcha:             captcha,
+		jwt:                 jwt,
+		systemMenuService:   systemMenuService,
+		systemConfigService: systemConfigService,
+		systemAdminRepo:     systemAdminRepo,
 	}
 }
 
 type service struct {
-	tm                repository.Transaction
-	captcha           captcha.Captcha
-	jwt               *jwt.JWT
-	systemMenuService system_menu_service.Service
-	systemAdminRepo   system_admin_repository.Repository
+	tm                  repository.Transaction
+	captcha             captcha.Captcha
+	jwt                 *jwt.JWT
+	systemMenuService   system_menu_service.Service
+	systemConfigService system_config_service.Service
+	systemAdminRepo     system_admin_repository.Repository
 }
 
 func (s *service) GetCode(ctx context.Context) (response.ValidateCodeResp, error) {
@@ -106,7 +111,13 @@ func (s *service) GetAdminInfo(ctx context.Context, loginUserData login_user.Log
 }
 func (s *service) GetLoginPic(ctx context.Context) (response.SystemLoginPicResp, error) {
 	var resp response.SystemLoginPicResp
-
+	// 背景图
+	resp.BackgroundImage = s.systemConfigService.GetValueByKey(ctx, constants.ConfigKeyAdminLoginBackgroundImage)
+	// logo
+	resp.Logo = s.systemConfigService.GetValueByKey(ctx, constants.ConfigKeyAdminLoginLogoLeftTop)
+	resp.LoginLogo = s.systemConfigService.GetValueByKey(ctx, constants.ConfigKeyAdminLoginLogoLogin)
+	// 轮播图
+	resp.BackgroundImage = s.systemConfigService.GetValueByKey(ctx, "login_background_image")
 	return resp, nil
 }
 

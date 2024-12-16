@@ -1,5 +1,6 @@
 package constants
 
 const (
-	CaptchaKeyPrefix = "captcha: %s"
+	RedisCaptchaKey    = "captcha: %s"
+	RedisConfigListKey = "config_list: "
 )
