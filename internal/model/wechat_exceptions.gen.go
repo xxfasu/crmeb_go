@@ -6,10 +6,10 @@ package model
 
 import "gorm.io/plugin/soft_delete"
 
-const TableNameWechatException = "eb_wechat_exceptions"
+const TableNameWechatExceptions = "eb_wechat_exceptions"
 
-// WechatException 微信异常表
-type WechatException struct {
+// WechatExceptions 微信异常表
+type WechatExceptions struct {
 	ID        int64                 `gorm:"column:id;type:int;primaryKey;autoIncrement:true;comment:id" json:"id"` // id
 	Errcode   string                `gorm:"column:errcode;type:varchar(64);comment:错误码" json:"errcode"`            // 错误码
 	Errmsg    string                `gorm:"column:errmsg;type:varchar(255);comment:错误信息" json:"errmsg"`            // 错误信息
@@ -20,7 +20,7 @@ type WechatException struct {
 	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
 }
 
-// TableName WechatException's table name
-func (*WechatException) TableName() string {
-	return TableNameWechatException
+// TableName WechatExceptions's table name
+func (*WechatExceptions) TableName() string {
+	return TableNameWechatExceptions
 }

@@ -79,7 +79,9 @@ func main() {
 		if strings.HasPrefix(tableName, "eb_") {
 			s = strings.TrimPrefix(tableName, "eb_")
 		}
-		ns := schema.NamingStrategy{}
+		ns := schema.NamingStrategy{
+			SingularTable: true,
+		}
 		return ns.SchemaName(s)
 	})
 

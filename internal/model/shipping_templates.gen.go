@@ -6,10 +6,10 @@ package model
 
 import "gorm.io/plugin/soft_delete"
 
-const TableNameShippingTemplate = "eb_shipping_templates"
+const TableNameShippingTemplates = "eb_shipping_templates"
 
-// ShippingTemplate 运费模板
-type ShippingTemplate struct {
+// ShippingTemplates 运费模板
+type ShippingTemplates struct {
 	ID        int64                 `gorm:"column:id;type:int;primaryKey;autoIncrement:true;comment:编号" json:"id"`   // 编号
 	Name      string                `gorm:"column:name;type:varchar(255);not null;comment:模板名称" json:"name"`         // 模板名称
 	Type      int64                 `gorm:"column:type;type:tinyint(1);not null;default:1;comment:计费方式" json:"type"` // 计费方式
@@ -20,7 +20,7 @@ type ShippingTemplate struct {
 	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
 }
 
-// TableName ShippingTemplate's table name
-func (*ShippingTemplate) TableName() string {
-	return TableNameShippingTemplate
+// TableName ShippingTemplates's table name
+func (*ShippingTemplates) TableName() string {
+	return TableNameShippingTemplates
 }

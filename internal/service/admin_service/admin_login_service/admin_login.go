@@ -9,10 +9,12 @@ import (
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/system_admin_repository"
 	"crmeb_go/internal/service/common_service/system_config_service"
+	"crmeb_go/internal/service/common_service/system_group_data_service"
 	"crmeb_go/internal/service/common_service/system_menu_service"
 	"crmeb_go/internal/validation"
 	"crmeb_go/pkg/captcha"
 	"crmeb_go/pkg/jwt"
+	"crmeb_go/pkg/util"
 	"errors"
 	"github.com/jinzhu/copier"
 	"github.com/samber/lo"
@@ -26,25 +28,28 @@ func New(
 	jwt *jwt.JWT,
 	systemMenuService system_menu_service.Service,
 	systemConfigService system_config_service.Service,
+	systemGroupDataService system_group_data_service.Service,
 	systemAdminRepo system_admin_repository.Repository,
 ) Service {
 	return &service{
-		tm:                  tm,
-		captcha:             captcha,
-		jwt:                 jwt,
-		systemMenuService:   systemMenuService,
-		systemConfigService: systemConfigService,
-		systemAdminRepo:     systemAdminRepo,
+		tm:                     tm,
+		captcha:                captcha,
+		jwt:                    jwt,
+		systemMenuService:      systemMenuService,
+		systemConfigService:    systemConfigService,
+		systemGroupDataService: systemGroupDataService,
+		systemAdminRepo:        systemAdminRepo,
 	}
 }
 
 type service struct {
-	tm                  repository.Transaction
-	captcha             captcha.Captcha
-	jwt                 *jwt.JWT
-	systemMenuService   system_menu_service.Service
-	systemConfigService system_config_service.Service
-	systemAdminRepo     system_admin_repository.Repository
+	tm                     repository.Transaction
+	captcha                captcha.Captcha
+	jwt                    *jwt.JWT
+	systemMenuService      system_menu_service.Service
+	systemConfigService    system_config_service.Service
+	systemGroupDataService system_group_data_service.Service
+	systemAdminRepo        system_admin_repository.Repository
 }
 
 func (s *service) GetCode(ctx context.Context) (response.ValidateCodeResp, error) {
@@ -117,7 +122,15 @@ func (s *service) GetLoginPic(ctx context.Context) (response.SystemLoginPicResp,
 	resp.Logo = s.systemConfigService.GetValueByKey(ctx, constants.ConfigKeyAdminLoginLogoLeftTop)
 	resp.LoginLogo = s.systemConfigService.GetValueByKey(ctx, constants.ConfigKeyAdminLoginLogoLogin)
 	// 轮播图
-	resp.BackgroundImage = s.systemConfigService.GetValueByKey(ctx, "login_background_image")
+	list, err := s.systemGroupDataService.GetListByGID(ctx, constants.GroupDataIDAdminLoginBannerImageList)
+	if err != nil {
+		return resp, err
+	}
+	bannerList, err := util.ConvertSlice[response.SystemGroupDataAdminLoginBannerResp](list)
+	if err != nil {
+		return resp, err
+	}
+	resp.Banner = bannerList
 	return resp, nil
 }
 

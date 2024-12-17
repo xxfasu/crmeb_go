@@ -11,7 +11,14 @@ import (
 	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
 	"crmeb_go/internal/middleware"
 	"crmeb_go/internal/repository"
+	"crmeb_go/internal/repository/system_admin_repository"
+	"crmeb_go/internal/repository/system_config_repository"
+	"crmeb_go/internal/repository/system_group_data_repository"
+	"crmeb_go/internal/repository/system_menu_repository"
 	"crmeb_go/internal/service/admin_service/admin_login_service"
+	"crmeb_go/internal/service/common_service/system_config_service"
+	"crmeb_go/internal/service/common_service/system_group_data_service"
+	"crmeb_go/internal/service/common_service/system_menu_service"
 	"crmeb_go/pkg/cache"
 	"crmeb_go/pkg/captcha"
 	"crmeb_go/pkg/jwt"
@@ -42,7 +49,14 @@ func newWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine,
 	casbinM := middleware.NewCasbinM(service)
 	transaction := repository.NewTransaction(db)
 	captchaCaptcha := captcha.New(cacheCache)
-	admin_login_serviceService := admin_login_service.New(transaction, jwtJWT, captchaCaptcha)
+	system_menu_repositoryRepository := system_menu_repository.New(db)
+	system_menu_serviceService := system_menu_service.New(transaction, system_menu_repositoryRepository)
+	system_config_repositoryRepository := system_config_repository.New(db)
+	system_config_serviceService := system_config_service.New(client, transaction, system_config_repositoryRepository)
+	system_group_data_repositoryRepository := system_group_data_repository.New(db)
+	system_group_data_serviceService := system_group_data_service.New(client, transaction, system_group_data_repositoryRepository)
+	system_admin_repositoryRepository := system_admin_repository.New(db)
+	admin_login_serviceService := admin_login_service.New(transaction, captchaCaptcha, jwtJWT, system_menu_serviceService, system_config_serviceService, system_group_data_serviceService, system_admin_repositoryRepository)
 	handler := admin_login_handler.New(admin_login_serviceService)
 	engine := admin_routes.NewRouter(recovery, cors, logM, authM, casbinM, handler)
 	return engine, func() {

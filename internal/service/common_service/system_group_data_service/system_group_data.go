@@ -1,8 +1,13 @@
 package system_group_data_service
 
 import (
+	"context"
+	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/system_group_data_repository"
+	"crmeb_go/internal/validation"
+	"encoding/json"
+	"errors"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -24,10 +29,41 @@ type service struct {
 	systemGroupDataRepo system_group_data_repository.Repository
 }
 
-func (s *service) GetListByGid(gid int) ([]any, error) {
-	return nil, nil
+func (s *service) GetList(ctx context.Context, req validation.SystemGroupDataSearchReq) ([]*model.SystemGroupData, error) {
+	list, _, err := s.systemGroupDataRepo.GetGroupDataPageList(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
 }
 
-// func GetListByGid[T any](gid int) ([]T, error) {
-// 	return nil, nil
-// }
+func (s *service) GetListByGID(ctx context.Context, gid int64) ([]any, error) {
+	var systemGroupDataSearchReq validation.SystemGroupDataSearchReq
+	systemGroupDataSearchReq.GID = gid
+	systemGroupDataSearchReq.Status = 1
+	list, err := s.GetList(ctx, systemGroupDataSearchReq)
+	if err != nil {
+		return nil, err
+	}
+	if len(list) == 0 {
+		return nil, errors.New("暂无数据")
+	}
+	result := make([]any, 0, len(list))
+	for _, systemGroupData := range list {
+		mapData := make(map[string]any)
+		json.Unmarshal([]byte(systemGroupData.Value), &mapData)
+		var systemFormItemCheckReqList []*validation.SystemFormItemCheckReq
+		fields := mapData["fields"]
+		json.Unmarshal([]byte(fields.(string)), &systemFormItemCheckReqList)
+		if len(systemFormItemCheckReqList) == 0 {
+			continue
+		}
+		data := make(map[string]any)
+		for _, systemFormItemCheckReq := range systemFormItemCheckReqList {
+			data[systemFormItemCheckReq.Name] = systemFormItemCheckReq.Value
+		}
+		data["id"] = systemGroupData.ID
+		result = append(result, data)
+	}
+	return result, nil
+}

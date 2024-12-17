@@ -16,10 +16,10 @@ type SystemLoginResp struct {
 }
 
 type SystemLoginPicResp struct {
-	BackgroundImage string `json:"backgroundImage"`
-	Logo            string `json:"logo"`
-	LoginLogo       string `json:"loginLogo"`
-	Banner          string `json:"banner"`
+	BackgroundImage string                                `json:"backgroundImage"`
+	Logo            string                                `json:"logo"`
+	LoginLogo       string                                `json:"loginLogo"`
+	Banner          []SystemGroupDataAdminLoginBannerResp `json:"banner"`
 }
 
 type SystemMenusResp struct {
@@ -50,4 +50,8 @@ type SystemAdminResp struct {
 	Phone           string    `json:"phone"`
 	IsSMS           bool      `json:"is_sms"`
 	PermissionsList []string  `json:"permissions_list"`
+}
+
+type SystemGroupDataAdminLoginBannerResp struct {
+	PIC string `json:"pic"`
 }

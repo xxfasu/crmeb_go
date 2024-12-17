@@ -19,31 +19,31 @@ import (
 	"crmeb_go/internal/model"
 )
 
-func newWechatException(db *gorm.DB, opts ...gen.DOOption) wechatException {
-	_wechatException := wechatException{}
+func newWechatExceptions(db *gorm.DB, opts ...gen.DOOption) wechatExceptions {
+	_wechatExceptions := wechatExceptions{}
 
-	_wechatException.wechatExceptionDo.UseDB(db, opts...)
-	_wechatException.wechatExceptionDo.UseModel(&model.WechatException{})
+	_wechatExceptions.wechatExceptionsDo.UseDB(db, opts...)
+	_wechatExceptions.wechatExceptionsDo.UseModel(&model.WechatExceptions{})
 
-	tableName := _wechatException.wechatExceptionDo.TableName()
-	_wechatException.ALL = field.NewAsterisk(tableName)
-	_wechatException.ID = field.NewInt64(tableName, "id")
-	_wechatException.Errcode = field.NewString(tableName, "errcode")
-	_wechatException.Errmsg = field.NewString(tableName, "errmsg")
-	_wechatException.Data = field.NewString(tableName, "data")
-	_wechatException.Remark = field.NewString(tableName, "remark")
-	_wechatException.CreatedAt = field.NewInt64(tableName, "created_at")
-	_wechatException.UpdatedAt = field.NewInt64(tableName, "updated_at")
-	_wechatException.DeletedAt = field.NewField(tableName, "deleted_at")
+	tableName := _wechatExceptions.wechatExceptionsDo.TableName()
+	_wechatExceptions.ALL = field.NewAsterisk(tableName)
+	_wechatExceptions.ID = field.NewInt64(tableName, "id")
+	_wechatExceptions.Errcode = field.NewString(tableName, "errcode")
+	_wechatExceptions.Errmsg = field.NewString(tableName, "errmsg")
+	_wechatExceptions.Data = field.NewString(tableName, "data")
+	_wechatExceptions.Remark = field.NewString(tableName, "remark")
+	_wechatExceptions.CreatedAt = field.NewInt64(tableName, "created_at")
+	_wechatExceptions.UpdatedAt = field.NewInt64(tableName, "updated_at")
+	_wechatExceptions.DeletedAt = field.NewField(tableName, "deleted_at")
 
-	_wechatException.fillFieldMap()
+	_wechatExceptions.fillFieldMap()
 
-	return _wechatException
+	return _wechatExceptions
 }
 
-// wechatException 微信异常表
-type wechatException struct {
-	wechatExceptionDo wechatExceptionDo
+// wechatExceptions 微信异常表
+type wechatExceptions struct {
+	wechatExceptionsDo wechatExceptionsDo
 
 	ALL       field.Asterisk
 	ID        field.Int64  // id
@@ -58,17 +58,17 @@ type wechatException struct {
 	fieldMap map[string]field.Expr
 }
 
-func (w wechatException) Table(newTableName string) *wechatException {
-	w.wechatExceptionDo.UseTable(newTableName)
+func (w wechatExceptions) Table(newTableName string) *wechatExceptions {
+	w.wechatExceptionsDo.UseTable(newTableName)
 	return w.updateTableName(newTableName)
 }
 
-func (w wechatException) As(alias string) *wechatException {
-	w.wechatExceptionDo.DO = *(w.wechatExceptionDo.As(alias).(*gen.DO))
+func (w wechatExceptions) As(alias string) *wechatExceptions {
+	w.wechatExceptionsDo.DO = *(w.wechatExceptionsDo.As(alias).(*gen.DO))
 	return w.updateTableName(alias)
 }
 
-func (w *wechatException) updateTableName(table string) *wechatException {
+func (w *wechatExceptions) updateTableName(table string) *wechatExceptions {
 	w.ALL = field.NewAsterisk(table)
 	w.ID = field.NewInt64(table, "id")
 	w.Errcode = field.NewString(table, "errcode")
@@ -84,19 +84,19 @@ func (w *wechatException) updateTableName(table string) *wechatException {
 	return w
 }
 
-func (w *wechatException) WithContext(ctx context.Context) IWechatExceptionDo {
-	return w.wechatExceptionDo.WithContext(ctx)
+func (w *wechatExceptions) WithContext(ctx context.Context) IWechatExceptionsDo {
+	return w.wechatExceptionsDo.WithContext(ctx)
 }
 
-func (w wechatException) TableName() string { return w.wechatExceptionDo.TableName() }
+func (w wechatExceptions) TableName() string { return w.wechatExceptionsDo.TableName() }
 
-func (w wechatException) Alias() string { return w.wechatExceptionDo.Alias() }
+func (w wechatExceptions) Alias() string { return w.wechatExceptionsDo.Alias() }
 
-func (w wechatException) Columns(cols ...field.Expr) gen.Columns {
-	return w.wechatExceptionDo.Columns(cols...)
+func (w wechatExceptions) Columns(cols ...field.Expr) gen.Columns {
+	return w.wechatExceptionsDo.Columns(cols...)
 }
 
-func (w *wechatException) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
+func (w *wechatExceptions) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := w.fieldMap[fieldName]
 	if !ok || _f == nil {
 		return nil, false
@@ -105,7 +105,7 @@ func (w *wechatException) GetFieldByName(fieldName string) (field.OrderExpr, boo
 	return _oe, ok
 }
 
-func (w *wechatException) fillFieldMap() {
+func (w *wechatExceptions) fillFieldMap() {
 	w.fieldMap = make(map[string]field.Expr, 8)
 	w.fieldMap["id"] = w.ID
 	w.fieldMap["errcode"] = w.Errcode
@@ -117,58 +117,58 @@ func (w *wechatException) fillFieldMap() {
 	w.fieldMap["deleted_at"] = w.DeletedAt
 }
 
-func (w wechatException) clone(db *gorm.DB) wechatException {
-	w.wechatExceptionDo.ReplaceConnPool(db.Statement.ConnPool)
+func (w wechatExceptions) clone(db *gorm.DB) wechatExceptions {
+	w.wechatExceptionsDo.ReplaceConnPool(db.Statement.ConnPool)
 	return w
 }
 
-func (w wechatException) replaceDB(db *gorm.DB) wechatException {
-	w.wechatExceptionDo.ReplaceDB(db)
+func (w wechatExceptions) replaceDB(db *gorm.DB) wechatExceptions {
+	w.wechatExceptionsDo.ReplaceDB(db)
 	return w
 }
 
-type wechatExceptionDo struct{ gen.DO }
+type wechatExceptionsDo struct{ gen.DO }
 
-type IWechatExceptionDo interface {
+type IWechatExceptionsDo interface {
 	gen.SubQuery
-	Debug() IWechatExceptionDo
-	WithContext(ctx context.Context) IWechatExceptionDo
+	Debug() IWechatExceptionsDo
+	WithContext(ctx context.Context) IWechatExceptionsDo
 	WithResult(fc func(tx gen.Dao)) gen.ResultInfo
 	ReplaceDB(db *gorm.DB)
-	ReadDB() IWechatExceptionDo
-	WriteDB() IWechatExceptionDo
+	ReadDB() IWechatExceptionsDo
+	WriteDB() IWechatExceptionsDo
 	As(alias string) gen.Dao
-	Session(config *gorm.Session) IWechatExceptionDo
+	Session(config *gorm.Session) IWechatExceptionsDo
 	Columns(cols ...field.Expr) gen.Columns
-	Clauses(conds ...clause.Expression) IWechatExceptionDo
-	Not(conds ...gen.Condition) IWechatExceptionDo
-	Or(conds ...gen.Condition) IWechatExceptionDo
-	Select(conds ...field.Expr) IWechatExceptionDo
-	Where(conds ...gen.Condition) IWechatExceptionDo
-	Order(conds ...field.Expr) IWechatExceptionDo
-	Distinct(cols ...field.Expr) IWechatExceptionDo
-	Omit(cols ...field.Expr) IWechatExceptionDo
-	Join(table schema.Tabler, on ...field.Expr) IWechatExceptionDo
-	LeftJoin(table schema.Tabler, on ...field.Expr) IWechatExceptionDo
-	RightJoin(table schema.Tabler, on ...field.Expr) IWechatExceptionDo
-	Group(cols ...field.Expr) IWechatExceptionDo
-	Having(conds ...gen.Condition) IWechatExceptionDo
-	Limit(limit int) IWechatExceptionDo
-	Offset(offset int) IWechatExceptionDo
+	Clauses(conds ...clause.Expression) IWechatExceptionsDo
+	Not(conds ...gen.Condition) IWechatExceptionsDo
+	Or(conds ...gen.Condition) IWechatExceptionsDo
+	Select(conds ...field.Expr) IWechatExceptionsDo
+	Where(conds ...gen.Condition) IWechatExceptionsDo
+	Order(conds ...field.Expr) IWechatExceptionsDo
+	Distinct(cols ...field.Expr) IWechatExceptionsDo
+	Omit(cols ...field.Expr) IWechatExceptionsDo
+	Join(table schema.Tabler, on ...field.Expr) IWechatExceptionsDo
+	LeftJoin(table schema.Tabler, on ...field.Expr) IWechatExceptionsDo
+	RightJoin(table schema.Tabler, on ...field.Expr) IWechatExceptionsDo
+	Group(cols ...field.Expr) IWechatExceptionsDo
+	Having(conds ...gen.Condition) IWechatExceptionsDo
+	Limit(limit int) IWechatExceptionsDo
+	Offset(offset int) IWechatExceptionsDo
 	Count() (count int64, err error)
-	Scopes(funcs ...func(gen.Dao) gen.Dao) IWechatExceptionDo
-	Unscoped() IWechatExceptionDo
-	Create(values ...*model.WechatException) error
-	CreateInBatches(values []*model.WechatException, batchSize int) error
-	Save(values ...*model.WechatException) error
-	First() (*model.WechatException, error)
-	Take() (*model.WechatException, error)
-	Last() (*model.WechatException, error)
-	Find() ([]*model.WechatException, error)
-	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.WechatException, err error)
-	FindInBatches(result *[]*model.WechatException, batchSize int, fc func(tx gen.Dao, batch int) error) error
+	Scopes(funcs ...func(gen.Dao) gen.Dao) IWechatExceptionsDo
+	Unscoped() IWechatExceptionsDo
+	Create(values ...*model.WechatExceptions) error
+	CreateInBatches(values []*model.WechatExceptions, batchSize int) error
+	Save(values ...*model.WechatExceptions) error
+	First() (*model.WechatExceptions, error)
+	Take() (*model.WechatExceptions, error)
+	Last() (*model.WechatExceptions, error)
+	Find() ([]*model.WechatExceptions, error)
+	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.WechatExceptions, err error)
+	FindInBatches(result *[]*model.WechatExceptions, batchSize int, fc func(tx gen.Dao, batch int) error) error
 	Pluck(column field.Expr, dest interface{}) error
-	Delete(...*model.WechatException) (info gen.ResultInfo, err error)
+	Delete(...*model.WechatExceptions) (info gen.ResultInfo, err error)
 	Update(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
 	UpdateSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	Updates(value interface{}) (info gen.ResultInfo, err error)
@@ -176,163 +176,163 @@ type IWechatExceptionDo interface {
 	UpdateColumnSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	UpdateColumns(value interface{}) (info gen.ResultInfo, err error)
 	UpdateFrom(q gen.SubQuery) gen.Dao
-	Attrs(attrs ...field.AssignExpr) IWechatExceptionDo
-	Assign(attrs ...field.AssignExpr) IWechatExceptionDo
-	Joins(fields ...field.RelationField) IWechatExceptionDo
-	Preload(fields ...field.RelationField) IWechatExceptionDo
-	FirstOrInit() (*model.WechatException, error)
-	FirstOrCreate() (*model.WechatException, error)
-	FindByPage(offset int, limit int) (result []*model.WechatException, count int64, err error)
+	Attrs(attrs ...field.AssignExpr) IWechatExceptionsDo
+	Assign(attrs ...field.AssignExpr) IWechatExceptionsDo
+	Joins(fields ...field.RelationField) IWechatExceptionsDo
+	Preload(fields ...field.RelationField) IWechatExceptionsDo
+	FirstOrInit() (*model.WechatExceptions, error)
+	FirstOrCreate() (*model.WechatExceptions, error)
+	FindByPage(offset int, limit int) (result []*model.WechatExceptions, count int64, err error)
 	ScanByPage(result interface{}, offset int, limit int) (count int64, err error)
 	Scan(result interface{}) (err error)
-	Returning(value interface{}, columns ...string) IWechatExceptionDo
+	Returning(value interface{}, columns ...string) IWechatExceptionsDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
 }
 
-func (w wechatExceptionDo) Debug() IWechatExceptionDo {
+func (w wechatExceptionsDo) Debug() IWechatExceptionsDo {
 	return w.withDO(w.DO.Debug())
 }
 
-func (w wechatExceptionDo) WithContext(ctx context.Context) IWechatExceptionDo {
+func (w wechatExceptionsDo) WithContext(ctx context.Context) IWechatExceptionsDo {
 	return w.withDO(w.DO.WithContext(ctx))
 }
 
-func (w wechatExceptionDo) ReadDB() IWechatExceptionDo {
+func (w wechatExceptionsDo) ReadDB() IWechatExceptionsDo {
 	return w.Clauses(dbresolver.Read)
 }
 
-func (w wechatExceptionDo) WriteDB() IWechatExceptionDo {
+func (w wechatExceptionsDo) WriteDB() IWechatExceptionsDo {
 	return w.Clauses(dbresolver.Write)
 }
 
-func (w wechatExceptionDo) Session(config *gorm.Session) IWechatExceptionDo {
+func (w wechatExceptionsDo) Session(config *gorm.Session) IWechatExceptionsDo {
 	return w.withDO(w.DO.Session(config))
 }
 
-func (w wechatExceptionDo) Clauses(conds ...clause.Expression) IWechatExceptionDo {
+func (w wechatExceptionsDo) Clauses(conds ...clause.Expression) IWechatExceptionsDo {
 	return w.withDO(w.DO.Clauses(conds...))
 }
 
-func (w wechatExceptionDo) Returning(value interface{}, columns ...string) IWechatExceptionDo {
+func (w wechatExceptionsDo) Returning(value interface{}, columns ...string) IWechatExceptionsDo {
 	return w.withDO(w.DO.Returning(value, columns...))
 }
 
-func (w wechatExceptionDo) Not(conds ...gen.Condition) IWechatExceptionDo {
+func (w wechatExceptionsDo) Not(conds ...gen.Condition) IWechatExceptionsDo {
 	return w.withDO(w.DO.Not(conds...))
 }
 
-func (w wechatExceptionDo) Or(conds ...gen.Condition) IWechatExceptionDo {
+func (w wechatExceptionsDo) Or(conds ...gen.Condition) IWechatExceptionsDo {
 	return w.withDO(w.DO.Or(conds...))
 }
 
-func (w wechatExceptionDo) Select(conds ...field.Expr) IWechatExceptionDo {
+func (w wechatExceptionsDo) Select(conds ...field.Expr) IWechatExceptionsDo {
 	return w.withDO(w.DO.Select(conds...))
 }
 
-func (w wechatExceptionDo) Where(conds ...gen.Condition) IWechatExceptionDo {
+func (w wechatExceptionsDo) Where(conds ...gen.Condition) IWechatExceptionsDo {
 	return w.withDO(w.DO.Where(conds...))
 }
 
-func (w wechatExceptionDo) Order(conds ...field.Expr) IWechatExceptionDo {
+func (w wechatExceptionsDo) Order(conds ...field.Expr) IWechatExceptionsDo {
 	return w.withDO(w.DO.Order(conds...))
 }
 
-func (w wechatExceptionDo) Distinct(cols ...field.Expr) IWechatExceptionDo {
+func (w wechatExceptionsDo) Distinct(cols ...field.Expr) IWechatExceptionsDo {
 	return w.withDO(w.DO.Distinct(cols...))
 }
 
-func (w wechatExceptionDo) Omit(cols ...field.Expr) IWechatExceptionDo {
+func (w wechatExceptionsDo) Omit(cols ...field.Expr) IWechatExceptionsDo {
 	return w.withDO(w.DO.Omit(cols...))
 }
 
-func (w wechatExceptionDo) Join(table schema.Tabler, on ...field.Expr) IWechatExceptionDo {
+func (w wechatExceptionsDo) Join(table schema.Tabler, on ...field.Expr) IWechatExceptionsDo {
 	return w.withDO(w.DO.Join(table, on...))
 }
 
-func (w wechatExceptionDo) LeftJoin(table schema.Tabler, on ...field.Expr) IWechatExceptionDo {
+func (w wechatExceptionsDo) LeftJoin(table schema.Tabler, on ...field.Expr) IWechatExceptionsDo {
 	return w.withDO(w.DO.LeftJoin(table, on...))
 }
 
-func (w wechatExceptionDo) RightJoin(table schema.Tabler, on ...field.Expr) IWechatExceptionDo {
+func (w wechatExceptionsDo) RightJoin(table schema.Tabler, on ...field.Expr) IWechatExceptionsDo {
 	return w.withDO(w.DO.RightJoin(table, on...))
 }
 
-func (w wechatExceptionDo) Group(cols ...field.Expr) IWechatExceptionDo {
+func (w wechatExceptionsDo) Group(cols ...field.Expr) IWechatExceptionsDo {
 	return w.withDO(w.DO.Group(cols...))
 }
 
-func (w wechatExceptionDo) Having(conds ...gen.Condition) IWechatExceptionDo {
+func (w wechatExceptionsDo) Having(conds ...gen.Condition) IWechatExceptionsDo {
 	return w.withDO(w.DO.Having(conds...))
 }
 
-func (w wechatExceptionDo) Limit(limit int) IWechatExceptionDo {
+func (w wechatExceptionsDo) Limit(limit int) IWechatExceptionsDo {
 	return w.withDO(w.DO.Limit(limit))
 }
 
-func (w wechatExceptionDo) Offset(offset int) IWechatExceptionDo {
+func (w wechatExceptionsDo) Offset(offset int) IWechatExceptionsDo {
 	return w.withDO(w.DO.Offset(offset))
 }
 
-func (w wechatExceptionDo) Scopes(funcs ...func(gen.Dao) gen.Dao) IWechatExceptionDo {
+func (w wechatExceptionsDo) Scopes(funcs ...func(gen.Dao) gen.Dao) IWechatExceptionsDo {
 	return w.withDO(w.DO.Scopes(funcs...))
 }
 
-func (w wechatExceptionDo) Unscoped() IWechatExceptionDo {
+func (w wechatExceptionsDo) Unscoped() IWechatExceptionsDo {
 	return w.withDO(w.DO.Unscoped())
 }
 
-func (w wechatExceptionDo) Create(values ...*model.WechatException) error {
+func (w wechatExceptionsDo) Create(values ...*model.WechatExceptions) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return w.DO.Create(values)
 }
 
-func (w wechatExceptionDo) CreateInBatches(values []*model.WechatException, batchSize int) error {
+func (w wechatExceptionsDo) CreateInBatches(values []*model.WechatExceptions, batchSize int) error {
 	return w.DO.CreateInBatches(values, batchSize)
 }
 
 // Save : !!! underlying implementation is different with GORM
 // The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
-func (w wechatExceptionDo) Save(values ...*model.WechatException) error {
+func (w wechatExceptionsDo) Save(values ...*model.WechatExceptions) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return w.DO.Save(values)
 }
 
-func (w wechatExceptionDo) First() (*model.WechatException, error) {
+func (w wechatExceptionsDo) First() (*model.WechatExceptions, error) {
 	if result, err := w.DO.First(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.WechatException), nil
+		return result.(*model.WechatExceptions), nil
 	}
 }
 
-func (w wechatExceptionDo) Take() (*model.WechatException, error) {
+func (w wechatExceptionsDo) Take() (*model.WechatExceptions, error) {
 	if result, err := w.DO.Take(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.WechatException), nil
+		return result.(*model.WechatExceptions), nil
 	}
 }
 
-func (w wechatExceptionDo) Last() (*model.WechatException, error) {
+func (w wechatExceptionsDo) Last() (*model.WechatExceptions, error) {
 	if result, err := w.DO.Last(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.WechatException), nil
+		return result.(*model.WechatExceptions), nil
 	}
 }
 
-func (w wechatExceptionDo) Find() ([]*model.WechatException, error) {
+func (w wechatExceptionsDo) Find() ([]*model.WechatExceptions, error) {
 	result, err := w.DO.Find()
-	return result.([]*model.WechatException), err
+	return result.([]*model.WechatExceptions), err
 }
 
-func (w wechatExceptionDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.WechatException, err error) {
-	buf := make([]*model.WechatException, 0, batchSize)
+func (w wechatExceptionsDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.WechatExceptions, err error) {
+	buf := make([]*model.WechatExceptions, 0, batchSize)
 	err = w.DO.FindInBatches(&buf, batchSize, func(tx gen.Dao, batch int) error {
 		defer func() { results = append(results, buf...) }()
 		return fc(tx, batch)
@@ -340,49 +340,49 @@ func (w wechatExceptionDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch 
 	return results, err
 }
 
-func (w wechatExceptionDo) FindInBatches(result *[]*model.WechatException, batchSize int, fc func(tx gen.Dao, batch int) error) error {
+func (w wechatExceptionsDo) FindInBatches(result *[]*model.WechatExceptions, batchSize int, fc func(tx gen.Dao, batch int) error) error {
 	return w.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (w wechatExceptionDo) Attrs(attrs ...field.AssignExpr) IWechatExceptionDo {
+func (w wechatExceptionsDo) Attrs(attrs ...field.AssignExpr) IWechatExceptionsDo {
 	return w.withDO(w.DO.Attrs(attrs...))
 }
 
-func (w wechatExceptionDo) Assign(attrs ...field.AssignExpr) IWechatExceptionDo {
+func (w wechatExceptionsDo) Assign(attrs ...field.AssignExpr) IWechatExceptionsDo {
 	return w.withDO(w.DO.Assign(attrs...))
 }
 
-func (w wechatExceptionDo) Joins(fields ...field.RelationField) IWechatExceptionDo {
+func (w wechatExceptionsDo) Joins(fields ...field.RelationField) IWechatExceptionsDo {
 	for _, _f := range fields {
 		w = *w.withDO(w.DO.Joins(_f))
 	}
 	return &w
 }
 
-func (w wechatExceptionDo) Preload(fields ...field.RelationField) IWechatExceptionDo {
+func (w wechatExceptionsDo) Preload(fields ...field.RelationField) IWechatExceptionsDo {
 	for _, _f := range fields {
 		w = *w.withDO(w.DO.Preload(_f))
 	}
 	return &w
 }
 
-func (w wechatExceptionDo) FirstOrInit() (*model.WechatException, error) {
+func (w wechatExceptionsDo) FirstOrInit() (*model.WechatExceptions, error) {
 	if result, err := w.DO.FirstOrInit(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.WechatException), nil
+		return result.(*model.WechatExceptions), nil
 	}
 }
 
-func (w wechatExceptionDo) FirstOrCreate() (*model.WechatException, error) {
+func (w wechatExceptionsDo) FirstOrCreate() (*model.WechatExceptions, error) {
 	if result, err := w.DO.FirstOrCreate(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.WechatException), nil
+		return result.(*model.WechatExceptions), nil
 	}
 }
 
-func (w wechatExceptionDo) FindByPage(offset int, limit int) (result []*model.WechatException, count int64, err error) {
+func (w wechatExceptionsDo) FindByPage(offset int, limit int) (result []*model.WechatExceptions, count int64, err error) {
 	result, err = w.Offset(offset).Limit(limit).Find()
 	if err != nil {
 		return
@@ -397,7 +397,7 @@ func (w wechatExceptionDo) FindByPage(offset int, limit int) (result []*model.We
 	return
 }
 
-func (w wechatExceptionDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
+func (w wechatExceptionsDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = w.Count()
 	if err != nil {
 		return
@@ -407,15 +407,15 @@ func (w wechatExceptionDo) ScanByPage(result interface{}, offset int, limit int)
 	return
 }
 
-func (w wechatExceptionDo) Scan(result interface{}) (err error) {
+func (w wechatExceptionsDo) Scan(result interface{}) (err error) {
 	return w.DO.Scan(result)
 }
 
-func (w wechatExceptionDo) Delete(models ...*model.WechatException) (result gen.ResultInfo, err error) {
+func (w wechatExceptionsDo) Delete(models ...*model.WechatExceptions) (result gen.ResultInfo, err error) {
 	return w.DO.Delete(models)
 }
 
-func (w *wechatExceptionDo) withDO(do gen.Dao) *wechatExceptionDo {
+func (w *wechatExceptionsDo) withDO(do gen.Dao) *wechatExceptionsDo {
 	w.DO = *do.(*gen.DO)
 	return w
 }
