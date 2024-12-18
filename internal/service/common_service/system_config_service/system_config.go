@@ -52,7 +52,7 @@ func (s *service) get(ctx context.Context, name string) string {
 			logs.Log.Error("GetConfigByName err: ", zap.Error(err))
 			return ""
 		}
-		return systemConfig.Value
+		return "http://localhost:7788/" + systemConfig.Value
 	}
 
 	s.setRedisByVoList(ctx)

@@ -6,6 +6,7 @@ import (
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/system_group_data_repository"
 	"crmeb_go/internal/validation"
+	"crmeb_go/pkg/util"
 	"encoding/json"
 	"errors"
 	"github.com/redis/go-redis/v9"
@@ -41,6 +42,7 @@ func (s *service) GetListByGID(ctx context.Context, gid int64) ([]any, error) {
 	var systemGroupDataSearchReq validation.SystemGroupDataSearchReq
 	systemGroupDataSearchReq.GID = gid
 	systemGroupDataSearchReq.Status = 1
+	systemGroupDataSearchReq.PageParam = util.DefaultPageParams()
 	list, err := s.GetList(ctx, systemGroupDataSearchReq)
 	if err != nil {
 		return nil, err
@@ -54,7 +56,8 @@ func (s *service) GetListByGID(ctx context.Context, gid int64) ([]any, error) {
 		json.Unmarshal([]byte(systemGroupData.Value), &mapData)
 		var systemFormItemCheckReqList []*validation.SystemFormItemCheckReq
 		fields := mapData["fields"]
-		json.Unmarshal([]byte(fields.(string)), &systemFormItemCheckReqList)
+		marshal, _ := json.Marshal(fields)
+		json.Unmarshal(marshal, &systemFormItemCheckReqList)
 		if len(systemFormItemCheckReqList) == 0 {
 			continue
 		}

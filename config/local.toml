@@ -10,10 +10,10 @@ wechat_js_api_debug = false #微信js api系列是否开启调试模式
 wechat_js_api_beta = true #微信js api是否是beta版本
 async_config = false #是否同步config表数据到redis
 async_wechat_program_temp_list = false #是否同步小程序公共模板库
-image_path = "/www/wwwroot/Crmeb-admin.jar path/" # 服务器图片路径配置 斜杠结尾
+image_path = "D:\\goproject\\xxfasu\\crmeb_go\\crmebimage\\" # 服务器图片路径配置 斜杠结尾
 
 [mysql]
-source = "root:password@tcp(127.0.0.1:3306)/template?charset=utf8mb4&parseTime=True&loc=Local"
+source = "root:password@tcp(127.0.0.1:3306)/crmeb?charset=utf8mb4&parseTime=True&loc=Local"
 
 [redis]
 addr = "127.0.0.1:6379"
