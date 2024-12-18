@@ -4,7 +4,7 @@
 //go:build !wireinject
 // +build !wireinject
 
-package admin
+package wire
 
 import (
 	"crmeb_go/internal/casbin"
@@ -30,7 +30,7 @@ import (
 
 // Injectors from wire.go:
 
-func newWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine, func(), error) {
+func NewWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine, func(), error) {
 	recovery := middleware.NewRecoveryM()
 	cors := middleware.NewCorsM()
 	logM := middleware.NewLogM()

@@ -1,7 +1,9 @@
-package admin
+package main
 
 import (
+	"crmeb_go/cmd/admin/wire"
 	"crmeb_go/internal/conf"
+	"crmeb_go/internal/redis"
 	"crmeb_go/pkg/logs"
 	"github.com/gin-gonic/gin"
 	"github.com/kardianos/service"
@@ -44,18 +46,18 @@ func (p *program) run() {
 	if err != nil {
 		panic(err)
 	}
-	// client, err := redis.InitRedis()
+	client, err := redis.InitRedis()
 	if err != nil {
 		panic(err)
 	}
-	// rLock := redis.InitRedSync(client)
+	rLock := redis.InitRedSync(client)
 	logs.InitLog()
-	// wire, fn, err := newWire(client, rLock)
-	// p.clearFunc = fn
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// p.server = wire
+	wire, fn, err := wire.NewWire(client, rLock)
+	p.clearFunc = fn
+	if err != nil {
+		panic(err)
+	}
+	p.server = wire
 
 	if err = p.server.Run(conf.Config.System.Port); err != nil {
 		panic(err)
@@ -65,9 +67,9 @@ func (p *program) run() {
 func main() {
 	// 定义服务配置
 	svcConfig := &service.Config{
-		Name:        "GinTemplate",
-		DisplayName: "My Gin Web Template",
-		Description: "This is a Gin web application Template.",
+		Name:        "Crmeb Admin",
+		DisplayName: "Crmeb Admin",
+		Description: "Crmeb Admin",
 	}
 
 	prg := &program{}

@@ -1,7 +1,7 @@
 //go:build wireinject
 // +build wireinject
 
-package admin
+package wire
 
 import (
 	"crmeb_go/internal/casbin"
@@ -19,7 +19,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func newWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine, func(), error) {
+func NewWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine, func(), error) {
 	panic(wire.Build(
 		jwt.NewJwt,
 		casbin.InitCasbinEnforcer,

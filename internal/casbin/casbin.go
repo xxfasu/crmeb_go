@@ -37,7 +37,7 @@ func InitCasbinEnforcer(db *gorm.DB) (Service, error) {
 		[matchers]
 		m = r.sub == p.sub && keyMatch2(r.obj,p.obj) && r.act == p.act
 		`
-	m, err := casbinmodel.NewModelFromFile(text)
+	m, err := casbinmodel.NewModelFromString(text)
 	if err != nil {
 		logs.Log.Error("failed to create casbin model", zap.Error(err))
 		return nil, err
