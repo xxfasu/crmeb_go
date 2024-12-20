@@ -63,7 +63,11 @@ func (s *service) GetListByGID(ctx context.Context, gid int64) ([]any, error) {
 		}
 		data := make(map[string]any)
 		for _, systemFormItemCheckReq := range systemFormItemCheckReqList {
-			data[systemFormItemCheckReq.Name] = systemFormItemCheckReq.Value
+			if systemFormItemCheckReq.Name != "pic" {
+				data[systemFormItemCheckReq.Name] = systemFormItemCheckReq.Value
+			} else {
+				data[systemFormItemCheckReq.Name] = "http://localhost:7788/" + systemFormItemCheckReq.Value
+			}
 		}
 		data["id"] = systemGroupData.ID
 		result = append(result, data)

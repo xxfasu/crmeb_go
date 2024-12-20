@@ -15,6 +15,7 @@ type Response struct {
 func result(c *gin.Context, code int, data interface{}, msg string) {
 	// 开始时间
 	c.JSON(code, Response{
+		Code: code,
 		Data: data,
 		Msg:  msg,
 	})

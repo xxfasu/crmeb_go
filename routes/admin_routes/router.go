@@ -1,7 +1,6 @@
 package admin_routes
 
 import (
-	"crmeb_go/internal/conf"
 	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
 	"crmeb_go/internal/middleware"
 	"github.com/gin-gonic/gin"
@@ -36,7 +35,7 @@ func NewRouter(
 	privateGroup.Use(authM.StrictAuth())
 
 	// 提供静态文件，访问路径为 /crmebimage
-	router.Static("/crmebimage", conf.Config.CrmebConfig.ImagePath)
+	router.Static("/crmebimage", "./crmebimage")
 
 	{
 		// 健康监测

@@ -14,11 +14,11 @@ type captcha struct {
 
 func New(cache cache.Cache) Captcha {
 	driver := base64Captcha.NewDriverString(
-		80,  // height int
-		240, // width int
-		6,   // noiseCount int
-		1,   // showLineOptions int
-		4,   // length int
+		36, // height int
+		96, // width int
+		6,  // noiseCount int
+		1,  // showLineOptions int
+		4,  // length int
 		"123456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ", // source string
 		nil, // bgColor *color.RGBA
 		nil, // fontsStorage FontsStorage
