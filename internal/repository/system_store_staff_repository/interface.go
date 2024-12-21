@@ -1,4 +1,4 @@
-package system_group_data_repository
+package system_store_staff_repository
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 )
 
 type Reader interface {
-	GetGroupDataPageList(ctx context.Context, condition validation.SystemGroupDataSearch) ([]*model.SystemGroupData, int64, error)
+	GetStoreStaffPageList(ctx context.Context, condition *validation.GetSystemStoreStaffList) ([]*model.SystemStoreStaff, int64, error)
 }
 
 type Writer interface {

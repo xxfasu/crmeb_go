@@ -46,7 +46,7 @@ func (m *AuthM) NoStrictAuth() gin.HandlerFunc {
 			return
 		}
 
-		ctx.Set("resp", loginUserData)
+		ctx.Set("response", loginUserData)
 		ctx.Next()
 	}
 }

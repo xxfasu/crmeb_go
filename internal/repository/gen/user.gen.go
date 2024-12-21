@@ -27,7 +27,7 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 
 	tableName := _user.userDo.TableName()
 	_user.ALL = field.NewAsterisk(tableName)
-	_user.UID = field.NewInt64(tableName, "uid")
+	_user.ID = field.NewInt64(tableName, "id")
 	_user.Account = field.NewString(tableName, "account")
 	_user.Pwd = field.NewString(tableName, "pwd")
 	_user.RealName = field.NewString(tableName, "real_name")
@@ -80,7 +80,7 @@ type user struct {
 	userDo userDo
 
 	ALL            field.Asterisk
-	UID            field.Int64  // 用户id
+	ID             field.Int64  // 用户id
 	Account        field.String // 用户账号
 	Pwd            field.String // 用户密码
 	RealName       field.String // 真实姓名
@@ -138,7 +138,7 @@ func (u user) As(alias string) *user {
 
 func (u *user) updateTableName(table string) *user {
 	u.ALL = field.NewAsterisk(table)
-	u.UID = field.NewInt64(table, "uid")
+	u.ID = field.NewInt64(table, "id")
 	u.Account = field.NewString(table, "account")
 	u.Pwd = field.NewString(table, "pwd")
 	u.RealName = field.NewString(table, "real_name")
@@ -205,7 +205,7 @@ func (u *user) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 
 func (u *user) fillFieldMap() {
 	u.fieldMap = make(map[string]field.Expr, 42)
-	u.fieldMap["uid"] = u.UID
+	u.fieldMap["id"] = u.ID
 	u.fieldMap["account"] = u.Account
 	u.fieldMap["pwd"] = u.Pwd
 	u.fieldMap["real_name"] = u.RealName

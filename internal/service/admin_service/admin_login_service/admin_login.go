@@ -126,7 +126,7 @@ func (s *service) GetLoginPic(ctx context.Context) (*response.SystemLoginPicResp
 	if err != nil {
 		return resp, err
 	}
-	bannerList, err := util.ConvertSlice[response.SystemGroupDataAdminLoginBannerResp](list)
+	bannerList, err := util.ConvertSlice[resp.SystemGroupDataAdminLoginBannerResp](list)
 	if err != nil {
 		return resp, err
 	}
@@ -149,8 +149,8 @@ func (s *service) GetMenus(ctx context.Context, loginUserData login_user.LoginUs
 		return resp, err
 	}
 	var flag error
-	resp = lo.Map(menuList, func(item *model.SystemMenu, index int) *response.SystemMenusResp {
-		temp := new(response.SystemMenusResp)
+	resp = lo.Map(menuList, func(item *model.SystemMenu, index int) *resp.SystemMenusResp {
+		temp := new(resp.SystemMenusResp)
 		if err := copier.Copy(&temp, item); err != nil {
 			flag = err
 			return temp

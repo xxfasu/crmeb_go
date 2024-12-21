@@ -20,7 +20,7 @@ type repository struct {
 	db *gorm.DB
 }
 
-func (r *repository) GetGroupDataPageList(ctx context.Context, condition validation.SystemGroupDataSearchReq) ([]*model.SystemGroupData, int64, error) {
+func (r *repository) GetGroupDataPageList(ctx context.Context, condition validation.SystemGroupDataSearch) ([]*model.SystemGroupData, int64, error) {
 	systemGroupData := gen.Q.SystemGroupData
 	return gen.SystemGroupData.WithContext(ctx).
 		Where(

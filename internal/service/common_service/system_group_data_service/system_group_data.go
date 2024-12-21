@@ -30,7 +30,7 @@ type service struct {
 	systemGroupDataRepo system_group_data_repository.Repository
 }
 
-func (s *service) GetList(ctx context.Context, req validation.SystemGroupDataSearchReq) ([]*model.SystemGroupData, error) {
+func (s *service) GetList(ctx context.Context, req validation.SystemGroupDataSearch) ([]*model.SystemGroupData, error) {
 	list, _, err := s.systemGroupDataRepo.GetGroupDataPageList(ctx, req)
 	if err != nil {
 		return nil, err
@@ -39,7 +39,7 @@ func (s *service) GetList(ctx context.Context, req validation.SystemGroupDataSea
 }
 
 func (s *service) GetListByGID(ctx context.Context, gid int64) ([]any, error) {
-	var systemGroupDataSearchReq validation.SystemGroupDataSearchReq
+	var systemGroupDataSearchReq validation.SystemGroupDataSearch
 	systemGroupDataSearchReq.GID = gid
 	systemGroupDataSearchReq.Status = 1
 	systemGroupDataSearchReq.PageParam = util.DefaultPageParams()
@@ -54,7 +54,7 @@ func (s *service) GetListByGID(ctx context.Context, gid int64) ([]any, error) {
 	for _, systemGroupData := range list {
 		mapData := make(map[string]any)
 		json.Unmarshal([]byte(systemGroupData.Value), &mapData)
-		var systemFormItemCheckReqList []*validation.SystemFormItemCheckReq
+		var systemFormItemCheckReqList []*validation.SystemFormItemCheck
 		fields := mapData["fields"]
 		marshal, _ := json.Marshal(fields)
 		json.Unmarshal(marshal, &systemFormItemCheckReqList)
