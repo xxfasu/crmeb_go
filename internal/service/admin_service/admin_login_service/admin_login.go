@@ -52,8 +52,8 @@ type service struct {
 	systemAdminRepo        system_admin_repository.Repository
 }
 
-func (s *service) GetCode(ctx context.Context) (response.ValidateCodeResp, error) {
-	var resp response.ValidateCodeResp
+func (s *service) GetCode(ctx context.Context) (*response.ValidateCodeResp, error) {
+	resp := new(response.ValidateCodeResp)
 	key, code, err := s.captcha.Gen()
 	if err != nil {
 		return resp, err
@@ -63,8 +63,8 @@ func (s *service) GetCode(ctx context.Context) (response.ValidateCodeResp, error
 	return resp, nil
 }
 
-func (s *service) SystemAdminLogin(ctx context.Context, req *validation.SystemAdminLogin, ip string) (response.SystemLoginResp, error) {
-	var resp response.SystemLoginResp
+func (s *service) SystemAdminLogin(ctx context.Context, req *validation.SystemAdminLogin, ip string) (*response.SystemLoginResp, error) {
+	resp := new(response.SystemLoginResp)
 	if !s.captcha.Verify(req.Key, req.Code) {
 		return resp, errors.New("验证码错误")
 	}
@@ -95,8 +95,8 @@ func (s *service) SystemAdminLogout(ctx context.Context, token string) error {
 	return s.jwt.DeleteToken(token)
 }
 
-func (s *service) GetAdminInfo(ctx context.Context, loginUserData login_user.LoginUserData) (response.SystemAdminResp, error) {
-	var resp response.SystemAdminResp
+func (s *service) GetAdminInfo(ctx context.Context, loginUserData login_user.LoginUserData) (*response.SystemAdminResp, error) {
+	resp := new(response.SystemAdminResp)
 	systemAdmin := loginUserData.User
 	err := copier.Copy(&resp, systemAdmin)
 	if err != nil {
@@ -114,8 +114,8 @@ func (s *service) GetAdminInfo(ctx context.Context, loginUserData login_user.Log
 	resp.PermissionsList = permList
 	return resp, nil
 }
-func (s *service) GetLoginPic(ctx context.Context) (response.SystemLoginPicResp, error) {
-	var resp response.SystemLoginPicResp
+func (s *service) GetLoginPic(ctx context.Context) (*response.SystemLoginPicResp, error) {
+	resp := new(response.SystemLoginPicResp)
 	// 背景图
 	resp.BackgroundImage = s.systemConfigService.GetValueByKey(ctx, constants.ConfigKeyAdminLoginBackgroundImage)
 	// logo
@@ -134,8 +134,8 @@ func (s *service) GetLoginPic(ctx context.Context) (response.SystemLoginPicResp,
 	return resp, nil
 }
 
-func (s *service) GetMenus(ctx context.Context, loginUserData login_user.LoginUserData) ([]response.SystemMenusResp, error) {
-	var resp []response.SystemMenusResp
+func (s *service) GetMenus(ctx context.Context, loginUserData login_user.LoginUserData) ([]*response.SystemMenusResp, error) {
+	resp := make([]*response.SystemMenusResp, 0)
 	systemAdmin := loginUserData.User
 	roleList := strings.Split(systemAdmin.Roles, ",")
 	menuList := make([]*model.SystemMenu, 0)
@@ -149,8 +149,8 @@ func (s *service) GetMenus(ctx context.Context, loginUserData login_user.LoginUs
 		return resp, err
 	}
 	var flag error
-	resp = lo.Map(menuList, func(item *model.SystemMenu, index int) response.SystemMenusResp {
-		var temp response.SystemMenusResp
+	resp = lo.Map(menuList, func(item *model.SystemMenu, index int) *response.SystemMenusResp {
+		temp := new(response.SystemMenusResp)
 		if err := copier.Copy(&temp, item); err != nil {
 			flag = err
 			return temp

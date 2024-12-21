@@ -28,12 +28,12 @@ func (h *Handler) GetCode(ctx *gin.Context) {
 }
 
 func (h *Handler) Login(ctx *gin.Context) {
-	var req validation.SystemAdminLogin
-	if err := ctx.ShouldBindJSON(&req); err != nil {
+	req := new(validation.SystemAdminLogin)
+	if err := ctx.ShouldBindJSON(req); err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
 	}
-	resp, err := h.service.SystemAdminLogin(ctx, &req, ctx.ClientIP())
+	resp, err := h.service.SystemAdminLogin(ctx, req, ctx.ClientIP())
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
