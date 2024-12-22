@@ -2,7 +2,7 @@ package system_store_service
 
 import (
 	"context"
-	"crmeb_go/internal/model"
+	"crmeb_go/internal/common/response"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/system_store_repository"
 )
@@ -22,8 +22,8 @@ type service struct {
 	systemStoreRepo system_store_repository.Repository
 }
 
-func (s *service) GetMapInID(ctx context.Context, storeIDList []int64) (map[int64]*model.SystemStore, error) {
-	systemStoreMap := make(map[int64]*model.SystemStore)
+func (s *service) GetMapInID(ctx context.Context, storeIDList []int64) (map[int64]response.SystemStore, error) {
+	systemStoreMap := make(map[int64]response.SystemStore)
 	if len(storeIDList) == 0 {
 		return systemStoreMap, nil
 	}
@@ -31,8 +31,13 @@ func (s *service) GetMapInID(ctx context.Context, storeIDList []int64) (map[int6
 	if err != nil {
 		return nil, err
 	}
-	for _, systemStore := range list {
-		systemStoreMap[systemStore.ID] = systemStore
+	for _, item := range list {
+		var systemStore response.SystemStore
+		err = systemStore.ConvertFromModel(item)
+		if err != nil {
+			return nil, err
+		}
+		systemStoreMap[item.ID] = systemStore
 	}
 	return systemStoreMap, nil
 }

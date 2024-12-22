@@ -1,7 +1,6 @@
 package util
 
 import (
-	"crmeb_go/internal/validation"
 	"encoding/json"
 )
 
@@ -17,11 +16,4 @@ func ConvertSlice[T any](input []any) ([]T, error) {
 		result = append(result, temp)
 	}
 	return result, nil
-}
-
-func DefaultPageParams() validation.PageParam {
-	return validation.PageParam{
-		Page:  1,
-		Limit: 20,
-	}
 }

@@ -22,3 +22,10 @@ func RestPage[T any](param validation.PageParam, list []T, total int64) *CommonP
 	}
 	return p
 }
+
+func DefaultPageParams() validation.PageParam {
+	return validation.PageParam{
+		Page:  1,
+		Limit: 20,
+	}
+}

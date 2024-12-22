@@ -6,6 +6,7 @@ import (
 	"crmeb_go/pkg/cache"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"strings"
 	"time"
 )
@@ -25,7 +26,7 @@ func NewJwt(cache cache.Cache) *JWT {
 }
 
 func (j *JWT) CreateToken(loginUserData login_user.LoginUserData) (string, error) {
-	token := strings.Replace(loginUserData.Token, "-", "", -1)
+	token := uuid.NewString()
 	loginUserData.Token = token
 	err := j.RefreshToken(loginUserData)
 	if err != nil {

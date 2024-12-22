@@ -53,7 +53,7 @@ func NewWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine,
 		cleanup()
 		return nil, nil, err
 	}
-	casbinM := middleware.NewCasbinM(service)
+	casbinM := middleware.NewCasbinM(service, jwtJWT)
 	transaction := repository.NewTransaction(db)
 	captchaCaptcha := captcha.New(cacheCache)
 	system_menu_repositoryRepository := system_menu_repository.New(db)

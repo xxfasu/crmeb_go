@@ -10,7 +10,6 @@ import (
 	"crmeb_go/internal/service/common_service/system_store_service"
 	"crmeb_go/internal/service/common_service/user_service"
 	"crmeb_go/internal/validation"
-	"github.com/jinzhu/copier"
 	"github.com/samber/lo"
 )
 
@@ -35,9 +34,9 @@ type service struct {
 	systemStoreService   system_store_service.Service
 }
 
-func (s *service) GetStaffList(ctx context.Context, req *validation.GetSystemStoreStaffList) (*page.CommonPageResp[*response.SystemStoreStaffResp], error) {
-	resp := new(page.CommonPageResp[*response.SystemStoreStaffResp])
-	systemStoreStaffRespList := make([]*response.SystemStoreStaffResp, 0)
+func (s *service) GetStaffList(ctx context.Context, req *validation.GetSystemStoreStaffList) (*page.CommonPageResp[response.SystemStoreStaff], error) {
+	resp := new(page.CommonPageResp[response.SystemStoreStaff])
+	systemStoreStaffRespList := make([]response.SystemStoreStaff, 0)
 	systemStoreStaffList, total, err := s.systemStoreStaffRepo.GetStoreStaffPageList(ctx, req)
 	if err != nil {
 		return nil, err
@@ -48,7 +47,7 @@ func (s *service) GetStaffList(ctx context.Context, req *validation.GetSystemSto
 	userIDList := lo.Map(systemStoreStaffList, func(item *model.SystemStoreStaff, index int) int64 {
 		return item.UID
 	})
-	userMap := make(map[int64]*model.User)
+	userMap := make(map[int64]response.User)
 	if len(userIDList) > 0 {
 		userMap, err = s.userService.GetMapInID(ctx, userIDList)
 		if err != nil {
@@ -58,7 +57,7 @@ func (s *service) GetStaffList(ctx context.Context, req *validation.GetSystemSto
 	storeIDList := lo.Map(systemStoreStaffList, func(item *model.SystemStoreStaff, index int) int64 {
 		return item.StoreID
 	})
-	storeMap := make(map[int64]*model.SystemStore)
+	storeMap := make(map[int64]response.SystemStore)
 	if len(storeIDList) > 0 {
 		storeMap, err = s.systemStoreService.GetMapInID(ctx, userIDList)
 		if err != nil {
@@ -66,8 +65,8 @@ func (s *service) GetStaffList(ctx context.Context, req *validation.GetSystemSto
 		}
 	}
 	for _, storeStaff := range systemStoreStaffList {
-		systemStoreStaffResp := new(response.SystemStoreStaffResp)
-		err = copier.Copy(systemStoreStaffResp, storeStaff)
+		var systemStoreStaffResp response.SystemStoreStaff
+		err = systemStoreStaffResp.ConvertFromModel(storeStaff)
 		if err != nil {
 			return nil, err
 		}

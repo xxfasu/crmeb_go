@@ -2,11 +2,11 @@ package system_group_data_service
 
 import (
 	"context"
+	"crmeb_go/internal/common/page"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/system_group_data_repository"
 	"crmeb_go/internal/validation"
-	"crmeb_go/pkg/util"
 	"encoding/json"
 	"errors"
 	"github.com/redis/go-redis/v9"
@@ -42,7 +42,7 @@ func (s *service) GetListByGID(ctx context.Context, gid int64) ([]any, error) {
 	var systemGroupDataSearchReq validation.SystemGroupDataSearch
 	systemGroupDataSearchReq.GID = gid
 	systemGroupDataSearchReq.Status = 1
-	systemGroupDataSearchReq.PageParam = util.DefaultPageParams()
+	systemGroupDataSearchReq.PageParam = page.DefaultPageParams()
 	list, err := s.GetList(ctx, systemGroupDataSearchReq)
 	if err != nil {
 		return nil, err

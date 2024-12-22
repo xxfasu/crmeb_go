@@ -27,22 +27,22 @@ func TestSyncPolicies(t *testing.T) {
 	text := `
 		[request_definition]
 		r = sub, obj, act
-		
+
 		[policy_definition]
 		p = sub, obj, act
-		
+
 		[role_definition]
 		g = _, _
-		
+
 		[policy_effect]
 		e = some(where (p.eft == allow))
-		
+
 		[matchers]
 		m = r.sub == p.sub && keyMatch2(r.obj,p.obj) && r.act == p.act
 		`
-	m, err := casbinmodel.NewModelFromFile(text)
+	m, err := casbinmodel.NewModelFromString(text)
 	if err != nil {
-		t.Fatalf("failed to create casbin model", err)
+		t.Fatalf("failed to create casbin model: %v", err)
 	}
 	e, err := casbin.NewEnforcer(m, a)
 	if err != nil {
@@ -93,8 +93,4 @@ func TestSyncPolicies(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to save policy: %v", err)
 	}
-}
-
-func TestInitCasbinEnforcer(t *testing.T) {
-	t.Log("TestInitCasbinEnforcer")
 }

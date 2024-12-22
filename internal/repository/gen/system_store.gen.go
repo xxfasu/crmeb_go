@@ -36,8 +36,8 @@ func newSystemStore(db *gorm.DB, opts ...gen.DOOption) systemStore {
 	_systemStore.Image = field.NewString(tableName, "image")
 	_systemStore.Latitude = field.NewString(tableName, "latitude")
 	_systemStore.Longitude = field.NewString(tableName, "longitude")
-	_systemStore.ValidTime = field.NewString(tableName, "valid_time")
-	_systemStore.DayTime = field.NewString(tableName, "day_time")
+	_systemStore.ValidTime = field.NewInt64(tableName, "valid_time")
+	_systemStore.DayTime = field.NewInt64(tableName, "day_time")
 	_systemStore.IsShow = field.NewInt64(tableName, "is_show")
 	_systemStore.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemStore.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -62,8 +62,8 @@ type systemStore struct {
 	Image           field.String // 门店logo
 	Latitude        field.String // 纬度
 	Longitude       field.String // 经度
-	ValidTime       field.String // 核销有效日期
-	DayTime         field.String // 每日营业开关时间
+	ValidTime       field.Int64  // 核销有效日期
+	DayTime         field.Int64  // 每日营业开关时间
 	IsShow          field.Int64  // 是否显示
 	CreatedAt       field.Int64
 	UpdatedAt       field.Int64
@@ -93,8 +93,8 @@ func (s *systemStore) updateTableName(table string) *systemStore {
 	s.Image = field.NewString(table, "image")
 	s.Latitude = field.NewString(table, "latitude")
 	s.Longitude = field.NewString(table, "longitude")
-	s.ValidTime = field.NewString(table, "valid_time")
-	s.DayTime = field.NewString(table, "day_time")
+	s.ValidTime = field.NewInt64(table, "valid_time")
+	s.DayTime = field.NewInt64(table, "day_time")
 	s.IsShow = field.NewInt64(table, "is_show")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")

@@ -8,5 +8,5 @@ import (
 )
 
 type Service interface {
-	GetStaffList(ctx context.Context, req *validation.GetSystemStoreStaffList) (*page.CommonPageResp[*response.SystemStoreStaffResp], error)
+	GetStaffList(ctx context.Context, req *validation.GetSystemStoreStaffList) (*page.CommonPageResp[response.SystemStoreStaff], error)
 }

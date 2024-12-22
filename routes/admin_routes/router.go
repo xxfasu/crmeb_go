@@ -44,6 +44,7 @@ func NewRouter(
 		publicGroup.GET("/health", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "ok")
 		})
+
 	}
 
 	{

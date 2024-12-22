@@ -2,12 +2,12 @@ package response
 
 import "time"
 
-type ValidateCodeResp struct {
+type ValidateCode struct {
 	Key  string `json:"key"`
 	Code string `json:"code"`
 }
 
-type SystemLoginResp struct {
+type SystemLogin struct {
 	ID       int64  `json:"id"`
 	Account  string `json:"account"`
 	RealName string `json:"real_name"`
@@ -15,26 +15,26 @@ type SystemLoginResp struct {
 	IsSMS    bool   `json:"is_sms"`
 }
 
-type SystemLoginPicResp struct {
-	BackgroundImage string                                `json:"backgroundImage"`
-	Logo            string                                `json:"logo"`
-	LoginLogo       string                                `json:"loginLogo"`
-	Banner          []SystemGroupDataAdminLoginBannerResp `json:"banner"`
+type SystemLoginPic struct {
+	BackgroundImage string                            `json:"backgroundImage"`
+	Logo            string                            `json:"logo"`
+	LoginLogo       string                            `json:"loginLogo"`
+	Banner          []SystemGroupDataAdminLoginBanner `json:"banner"`
 }
 
-type SystemMenusResp struct {
-	ID        int               `json:"id"`         // ID
-	Pid       int               `json:"pid"`        // 父级ID
-	Name      string            `json:"name"`       // 名称
-	Icon      string            `json:"icon"`       // 图标
-	Perms     string            `json:"perms"`      // 权限标识
-	Component string            `json:"component"`  // 组件路径
-	MenuType  string            `json:"menu_type"`  // 类型，M-目录，C-菜单，A-按钮
-	Sort      int               `json:"sort"`       // 排序
-	ChildList []SystemMenusResp `json:"child_list"` // 子对象列表
+type SystemMenus struct {
+	ID        int           `json:"id"`         // ID
+	Pid       int           `json:"pid"`        // 父级ID
+	Name      string        `json:"name"`       // 名称
+	Icon      string        `json:"icon"`       // 图标
+	Perms     string        `json:"perms"`      // 权限标识
+	Component string        `json:"component"`  // 组件路径
+	MenuType  string        `json:"menu_type"`  // 类型，M-目录，C-菜单，A-按钮
+	Sort      int           `json:"sort"`       // 排序
+	ChildList []SystemMenus `json:"child_list"` // 子对象列表
 }
 
-type SystemAdminResp struct {
+type SystemAdmin struct {
 	ID              int       `json:"id"`
 	Account         string    `json:"account"`
 	RealName        string    `json:"real_name"`
@@ -52,6 +52,6 @@ type SystemAdminResp struct {
 	PermissionsList []string  `json:"permissions_list"`
 }
 
-type SystemGroupDataAdminLoginBannerResp struct {
+type SystemGroupDataAdminLoginBanner struct {
 	PIC string `json:"pic"`
 }

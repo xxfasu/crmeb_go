@@ -38,5 +38,8 @@ func getToken(ctx context.Context, s *service, systemAdmin *model.SystemAdmin) (
 	})
 	loginUser := login_user.LoginUserData{User: systemAdmin, Permissions: permissionsList}
 	token, err := s.jwt.CreateToken(loginUser)
+	if err != nil {
+		return "", err
+	}
 	return token, nil
 }

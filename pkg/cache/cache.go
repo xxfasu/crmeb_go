@@ -38,7 +38,7 @@ func (f FetcherFunc) Fetch(ctx context.Context, key string) (string, error) {
 
 func InitLocalCache(client redis.UniversalClient) Cache {
 	// 创建一个 10MB 大小的缓存
-	cacheSize := 10 * 1024 * 1024 // 10MB
+	cacheSize := 100 * 1024 * 1024 // 10MB
 	localCache := freecache.NewCache(cacheSize)
 	return &cache{LocalCache: localCache, RedisCache: client}
 }
