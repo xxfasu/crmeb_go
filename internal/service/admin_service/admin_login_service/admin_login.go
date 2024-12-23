@@ -77,7 +77,7 @@ func (s *service) SystemAdminLogin(ctx context.Context, req *validation.SystemAd
 		return resp, err
 	}
 	resp.Token = token
-	err = copier.Copy(&resp, systemAdmin)
+	err = copier.Copy(resp, systemAdmin)
 	if err != nil {
 		return resp, err
 	}
@@ -98,7 +98,7 @@ func (s *service) SystemAdminLogout(ctx context.Context, token string) error {
 func (s *service) GetAdminInfo(ctx context.Context, loginUserData login_user.LoginUserData) (*response.SystemAdmin, error) {
 	resp := new(response.SystemAdmin)
 	systemAdmin := loginUserData.User
-	err := copier.Copy(&resp, systemAdmin)
+	err := resp.ConvertFromModel(systemAdmin)
 	if err != nil {
 		return resp, err
 	}
@@ -134,8 +134,7 @@ func (s *service) GetLoginPic(ctx context.Context) (*response.SystemLoginPic, er
 	return resp, nil
 }
 
-func (s *service) GetMenus(ctx context.Context, loginUserData login_user.LoginUserData) ([]*response.SystemMenus, error) {
-	resp := make([]*response.SystemMenus, 0)
+func (s *service) GetMenus(ctx context.Context, loginUserData login_user.LoginUserData) ([]*response.SystemMenu, error) {
 	systemAdmin := loginUserData.User
 	roleList := strings.Split(systemAdmin.Roles, ",")
 	menuList := make([]*model.SystemMenu, 0)
@@ -146,19 +145,31 @@ func (s *service) GetMenus(ctx context.Context, loginUserData login_user.LoginUs
 		menuList, err = s.systemMenuService.GetUserMenus(ctx, systemAdmin.ID)
 	}
 	if err != nil {
-		return resp, err
+		return nil, err
 	}
-	var flag error
-	resp = lo.Map(menuList, func(item *model.SystemMenu, index int) *response.SystemMenus {
-		temp := new(response.SystemMenus)
-		if err := copier.Copy(&temp, item); err != nil {
-			flag = err
-			return temp
-		}
-		return temp
+
+	return buildTree(menuList), nil
+}
+
+func buildTree(menuList []*model.SystemMenu) []*response.SystemMenu {
+	menuMap := lo.SliceToMap(menuList, func(item *model.SystemMenu) (int64, *response.SystemMenu) {
+		temp := new(response.SystemMenu)
+		temp.ConvertFromModel(item)
+		temp.ChildList = make([]*response.SystemMenu, 0)
+		return temp.ID, temp
 	})
-	if flag != nil {
-		return resp, flag
+	menuTree := make([]*response.SystemMenu, 0)
+	// 第二次遍历，建立父子关系
+	for _, menu := range menuList {
+		if menu.Pid == 0 { // 或者其他表示顶级菜单的条件
+			systemMenu := menuMap[menu.ID]
+			menuTree = append(menuTree, systemMenu)
+		} else if parentMenu, exists := menuMap[menu.Pid]; exists {
+			if parentMenu.ChildList == nil {
+				parentMenu.ChildList = make([]*response.SystemMenu, 0)
+			}
+			parentMenu.ChildList = append(parentMenu.ChildList, menuMap[menu.ID])
+		}
 	}
-	return resp, nil
+	return menuTree
 }

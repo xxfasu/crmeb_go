@@ -13,5 +13,5 @@ type Service interface {
 	SystemAdminLogout(ctx context.Context, token string) error
 	GetAdminInfo(ctx context.Context, loginUserData login_user.LoginUserData) (*response.SystemAdmin, error)
 	GetLoginPic(ctx context.Context) (*response.SystemLoginPic, error)
-	GetMenus(ctx context.Context, loginUserData login_user.LoginUserData) ([]*response.SystemMenus, error)
+	GetMenus(ctx context.Context, loginUserData login_user.LoginUserData) ([]*response.SystemMenu, error)
 }

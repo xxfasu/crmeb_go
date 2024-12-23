@@ -8,7 +8,7 @@ import (
 
 type SystemStoreStaff struct {
 	ID           int64       `json:"id"`           // id
-	UID          int         `json:"uid"`          // 微信用户id
+	UID          int64       `json:"uid"`          // 微信用户id
 	Avatar       string      `json:"avatar"`       // 店员头像
 	User         User        `json:"user"`         // 用户信息
 	StoreID      int64       `json:"storeId"`      // 门店id

@@ -876,7 +876,7 @@ const (
 	CommonSwitchOpen = "1" // 公共开关：1开启
 
 	// JS_CONFIG_CRMEB_CHAT_TONGJI
-	JSConfigCrmebChatTongji = "crmeb_tongji_js" // CRMEB chat 统计
+	JSConfigCrmebChatStatistics = "crmeb_statistics_js" // CRMEB chat 统计
 )
 
 // 可变变量

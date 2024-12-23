@@ -34,7 +34,7 @@ func (r *repository) GetAllMenus(ctx context.Context) ([]*model.SystemMenu, erro
 	systemMenu := gen.Q.SystemMenu
 	return gen.SystemMenu.WithContext(ctx).Where(
 		systemMenu.IsShow.Eq(1),
-		systemMenu.MenuType.Eq("A"),
+		systemMenu.MenuType.Neq("A"),
 	).Find()
 }
 

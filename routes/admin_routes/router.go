@@ -2,6 +2,7 @@ package admin_routes
 
 import (
 	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/system_config_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_store_staff_handler"
 	"crmeb_go/internal/middleware"
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,7 @@ func NewRouter(
 	casbinM *middleware.CasbinM,
 	adminLoginHandler *admin_login_handler.Handler,
 	systemStoreStaffHandler *system_store_staff_handler.Handler,
+	systemConfigHandler *system_config_handler.Handler,
 ) *gin.Engine {
 	router := gin.New()
 	if true {
@@ -48,6 +50,7 @@ func NewRouter(
 	}
 
 	{
+		jsConfigRouter(casbinM, privateGroup, systemConfigHandler)
 
 		adminLoginRouter(casbinM, publicGroup, privateGroup, adminLoginHandler)
 

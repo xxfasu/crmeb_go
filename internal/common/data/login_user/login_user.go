@@ -13,9 +13,3 @@ type LoginUserData struct {
 	Permissions   []*model.SystemPermissions `json:"permissions"`    // 权限列表
 	User          *model.SystemAdmin         `json:"user"`           // 用户信息
 }
-
-type Condition struct {
-	UserID   string
-	Nickname string
-	Email    string
-}

@@ -9,6 +9,7 @@ package wire
 import (
 	"crmeb_go/internal/casbin"
 	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/system_config_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_store_staff_handler"
 	"crmeb_go/internal/middleware"
 	"crmeb_go/internal/repository"
@@ -72,7 +73,8 @@ func NewWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine,
 	system_store_serviceService := system_store_service.New(transaction, system_store_repositoryRepository)
 	system_store_staff_serviceService := system_store_staff_service.New(transaction, system_store_staff_repositoryRepository, user_serviceService, system_store_serviceService)
 	system_store_staff_handlerHandler := system_store_staff_handler.New(system_store_staff_serviceService)
-	engine := admin_routes.NewRouter(recovery, cors, logM, authM, casbinM, handler, system_store_staff_handlerHandler)
+	system_config_handlerHandler := system_config_handler.New(system_config_serviceService)
+	engine := admin_routes.NewRouter(recovery, cors, logM, authM, casbinM, handler, system_store_staff_handlerHandler, system_config_handlerHandler)
 	return engine, func() {
 		cleanup()
 	}, nil

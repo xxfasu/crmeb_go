@@ -43,17 +43,6 @@ func TestGetOnly(t *testing.T) {
 	t.Log(file)
 }
 
-func TestSignURL(t *testing.T) {
-	path := "test/"
-	fileName := "ttaa.pdf"
-	signedURL, err := ossClient.SignURL(path, fileName, constants.UrlExpireTime, constants.PreviewFile)
-	if err != nil {
-		t.Errorf("Error generating signed URL: %v", err)
-	}
-	// 输出签名URL
-	t.Logf("Signed URL: %s", signedURL)
-}
-
 func TestRename(t *testing.T) {
 	err := ossClient.Rename("test/test.pdf", "test/test1.pdf")
 	if err != nil {

@@ -16,7 +16,7 @@ func adminLoginRouter(casbinM *middleware.CasbinM, publicRouter *gin.RouterGroup
 	}
 
 	{
-		privateRouter.GET("/getMenus", casbinM.CasbinMiddleware("public:jsconfig:getcrmebchatconfig"), handler.GetMenus)
+		privateRouter.GET("/getAdminInfoByToken", casbinM.CasbinMiddleware("admin:info"), handler.GetAdminInfo)
 		privateRouter.POST("/logout", casbinM.CasbinMiddleware("admin:logout"), handler.Logout)
 		privateRouter.GET("/getMenus", casbinM.CasbinMiddleware("admin:login:menus"), handler.GetMenus)
 	}
