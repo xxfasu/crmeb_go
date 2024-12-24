@@ -21,23 +21,25 @@ type repository struct {
 
 func (r *repository) GetAllPermissions(ctx context.Context) ([]*model.SystemMenu, error) {
 	systemMenu := gen.Q.SystemMenu
-	return gen.SystemMenu.WithContext(ctx).Where(
+	return systemMenu.WithContext(ctx).Where(
 		systemMenu.MenuType.Neq("M"),
 	).Find()
 }
 
 func (r *repository) GetPermissionsByUserID(ctx context.Context, userID int64) ([]*model.SystemMenu, error) {
-	return gen.SystemMenu.WithContext(ctx).GetUserPermission(userID)
+	systemMenu := gen.Q.SystemMenu
+	return systemMenu.WithContext(ctx).GetUserPermission(userID)
 }
 
 func (r *repository) GetAllMenus(ctx context.Context) ([]*model.SystemMenu, error) {
 	systemMenu := gen.Q.SystemMenu
-	return gen.SystemMenu.WithContext(ctx).Where(
+	return systemMenu.WithContext(ctx).Where(
 		systemMenu.IsShow.Eq(1),
 		systemMenu.MenuType.Neq("A"),
 	).Find()
 }
 
 func (r *repository) GetMenusByUserID(ctx context.Context, userID int64) ([]*model.SystemMenu, error) {
-	return gen.SystemMenu.WithContext(ctx).GetUserMenus(userID)
+	systemMenu := gen.Q.SystemMenu
+	return systemMenu.WithContext(ctx).GetUserMenus(userID)
 }

@@ -2,7 +2,7 @@ package admin_login_service
 
 import (
 	"context"
-	"crmeb_go/internal/common/data/login_user"
+	"crmeb_go/internal/common/data"
 	"crmeb_go/internal/model"
 	"github.com/samber/lo"
 	"slices"
@@ -36,7 +36,7 @@ func getToken(ctx context.Context, s *service, systemAdmin *model.SystemAdmin) (
 			Sort: item.Sort,
 		}
 	})
-	loginUser := login_user.LoginUserData{User: systemAdmin, Permissions: permissionsList}
+	loginUser := data.LoginUser{User: systemAdmin, Permissions: permissionsList}
 	token, err := s.jwt.CreateToken(loginUser)
 	if err != nil {
 		return "", err

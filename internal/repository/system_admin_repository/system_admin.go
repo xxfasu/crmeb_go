@@ -21,14 +21,14 @@ type repository struct {
 
 func (r *repository) GetUser(ctx context.Context, userName string) (*model.SystemAdmin, error) {
 	systemAdmin := gen.Q.SystemAdmin
-	return gen.SystemAdmin.WithContext(ctx).Where(
+	return systemAdmin.WithContext(ctx).Where(
 		systemAdmin.Account.Eq(userName),
 	).First()
 }
 
 func (r *repository) Update(ctx context.Context, ID int64, umap map[string]interface{}) error {
 	systemAdmin := gen.Q.SystemAdmin
-	_, err := gen.SystemAdmin.WithContext(ctx).
+	_, err := systemAdmin.WithContext(ctx).
 		Where(
 			systemAdmin.ID.Eq(ID),
 		).

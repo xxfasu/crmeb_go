@@ -28,7 +28,7 @@ func newUserVisitRecord(db *gorm.DB, opts ...gen.DOOption) userVisitRecord {
 	tableName := _userVisitRecord.userVisitRecordDo.TableName()
 	_userVisitRecord.ALL = field.NewAsterisk(tableName)
 	_userVisitRecord.ID = field.NewInt64(tableName, "id")
-	_userVisitRecord.Date = field.NewString(tableName, "date")
+	_userVisitRecord.Date = field.NewInt64(tableName, "date")
 	_userVisitRecord.UID = field.NewInt64(tableName, "uid")
 	_userVisitRecord.VisitType = field.NewInt64(tableName, "visit_type")
 	_userVisitRecord.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -46,9 +46,9 @@ type userVisitRecord struct {
 
 	ALL       field.Asterisk
 	ID        field.Int64
-	Date      field.String // 日期
-	UID       field.Int64  // 用户uid
-	VisitType field.Int64  // 访问类型
+	Date      field.Int64 // 日期
+	UID       field.Int64 // 用户uid
+	VisitType field.Int64 // 访问类型
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -69,7 +69,7 @@ func (u userVisitRecord) As(alias string) *userVisitRecord {
 func (u *userVisitRecord) updateTableName(table string) *userVisitRecord {
 	u.ALL = field.NewAsterisk(table)
 	u.ID = field.NewInt64(table, "id")
-	u.Date = field.NewString(table, "date")
+	u.Date = field.NewInt64(table, "date")
 	u.UID = field.NewInt64(table, "uid")
 	u.VisitType = field.NewInt64(table, "visit_type")
 	u.CreatedAt = field.NewInt64(table, "created_at")

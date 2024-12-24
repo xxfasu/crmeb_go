@@ -473,36 +473,6 @@ const (
 	// SIGN_TYPE_EXPERIENCE_TITLE
 	SignTypeExperienceTitle = "签到经验奖励" // 经验
 
-	// SEARCH_DATE_DAY
-	SearchDateDay = "today" // 今天
-
-	// SEARCH_DATE_YESTERDAY
-	SearchDateYesterday = "yesterday" // 昨天
-
-	// SEARCH_DATE_LATELY_7
-	SearchDateLately7 = "lately7" // 最近7天
-
-	// SEARCH_DATE_LATELY_30
-	SearchDateLately30 = "lately30" // 最近30天
-
-	// SEARCH_DATE_WEEK
-	SearchDateWeek = "week" // 本周
-
-	// SEARCH_DATE_PRE_WEEK
-	SearchDatePreWeek = "preWeek" // 上周
-
-	// SEARCH_DATE_MONTH
-	SearchDateMonth = "month" // 本月
-
-	// SEARCH_DATE_PRE_MONTH
-	SearchDatePreMonth = "preMonth" // 上月
-
-	// SEARCH_DATE_YEAR
-	SearchDateYear = "year" // 年
-
-	// SEARCH_DATE_PRE_YEAR
-	SearchDatePreYear = "preYear" // 上一年
-
 	// CATEGORY_TYPE_PRODUCT
 	CategoryTypeProduct = 1 // 产品分类
 

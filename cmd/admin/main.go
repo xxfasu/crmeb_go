@@ -69,9 +69,8 @@ func main() {
 	svcConfig := &service.Config{
 		Name:        "Crmeb Admin",
 		DisplayName: "Crmeb Admin",
-		Description: "Crmeb Admin",
+		Description: "Crmeb backend Management System",
 	}
-
 	prg := &program{}
 	s, err := service.New(prg, svcConfig)
 	if err != nil {

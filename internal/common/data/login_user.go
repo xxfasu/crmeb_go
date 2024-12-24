@@ -1,8 +1,8 @@
-package login_user
+package data
 
 import "crmeb_go/internal/model"
 
-type LoginUserData struct {
+type LoginUser struct {
 	Token         string                     `json:"token"`          // 用户唯一标识
 	LoginTime     int64                      `json:"login_time"`     // 登陆时间
 	ExpireTime    int64                      `json:"expire_time"`    // 过期时间

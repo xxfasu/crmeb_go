@@ -3,7 +3,7 @@ package admin_login_service
 import (
 	"context"
 	"crmeb_go/constants"
-	"crmeb_go/internal/common/data/login_user"
+	"crmeb_go/internal/common/data"
 	"crmeb_go/internal/common/response"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
@@ -95,7 +95,7 @@ func (s *service) SystemAdminLogout(ctx context.Context, token string) error {
 	return s.jwt.DeleteToken(token)
 }
 
-func (s *service) GetAdminInfo(ctx context.Context, loginUserData login_user.LoginUserData) (*response.SystemAdmin, error) {
+func (s *service) GetAdminInfo(ctx context.Context, loginUserData data.LoginUser) (*response.SystemAdmin, error) {
 	resp := new(response.SystemAdmin)
 	systemAdmin := loginUserData.User
 	err := resp.ConvertFromModel(systemAdmin)
@@ -134,7 +134,7 @@ func (s *service) GetLoginPic(ctx context.Context) (*response.SystemLoginPic, er
 	return resp, nil
 }
 
-func (s *service) GetMenus(ctx context.Context, loginUserData login_user.LoginUserData) ([]*response.SystemMenu, error) {
+func (s *service) GetMenus(ctx context.Context, loginUserData data.LoginUser) ([]*response.SystemMenu, error) {
 	systemAdmin := loginUserData.User
 	roleList := strings.Split(systemAdmin.Roles, ",")
 	menuList := make([]*model.SystemMenu, 0)

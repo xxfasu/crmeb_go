@@ -6,6 +6,7 @@ package gen
 
 import (
 	"context"
+	"strings"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -13,10 +14,13 @@ import (
 
 	"gorm.io/gen"
 	"gorm.io/gen/field"
+	"gorm.io/gen/helper"
 
 	"gorm.io/plugin/dbresolver"
 
 	"crmeb_go/internal/model"
+
+	"crmeb_go/internal/common/data"
 )
 
 func newUser(db *gorm.DB, opts ...gen.DOOption) user {
@@ -320,6 +324,53 @@ type IUserDo interface {
 	Returning(value interface{}, columns ...string) IUserDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
+
+	GetAddUserCountGroupDate(condition *data.DateCondition) (result []*data.UserEveryDate, err error)
+}
+
+// SELECT
+//
+//		 DATE(FROM_UNIXTIME(created_at)) AS every_date,
+//	 COUNT(id) AS id,
+//
+// FROM
+//
+//		eb_user
+//	{{where}}
+//		{{if condition.Start !=0}}
+//			eb_user.created_at >= @condition.Start AND
+//		{{end}}
+//		{{if condition.End !=0}}
+//			eb_user.created_at <  @condition.End AND
+//		{{end}}
+//		eb_user.deleted_at = 0
+//	{{end}}
+//
+// GROUP BY every_date
+// ORDER BY every_date ASC
+func (u userDo) GetAddUserCountGroupDate(condition *data.DateCondition) (result []*data.UserEveryDate, err error) {
+	var params []interface{}
+
+	var generateSQL strings.Builder
+	generateSQL.WriteString("SELECT DATE(FROM_UNIXTIME(created_at)) AS every_date, COUNT(id) AS id, FROM eb_user ")
+	var whereSQL0 strings.Builder
+	if condition.Start != 0 {
+		params = append(params, condition.Start)
+		whereSQL0.WriteString("eb_user.created_at >= ? AND ")
+	}
+	if condition.End != 0 {
+		params = append(params, condition.End)
+		whereSQL0.WriteString("eb_user.created_at < ? AND ")
+	}
+	whereSQL0.WriteString("eb_user.deleted_at = 0 ")
+	helper.JoinWhereBuilder(&generateSQL, whereSQL0)
+	generateSQL.WriteString("GROUP BY every_date ORDER BY every_date ASC ")
+
+	var executeSQL *gorm.DB
+	executeSQL = u.UnderlyingDB().Raw(generateSQL.String(), params...).Find(&result) // ignore_security_alert
+	err = executeSQL.Error
+
+	return
 }
 
 func (u userDo) Debug() IUserDo {

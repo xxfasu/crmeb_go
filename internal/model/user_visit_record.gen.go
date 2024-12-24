@@ -11,7 +11,7 @@ const TableNameUserVisitRecord = "eb_user_visit_record"
 // UserVisitRecord 用户访问记录表
 type UserVisitRecord struct {
 	ID        int64                 `gorm:"column:id;type:int;primaryKey;autoIncrement:true" json:"id"`
-	Date      string                `gorm:"column:date;type:varchar(20);comment:日期" json:"date"`       // 日期
+	Date      int64                 `gorm:"column:date;type:bigint;comment:日期" json:"date"`            // 日期
 	UID       int64                 `gorm:"column:uid;type:int;comment:用户uid" json:"uid"`              // 用户uid
 	VisitType int64                 `gorm:"column:visit_type;type:int;comment:访问类型" json:"visit_type"` // 访问类型
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`

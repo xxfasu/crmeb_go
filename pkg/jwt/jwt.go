@@ -2,7 +2,7 @@ package jwt
 
 import (
 	"context"
-	"crmeb_go/internal/common/data/login_user"
+	"crmeb_go/internal/common/data"
 	"crmeb_go/pkg/cache"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
@@ -25,7 +25,7 @@ func NewJwt(cache cache.Cache) *JWT {
 	return &JWT{cache}
 }
 
-func (j *JWT) CreateToken(loginUserData login_user.LoginUserData) (string, error) {
+func (j *JWT) CreateToken(loginUserData data.LoginUser) (string, error) {
 	token := uuid.NewString()
 	loginUserData.Token = token
 	err := j.RefreshToken(loginUserData)
@@ -40,8 +40,8 @@ func (j *JWT) DeleteToken(token string) error {
 	return j.cache.DelCache(key)
 }
 
-func (j *JWT) GetLoginUser(ctx *gin.Context) (login_user.LoginUserData, error) {
-	var loginUserData login_user.LoginUserData
+func (j *JWT) GetLoginUser(ctx *gin.Context) (data.LoginUser, error) {
+	var loginUserData data.LoginUser
 	token := getToken(ctx)
 	if len(token) != 0 {
 		key := getTokenKey(token)
@@ -58,7 +58,7 @@ func (j *JWT) GetLoginUser(ctx *gin.Context) (login_user.LoginUserData, error) {
 	return loginUserData, nil
 }
 
-func (j *JWT) VerifyToken(loginUserData login_user.LoginUserData) error {
+func (j *JWT) VerifyToken(loginUserData data.LoginUser) error {
 	expireTime := loginUserData.ExpireTime
 	currentTime := time.Now().Unix() // 获取当前时间，Unix 时间戳，单位为秒
 	if expireTime-currentTime <= MillisMinuteTen {
@@ -70,7 +70,7 @@ func (j *JWT) VerifyToken(loginUserData login_user.LoginUserData) error {
 	return nil
 }
 
-func (j *JWT) RefreshToken(loginUserData login_user.LoginUserData) error {
+func (j *JWT) RefreshToken(loginUserData data.LoginUser) error {
 	loginUserData.LoginTime = time.Now().Unix()
 	loginUserData.ExpireTime = loginUserData.LoginTime + ExpireTime
 	key := getTokenKey(loginUserData.Token)

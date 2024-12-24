@@ -22,7 +22,7 @@ type repository struct {
 
 func (r *repository) GetGroupDataPageList(ctx context.Context, condition validation.SystemGroupDataSearch) ([]*model.SystemGroupData, int64, error) {
 	systemGroupData := gen.Q.SystemGroupData
-	return gen.SystemGroupData.WithContext(ctx).
+	return systemGroupData.WithContext(ctx).
 		Where(
 			systemGroupData.Gid.Eq(condition.GID),
 			systemGroupData.Status.Eq(condition.Status),

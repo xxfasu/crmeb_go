@@ -22,7 +22,7 @@ type repository struct {
 func (r *repository) GetStoreList(ctx context.Context, storeIDList []int64) ([]*model.SystemStore, error) {
 	systemStore := gen.Q.SystemStore
 
-	return gen.SystemStore.WithContext(ctx).
+	return systemStore.WithContext(ctx).
 		Where(systemStore.ID.In(storeIDList...)).
 		Find()
 }

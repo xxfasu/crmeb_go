@@ -21,7 +21,7 @@ type repository struct {
 
 func (r *repository) GetConfigByName(ctx context.Context, name string) (*model.SystemConfig, error) {
 	systemConfig := gen.Q.SystemConfig
-	return gen.SystemConfig.WithContext(ctx).Where(
+	return systemConfig.WithContext(ctx).Where(
 		systemConfig.Status.Eq(0),
 		systemConfig.Name.Eq(name),
 	).First()
@@ -29,7 +29,7 @@ func (r *repository) GetConfigByName(ctx context.Context, name string) (*model.S
 
 func (r *repository) GetConfigALL(ctx context.Context) ([]*model.SystemConfig, error) {
 	systemConfig := gen.Q.SystemConfig
-	return gen.SystemConfig.WithContext(ctx).Where(
+	return systemConfig.WithContext(ctx).Where(
 		systemConfig.Status.Eq(0),
 	).Find()
 }

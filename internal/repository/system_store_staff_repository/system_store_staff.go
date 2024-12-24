@@ -22,7 +22,7 @@ type repository struct {
 
 func (r *repository) GetStoreStaffPageList(ctx context.Context, condition *validation.GetSystemStoreStaffList) ([]*model.SystemStoreStaff, int64, error) {
 	systemStoreStaff := gen.Q.SystemStoreStaff
-	tx := gen.SystemStoreStaff.WithContext(ctx)
+	tx := systemStoreStaff.WithContext(ctx)
 	if condition.StoreID > 0 {
 		tx = tx.Where(
 			systemStoreStaff.StoreID.Eq(condition.StoreID),

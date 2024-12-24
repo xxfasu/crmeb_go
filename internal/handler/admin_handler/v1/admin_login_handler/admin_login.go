@@ -1,7 +1,7 @@
 package admin_login_handler
 
 import (
-	"crmeb_go/internal/common/data/login_user"
+	"crmeb_go/internal/common/data"
 	"crmeb_go/internal/service/admin_service/admin_login_service"
 	"crmeb_go/internal/validation"
 	"crmeb_go/pkg/response"
@@ -52,7 +52,7 @@ func (h *Handler) Logout(ctx *gin.Context) {
 }
 
 func (h *Handler) GetAdminInfo(ctx *gin.Context) {
-	value := ctx.Value("user-info").(login_user.LoginUserData)
+	value := ctx.Value("user-info").(data.LoginUser)
 	resp, err := h.service.GetAdminInfo(ctx, value)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
@@ -71,7 +71,7 @@ func (h *Handler) GetLoginPic(ctx *gin.Context) {
 }
 
 func (h *Handler) GetMenus(ctx *gin.Context) {
-	value := ctx.Value("user-info").(login_user.LoginUserData)
+	value := ctx.Value("user-info").(data.LoginUser)
 	resp, err := h.service.GetMenus(ctx, value)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())

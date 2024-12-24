@@ -1,7 +1,9 @@
 package main
 
 import (
+	"crmeb_go/internal/repository/store_order_repository"
 	"crmeb_go/internal/repository/system_menu_repository"
+	"crmeb_go/internal/repository/user_repository"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
@@ -118,8 +120,14 @@ func main() {
 	// 模型自定义选项组
 	fieldOpts := []gen.ModelOpt{jsonField, softDeleteField}
 	g.ApplyInterface(func() {}, g.GenerateAllTable(fieldOpts...)...)
-	g.ApplyInterface(func(system_menu_repository.Querier) {}, g.GenerateModel("eb_system_menu", fieldOpts...))
+	applyInterface(g, fieldOpts)
 	g.WithImportPkgPath("github.com/shopspring/decimal")
 	// 执行并生成代码
 	g.Execute()
+}
+
+func applyInterface(g *gen.Generator, fieldOpts []gen.ModelOpt) {
+	g.ApplyInterface(func(system_menu_repository.Querier) {}, g.GenerateModel("eb_system_menu", fieldOpts...))
+	g.ApplyInterface(func(store_order_repository.Querier) {}, g.GenerateModel("eb_store_order", fieldOpts...))
+	g.ApplyInterface(func(user_repository.Querier) {}, g.GenerateModel("eb_user", fieldOpts...))
 }
