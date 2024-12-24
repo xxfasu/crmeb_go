@@ -20,7 +20,7 @@ type SystemAttachment struct {
 	ImageType int64                 `gorm:"column:image_type;type:tinyint unsigned;not null;default:1;comment:图片上传类型 1本地 2七牛云 3OSS 4COS" json:"image_type"` // 图片上传类型 1本地 2七牛云 3OSS 4COS
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName SystemAttachment's table name

@@ -50,7 +50,7 @@ type StoreBargain struct {
 	PeopleNum       int64                 `gorm:"column:people_num;type:int;comment:砍价人数——需要多少人砍价成功" json:"people_num"`                                            // 砍价人数——需要多少人砍价成功
 	CreatedAt       int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt       int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt       soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt       soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreBargain's table name

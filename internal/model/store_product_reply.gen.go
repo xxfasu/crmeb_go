@@ -28,7 +28,7 @@ type StoreProductReply struct {
 	Sku                  string                `gorm:"column:sku;type:varchar(128);not null;comment:商品规格属性值,多个,号隔开" json:"sku"`                                 // 商品规格属性值,多个,号隔开
 	CreatedAt            int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt            int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt            soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt            soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreProductReply's table name

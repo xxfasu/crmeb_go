@@ -56,7 +56,7 @@ type StoreProduct struct {
 	IsRecycle    int64                 `gorm:"column:is_recycle;type:tinyint(1);not null;comment:是否回收站" json:"is_recycle"`                      // 是否回收站
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt    int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreProduct's table name

@@ -16,7 +16,7 @@ type SystemGroup struct {
 	FormID    int64                 `gorm:"column:form_id;type:int;not null;comment:form 表单 id" json:"form_id"`        // form 表单 id
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName SystemGroup's table name

@@ -30,7 +30,7 @@ type StoreProductLog struct {
 	AddTime     int64                 `gorm:"column:add_time;type:bigint;not null;comment:添加时间" json:"add_time"`                               // 添加时间
 	CreatedAt   int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt   int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt   soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt   soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreProductLog's table name

@@ -16,7 +16,7 @@ type SystemFormTemp struct {
 	Content   string                `gorm:"column:content;type:text;not null;comment:表单内容" json:"content"`             // 表单内容
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName SystemFormTemp's table name

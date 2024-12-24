@@ -19,7 +19,7 @@ type SystemUserLevel struct {
 	Icon       string                `gorm:"column:icon;type:varchar(255);not null;comment:会员图标" json:"icon"`               // 会员图标
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt  int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName SystemUserLevel's table name

@@ -70,7 +70,7 @@ type StoreOrder struct {
 	OutTradeNo             string                `gorm:"column:out_trade_no;type:varchar(32);comment:商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号" json:"out_trade_no"`             // 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
 	CreatedAt              int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt              int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt              soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt              soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreOrder's table name

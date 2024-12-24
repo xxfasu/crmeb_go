@@ -26,7 +26,7 @@ type UserBill struct {
 	Status    int64                 `gorm:"column:status;type:tinyint(1);not null;default:1;comment:0 = 带确定 1 = 有效 -1 = 无效" json:"status"` // 0 = 带确定 1 = 有效 -1 = 无效
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName UserBill's table name

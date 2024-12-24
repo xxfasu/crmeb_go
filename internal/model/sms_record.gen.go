@@ -21,7 +21,7 @@ type SmsRecord struct {
 	Memo       string                `gorm:"column:memo;type:text;comment:短信平台返回信息" json:"memo"`                                                           // 短信平台返回信息
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt  int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName SmsRecord's table name

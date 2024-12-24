@@ -17,7 +17,7 @@ type StoreProductRelation struct {
 	Category  string                `gorm:"column:category;type:varchar(32);not null;comment:某种类型的商品(普通商品、秒杀商品)" json:"category"` // 某种类型的商品(普通商品、秒杀商品)
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreProductRelation's table name

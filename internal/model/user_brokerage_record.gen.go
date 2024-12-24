@@ -28,7 +28,7 @@ type UserBrokerageRecord struct {
 	BrokerageLevel int64                 `gorm:"column:brokerage_level;type:int;comment:分销等级" json:"brokerage_level"`                                           // 分销等级
 	CreatedAt      int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt      int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt      soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt      soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName UserBrokerageRecord's table name

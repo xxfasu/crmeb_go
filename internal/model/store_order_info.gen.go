@@ -34,7 +34,7 @@ type StoreOrderInfo struct {
 	ProductType  int64                 `gorm:"column:product_type;type:int;not null;comment:商品类型:0-普通，1-秒杀，2-砍价，3-拼团，4-视频号" json:"product_type"` // 商品类型:0-普通，1-秒杀，2-砍价，3-拼团，4-视频号
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt    int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreOrderInfo's table name

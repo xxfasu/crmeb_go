@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
+	"gorm.io/gen/field"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 	"runtime"
@@ -109,16 +110,13 @@ func main() {
 	}
 	// 要先于`ApplyBasic`执行
 	g.WithDataTypeMap(dataMap)
-	jsonField := gen.FieldJSONTagWithNS(func(columnName string) (tagContent string) {
-		toStringField := `deleted_at`
-		if strings.Contains(toStringField, columnName) {
-			return "-"
-		}
-		return columnName
+	jsonField := gen.FieldJSONTag("deleted_at", "-")
+	gormField := gen.FieldGORMTag("deleted_at", func(tag field.GormTag) field.GormTag {
+		return tag.Append("softDelete", "unix")
 	})
 	softDeleteField := gen.FieldType("deleted_at", "soft_delete.DeletedAt")
 	// 模型自定义选项组
-	fieldOpts := []gen.ModelOpt{jsonField, softDeleteField}
+	fieldOpts := []gen.ModelOpt{jsonField, gormField, softDeleteField}
 	g.ApplyInterface(func() {}, g.GenerateAllTable(fieldOpts...)...)
 	applyInterface(g, fieldOpts)
 	g.WithImportPkgPath("github.com/shopspring/decimal")

@@ -23,7 +23,7 @@ type SystemAdmin struct {
 	IsSms      int64                 `gorm:"column:is_sms;type:tinyint unsigned;comment:是否接收短信" json:"is_sms"`                            // 是否接收短信
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt  int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName SystemAdmin's table name

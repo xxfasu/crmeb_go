@@ -25,7 +25,7 @@ type UserAddress struct {
 	IsDefault int64                 `gorm:"column:is_default;type:tinyint unsigned;not null;comment:是否默认" json:"is_default"`          // 是否默认
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName UserAddress's table name

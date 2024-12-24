@@ -15,7 +15,7 @@ type StoreProductRule struct {
 	RuleValue string                `gorm:"column:rule_value;type:text;not null;comment:规格值" json:"rule_value"`       // 规格值
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreProductRule's table name

@@ -34,7 +34,7 @@ type StoreProductAttrValue struct {
 	AttrValue    string                `gorm:"column:attr_value;type:text;comment:attr_values 创建更新时的属性对应" json:"attr_value"`                    // attr_values 创建更新时的属性对应
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt    int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreProductAttrValue's table name

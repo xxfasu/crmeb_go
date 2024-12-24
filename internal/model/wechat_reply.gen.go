@@ -17,7 +17,7 @@ type WechatReply struct {
 	Status    int64                 `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:回复状态 0=不可用  1 =可用" json:"status"` // 回复状态 0=不可用  1 =可用
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName WechatReply's table name

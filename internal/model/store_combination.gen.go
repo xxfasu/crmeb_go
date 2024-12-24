@@ -50,7 +50,7 @@ type StoreCombination struct {
 	VirtualRation int64                 `gorm:"column:virtual_ration;type:int;not null;default:100;comment:虚拟成团百分比" json:"virtual_ration"` // 虚拟成团百分比
 	CreatedAt     int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt     int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt     soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt     soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName StoreCombination's table name

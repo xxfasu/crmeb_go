@@ -16,7 +16,7 @@ type UserVisitRecord struct {
 	VisitType int64                 `gorm:"column:visit_type;type:int;comment:访问类型" json:"visit_type"` // 访问类型
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName UserVisitRecord's table name

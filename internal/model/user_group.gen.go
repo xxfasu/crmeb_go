@@ -14,7 +14,7 @@ type UserGroup struct {
 	GroupName string                `gorm:"column:group_name;type:varchar(64);comment:用户分组名称" json:"group_name"` // 用户分组名称
 	CreatedAt int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName UserGroup's table name

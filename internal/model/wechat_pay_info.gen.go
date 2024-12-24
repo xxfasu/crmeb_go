@@ -44,7 +44,7 @@ type WechatPayInfo struct {
 	TradeStateDesc string                `gorm:"column:trade_state_desc;type:varchar(256);comment:交易状态描述" json:"trade_state_desc"`                                                                   // 交易状态描述
 	CreatedAt      int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt      int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt      soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt      soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName WechatPayInfo's table name

@@ -22,7 +22,7 @@ type UserToken struct {
 	LoginIP     string                `gorm:"column:login_ip;type:varchar(32);comment:登录ip" json:"login_ip"`                                                  // 登录ip
 	CreatedAt   int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt   int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt   soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt   soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName UserToken's table name

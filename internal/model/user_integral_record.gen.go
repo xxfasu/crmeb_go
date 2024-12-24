@@ -24,7 +24,7 @@ type UserIntegralRecord struct {
 	ThawTime   int64                 `gorm:"column:thaw_time;type:bigint;not null;comment:解冻时间" json:"thaw_time"`                                       // 解冻时间
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt  int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
-	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
+	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint;softDelete:unix" json:"-"`
 }
 
 // TableName UserIntegralRecord's table name
