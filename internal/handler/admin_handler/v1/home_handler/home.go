@@ -42,3 +42,30 @@ func (h *Handler) ChartOrder(ctx *gin.Context) {
 	}
 	response.OkWithData(ctx, resp)
 }
+
+func (h *Handler) ChartOrderInWeek(ctx *gin.Context) {
+	resp, err := h.service.ChartOrder(ctx)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.OkWithData(ctx, resp)
+}
+
+func (h *Handler) ChartOrderInMonth(ctx *gin.Context) {
+	resp, err := h.service.ChartOrder(ctx)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.OkWithData(ctx, resp)
+}
+
+func (h *Handler) ChartOrderInYear(ctx *gin.Context) {
+	resp, err := h.service.ChartOrder(ctx)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.OkWithData(ctx, resp)
+}

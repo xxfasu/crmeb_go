@@ -13,5 +13,8 @@ func homeRouter(casbinM *middleware.CasbinM, privateRouter *gin.RouterGroup, han
 		privateRouter.GET("/index", casbinM.CasbinMiddleware("admin:statistics:home:index"), handler.IndexDate)
 		privateRouter.GET("/chart/user", casbinM.CasbinMiddleware("admin:statistics:home:chart:user"), handler.ChartUser)
 		privateRouter.GET("/chart/order", casbinM.CasbinMiddleware("admin:statistics:home:chart:order"), handler.ChartOrder)
+		privateRouter.GET("/chart/order/week", casbinM.CasbinMiddleware("admin:statistics:home:chart:order:week"), handler.ChartOrderInWeek)
+		privateRouter.GET("/chart/order/month", casbinM.CasbinMiddleware("admin:statistics:home:chart:order:month"), handler.ChartOrderInMonth)
+		privateRouter.GET("/chart/order/year", casbinM.CasbinMiddleware("admin:statistics:home:chart:order:year"), handler.ChartOrderInYear)
 	}
 }

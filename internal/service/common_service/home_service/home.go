@@ -92,3 +92,8 @@ func (s *service) ChartOrder(ctx context.Context) (*map[string]interface{}, erro
 	resp, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDateLately30)
 	return resp, err
 }
+
+func (s *service) ChartOrderWeek(ctx context.Context) (*map[string]interface{}, error) {
+	resp, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDateLately30)
+	return resp, err
+}
