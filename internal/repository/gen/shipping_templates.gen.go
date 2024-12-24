@@ -19,31 +19,31 @@ import (
 	"crmeb_go/internal/model"
 )
 
-func newShippingTemplate(db *gorm.DB, opts ...gen.DOOption) shippingTemplate {
-	_shippingTemplate := shippingTemplate{}
+func newShippingTemplates(db *gorm.DB, opts ...gen.DOOption) shippingTemplates {
+	_shippingTemplates := shippingTemplates{}
 
-	_shippingTemplate.shippingTemplateDo.UseDB(db, opts...)
-	_shippingTemplate.shippingTemplateDo.UseModel(&model.ShippingTemplate{})
+	_shippingTemplates.shippingTemplatesDo.UseDB(db, opts...)
+	_shippingTemplates.shippingTemplatesDo.UseModel(&model.ShippingTemplates{})
 
-	tableName := _shippingTemplate.shippingTemplateDo.TableName()
-	_shippingTemplate.ALL = field.NewAsterisk(tableName)
-	_shippingTemplate.ID = field.NewInt64(tableName, "id")
-	_shippingTemplate.Name = field.NewString(tableName, "name")
-	_shippingTemplate.Type = field.NewInt64(tableName, "type")
-	_shippingTemplate.Appoint = field.NewInt64(tableName, "appoint")
-	_shippingTemplate.Sort = field.NewInt64(tableName, "sort")
-	_shippingTemplate.CreatedAt = field.NewInt64(tableName, "created_at")
-	_shippingTemplate.UpdatedAt = field.NewInt64(tableName, "updated_at")
-	_shippingTemplate.DeletedAt = field.NewField(tableName, "deleted_at")
+	tableName := _shippingTemplates.shippingTemplatesDo.TableName()
+	_shippingTemplates.ALL = field.NewAsterisk(tableName)
+	_shippingTemplates.ID = field.NewInt64(tableName, "id")
+	_shippingTemplates.Name = field.NewString(tableName, "name")
+	_shippingTemplates.Type = field.NewInt64(tableName, "type")
+	_shippingTemplates.Appoint = field.NewInt64(tableName, "appoint")
+	_shippingTemplates.Sort = field.NewInt64(tableName, "sort")
+	_shippingTemplates.CreatedAt = field.NewInt64(tableName, "created_at")
+	_shippingTemplates.UpdatedAt = field.NewInt64(tableName, "updated_at")
+	_shippingTemplates.DeletedAt = field.NewField(tableName, "deleted_at")
 
-	_shippingTemplate.fillFieldMap()
+	_shippingTemplates.fillFieldMap()
 
-	return _shippingTemplate
+	return _shippingTemplates
 }
 
-// shippingTemplate 运费模板
-type shippingTemplate struct {
-	shippingTemplateDo shippingTemplateDo
+// shippingTemplates 运费模板
+type shippingTemplates struct {
+	shippingTemplatesDo shippingTemplatesDo
 
 	ALL       field.Asterisk
 	ID        field.Int64  // 编号
@@ -58,17 +58,17 @@ type shippingTemplate struct {
 	fieldMap map[string]field.Expr
 }
 
-func (s shippingTemplate) Table(newTableName string) *shippingTemplate {
-	s.shippingTemplateDo.UseTable(newTableName)
+func (s shippingTemplates) Table(newTableName string) *shippingTemplates {
+	s.shippingTemplatesDo.UseTable(newTableName)
 	return s.updateTableName(newTableName)
 }
 
-func (s shippingTemplate) As(alias string) *shippingTemplate {
-	s.shippingTemplateDo.DO = *(s.shippingTemplateDo.As(alias).(*gen.DO))
+func (s shippingTemplates) As(alias string) *shippingTemplates {
+	s.shippingTemplatesDo.DO = *(s.shippingTemplatesDo.As(alias).(*gen.DO))
 	return s.updateTableName(alias)
 }
 
-func (s *shippingTemplate) updateTableName(table string) *shippingTemplate {
+func (s *shippingTemplates) updateTableName(table string) *shippingTemplates {
 	s.ALL = field.NewAsterisk(table)
 	s.ID = field.NewInt64(table, "id")
 	s.Name = field.NewString(table, "name")
@@ -84,19 +84,19 @@ func (s *shippingTemplate) updateTableName(table string) *shippingTemplate {
 	return s
 }
 
-func (s *shippingTemplate) WithContext(ctx context.Context) IShippingTemplateDo {
-	return s.shippingTemplateDo.WithContext(ctx)
+func (s *shippingTemplates) WithContext(ctx context.Context) IShippingTemplatesDo {
+	return s.shippingTemplatesDo.WithContext(ctx)
 }
 
-func (s shippingTemplate) TableName() string { return s.shippingTemplateDo.TableName() }
+func (s shippingTemplates) TableName() string { return s.shippingTemplatesDo.TableName() }
 
-func (s shippingTemplate) Alias() string { return s.shippingTemplateDo.Alias() }
+func (s shippingTemplates) Alias() string { return s.shippingTemplatesDo.Alias() }
 
-func (s shippingTemplate) Columns(cols ...field.Expr) gen.Columns {
-	return s.shippingTemplateDo.Columns(cols...)
+func (s shippingTemplates) Columns(cols ...field.Expr) gen.Columns {
+	return s.shippingTemplatesDo.Columns(cols...)
 }
 
-func (s *shippingTemplate) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
+func (s *shippingTemplates) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
 		return nil, false
@@ -105,7 +105,7 @@ func (s *shippingTemplate) GetFieldByName(fieldName string) (field.OrderExpr, bo
 	return _oe, ok
 }
 
-func (s *shippingTemplate) fillFieldMap() {
+func (s *shippingTemplates) fillFieldMap() {
 	s.fieldMap = make(map[string]field.Expr, 8)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
@@ -117,58 +117,58 @@ func (s *shippingTemplate) fillFieldMap() {
 	s.fieldMap["deleted_at"] = s.DeletedAt
 }
 
-func (s shippingTemplate) clone(db *gorm.DB) shippingTemplate {
-	s.shippingTemplateDo.ReplaceConnPool(db.Statement.ConnPool)
+func (s shippingTemplates) clone(db *gorm.DB) shippingTemplates {
+	s.shippingTemplatesDo.ReplaceConnPool(db.Statement.ConnPool)
 	return s
 }
 
-func (s shippingTemplate) replaceDB(db *gorm.DB) shippingTemplate {
-	s.shippingTemplateDo.ReplaceDB(db)
+func (s shippingTemplates) replaceDB(db *gorm.DB) shippingTemplates {
+	s.shippingTemplatesDo.ReplaceDB(db)
 	return s
 }
 
-type shippingTemplateDo struct{ gen.DO }
+type shippingTemplatesDo struct{ gen.DO }
 
-type IShippingTemplateDo interface {
+type IShippingTemplatesDo interface {
 	gen.SubQuery
-	Debug() IShippingTemplateDo
-	WithContext(ctx context.Context) IShippingTemplateDo
+	Debug() IShippingTemplatesDo
+	WithContext(ctx context.Context) IShippingTemplatesDo
 	WithResult(fc func(tx gen.Dao)) gen.ResultInfo
 	ReplaceDB(db *gorm.DB)
-	ReadDB() IShippingTemplateDo
-	WriteDB() IShippingTemplateDo
+	ReadDB() IShippingTemplatesDo
+	WriteDB() IShippingTemplatesDo
 	As(alias string) gen.Dao
-	Session(config *gorm.Session) IShippingTemplateDo
+	Session(config *gorm.Session) IShippingTemplatesDo
 	Columns(cols ...field.Expr) gen.Columns
-	Clauses(conds ...clause.Expression) IShippingTemplateDo
-	Not(conds ...gen.Condition) IShippingTemplateDo
-	Or(conds ...gen.Condition) IShippingTemplateDo
-	Select(conds ...field.Expr) IShippingTemplateDo
-	Where(conds ...gen.Condition) IShippingTemplateDo
-	Order(conds ...field.Expr) IShippingTemplateDo
-	Distinct(cols ...field.Expr) IShippingTemplateDo
-	Omit(cols ...field.Expr) IShippingTemplateDo
-	Join(table schema.Tabler, on ...field.Expr) IShippingTemplateDo
-	LeftJoin(table schema.Tabler, on ...field.Expr) IShippingTemplateDo
-	RightJoin(table schema.Tabler, on ...field.Expr) IShippingTemplateDo
-	Group(cols ...field.Expr) IShippingTemplateDo
-	Having(conds ...gen.Condition) IShippingTemplateDo
-	Limit(limit int) IShippingTemplateDo
-	Offset(offset int) IShippingTemplateDo
+	Clauses(conds ...clause.Expression) IShippingTemplatesDo
+	Not(conds ...gen.Condition) IShippingTemplatesDo
+	Or(conds ...gen.Condition) IShippingTemplatesDo
+	Select(conds ...field.Expr) IShippingTemplatesDo
+	Where(conds ...gen.Condition) IShippingTemplatesDo
+	Order(conds ...field.Expr) IShippingTemplatesDo
+	Distinct(cols ...field.Expr) IShippingTemplatesDo
+	Omit(cols ...field.Expr) IShippingTemplatesDo
+	Join(table schema.Tabler, on ...field.Expr) IShippingTemplatesDo
+	LeftJoin(table schema.Tabler, on ...field.Expr) IShippingTemplatesDo
+	RightJoin(table schema.Tabler, on ...field.Expr) IShippingTemplatesDo
+	Group(cols ...field.Expr) IShippingTemplatesDo
+	Having(conds ...gen.Condition) IShippingTemplatesDo
+	Limit(limit int) IShippingTemplatesDo
+	Offset(offset int) IShippingTemplatesDo
 	Count() (count int64, err error)
-	Scopes(funcs ...func(gen.Dao) gen.Dao) IShippingTemplateDo
-	Unscoped() IShippingTemplateDo
-	Create(values ...*model.ShippingTemplate) error
-	CreateInBatches(values []*model.ShippingTemplate, batchSize int) error
-	Save(values ...*model.ShippingTemplate) error
-	First() (*model.ShippingTemplate, error)
-	Take() (*model.ShippingTemplate, error)
-	Last() (*model.ShippingTemplate, error)
-	Find() ([]*model.ShippingTemplate, error)
-	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.ShippingTemplate, err error)
-	FindInBatches(result *[]*model.ShippingTemplate, batchSize int, fc func(tx gen.Dao, batch int) error) error
+	Scopes(funcs ...func(gen.Dao) gen.Dao) IShippingTemplatesDo
+	Unscoped() IShippingTemplatesDo
+	Create(values ...*model.ShippingTemplates) error
+	CreateInBatches(values []*model.ShippingTemplates, batchSize int) error
+	Save(values ...*model.ShippingTemplates) error
+	First() (*model.ShippingTemplates, error)
+	Take() (*model.ShippingTemplates, error)
+	Last() (*model.ShippingTemplates, error)
+	Find() ([]*model.ShippingTemplates, error)
+	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.ShippingTemplates, err error)
+	FindInBatches(result *[]*model.ShippingTemplates, batchSize int, fc func(tx gen.Dao, batch int) error) error
 	Pluck(column field.Expr, dest interface{}) error
-	Delete(...*model.ShippingTemplate) (info gen.ResultInfo, err error)
+	Delete(...*model.ShippingTemplates) (info gen.ResultInfo, err error)
 	Update(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
 	UpdateSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	Updates(value interface{}) (info gen.ResultInfo, err error)
@@ -176,163 +176,163 @@ type IShippingTemplateDo interface {
 	UpdateColumnSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	UpdateColumns(value interface{}) (info gen.ResultInfo, err error)
 	UpdateFrom(q gen.SubQuery) gen.Dao
-	Attrs(attrs ...field.AssignExpr) IShippingTemplateDo
-	Assign(attrs ...field.AssignExpr) IShippingTemplateDo
-	Joins(fields ...field.RelationField) IShippingTemplateDo
-	Preload(fields ...field.RelationField) IShippingTemplateDo
-	FirstOrInit() (*model.ShippingTemplate, error)
-	FirstOrCreate() (*model.ShippingTemplate, error)
-	FindByPage(offset int, limit int) (result []*model.ShippingTemplate, count int64, err error)
+	Attrs(attrs ...field.AssignExpr) IShippingTemplatesDo
+	Assign(attrs ...field.AssignExpr) IShippingTemplatesDo
+	Joins(fields ...field.RelationField) IShippingTemplatesDo
+	Preload(fields ...field.RelationField) IShippingTemplatesDo
+	FirstOrInit() (*model.ShippingTemplates, error)
+	FirstOrCreate() (*model.ShippingTemplates, error)
+	FindByPage(offset int, limit int) (result []*model.ShippingTemplates, count int64, err error)
 	ScanByPage(result interface{}, offset int, limit int) (count int64, err error)
 	Scan(result interface{}) (err error)
-	Returning(value interface{}, columns ...string) IShippingTemplateDo
+	Returning(value interface{}, columns ...string) IShippingTemplatesDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
 }
 
-func (s shippingTemplateDo) Debug() IShippingTemplateDo {
+func (s shippingTemplatesDo) Debug() IShippingTemplatesDo {
 	return s.withDO(s.DO.Debug())
 }
 
-func (s shippingTemplateDo) WithContext(ctx context.Context) IShippingTemplateDo {
+func (s shippingTemplatesDo) WithContext(ctx context.Context) IShippingTemplatesDo {
 	return s.withDO(s.DO.WithContext(ctx))
 }
 
-func (s shippingTemplateDo) ReadDB() IShippingTemplateDo {
+func (s shippingTemplatesDo) ReadDB() IShippingTemplatesDo {
 	return s.Clauses(dbresolver.Read)
 }
 
-func (s shippingTemplateDo) WriteDB() IShippingTemplateDo {
+func (s shippingTemplatesDo) WriteDB() IShippingTemplatesDo {
 	return s.Clauses(dbresolver.Write)
 }
 
-func (s shippingTemplateDo) Session(config *gorm.Session) IShippingTemplateDo {
+func (s shippingTemplatesDo) Session(config *gorm.Session) IShippingTemplatesDo {
 	return s.withDO(s.DO.Session(config))
 }
 
-func (s shippingTemplateDo) Clauses(conds ...clause.Expression) IShippingTemplateDo {
+func (s shippingTemplatesDo) Clauses(conds ...clause.Expression) IShippingTemplatesDo {
 	return s.withDO(s.DO.Clauses(conds...))
 }
 
-func (s shippingTemplateDo) Returning(value interface{}, columns ...string) IShippingTemplateDo {
+func (s shippingTemplatesDo) Returning(value interface{}, columns ...string) IShippingTemplatesDo {
 	return s.withDO(s.DO.Returning(value, columns...))
 }
 
-func (s shippingTemplateDo) Not(conds ...gen.Condition) IShippingTemplateDo {
+func (s shippingTemplatesDo) Not(conds ...gen.Condition) IShippingTemplatesDo {
 	return s.withDO(s.DO.Not(conds...))
 }
 
-func (s shippingTemplateDo) Or(conds ...gen.Condition) IShippingTemplateDo {
+func (s shippingTemplatesDo) Or(conds ...gen.Condition) IShippingTemplatesDo {
 	return s.withDO(s.DO.Or(conds...))
 }
 
-func (s shippingTemplateDo) Select(conds ...field.Expr) IShippingTemplateDo {
+func (s shippingTemplatesDo) Select(conds ...field.Expr) IShippingTemplatesDo {
 	return s.withDO(s.DO.Select(conds...))
 }
 
-func (s shippingTemplateDo) Where(conds ...gen.Condition) IShippingTemplateDo {
+func (s shippingTemplatesDo) Where(conds ...gen.Condition) IShippingTemplatesDo {
 	return s.withDO(s.DO.Where(conds...))
 }
 
-func (s shippingTemplateDo) Order(conds ...field.Expr) IShippingTemplateDo {
+func (s shippingTemplatesDo) Order(conds ...field.Expr) IShippingTemplatesDo {
 	return s.withDO(s.DO.Order(conds...))
 }
 
-func (s shippingTemplateDo) Distinct(cols ...field.Expr) IShippingTemplateDo {
+func (s shippingTemplatesDo) Distinct(cols ...field.Expr) IShippingTemplatesDo {
 	return s.withDO(s.DO.Distinct(cols...))
 }
 
-func (s shippingTemplateDo) Omit(cols ...field.Expr) IShippingTemplateDo {
+func (s shippingTemplatesDo) Omit(cols ...field.Expr) IShippingTemplatesDo {
 	return s.withDO(s.DO.Omit(cols...))
 }
 
-func (s shippingTemplateDo) Join(table schema.Tabler, on ...field.Expr) IShippingTemplateDo {
+func (s shippingTemplatesDo) Join(table schema.Tabler, on ...field.Expr) IShippingTemplatesDo {
 	return s.withDO(s.DO.Join(table, on...))
 }
 
-func (s shippingTemplateDo) LeftJoin(table schema.Tabler, on ...field.Expr) IShippingTemplateDo {
+func (s shippingTemplatesDo) LeftJoin(table schema.Tabler, on ...field.Expr) IShippingTemplatesDo {
 	return s.withDO(s.DO.LeftJoin(table, on...))
 }
 
-func (s shippingTemplateDo) RightJoin(table schema.Tabler, on ...field.Expr) IShippingTemplateDo {
+func (s shippingTemplatesDo) RightJoin(table schema.Tabler, on ...field.Expr) IShippingTemplatesDo {
 	return s.withDO(s.DO.RightJoin(table, on...))
 }
 
-func (s shippingTemplateDo) Group(cols ...field.Expr) IShippingTemplateDo {
+func (s shippingTemplatesDo) Group(cols ...field.Expr) IShippingTemplatesDo {
 	return s.withDO(s.DO.Group(cols...))
 }
 
-func (s shippingTemplateDo) Having(conds ...gen.Condition) IShippingTemplateDo {
+func (s shippingTemplatesDo) Having(conds ...gen.Condition) IShippingTemplatesDo {
 	return s.withDO(s.DO.Having(conds...))
 }
 
-func (s shippingTemplateDo) Limit(limit int) IShippingTemplateDo {
+func (s shippingTemplatesDo) Limit(limit int) IShippingTemplatesDo {
 	return s.withDO(s.DO.Limit(limit))
 }
 
-func (s shippingTemplateDo) Offset(offset int) IShippingTemplateDo {
+func (s shippingTemplatesDo) Offset(offset int) IShippingTemplatesDo {
 	return s.withDO(s.DO.Offset(offset))
 }
 
-func (s shippingTemplateDo) Scopes(funcs ...func(gen.Dao) gen.Dao) IShippingTemplateDo {
+func (s shippingTemplatesDo) Scopes(funcs ...func(gen.Dao) gen.Dao) IShippingTemplatesDo {
 	return s.withDO(s.DO.Scopes(funcs...))
 }
 
-func (s shippingTemplateDo) Unscoped() IShippingTemplateDo {
+func (s shippingTemplatesDo) Unscoped() IShippingTemplatesDo {
 	return s.withDO(s.DO.Unscoped())
 }
 
-func (s shippingTemplateDo) Create(values ...*model.ShippingTemplate) error {
+func (s shippingTemplatesDo) Create(values ...*model.ShippingTemplates) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return s.DO.Create(values)
 }
 
-func (s shippingTemplateDo) CreateInBatches(values []*model.ShippingTemplate, batchSize int) error {
+func (s shippingTemplatesDo) CreateInBatches(values []*model.ShippingTemplates, batchSize int) error {
 	return s.DO.CreateInBatches(values, batchSize)
 }
 
 // Save : !!! underlying implementation is different with GORM
 // The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
-func (s shippingTemplateDo) Save(values ...*model.ShippingTemplate) error {
+func (s shippingTemplatesDo) Save(values ...*model.ShippingTemplates) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return s.DO.Save(values)
 }
 
-func (s shippingTemplateDo) First() (*model.ShippingTemplate, error) {
+func (s shippingTemplatesDo) First() (*model.ShippingTemplates, error) {
 	if result, err := s.DO.First(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.ShippingTemplate), nil
+		return result.(*model.ShippingTemplates), nil
 	}
 }
 
-func (s shippingTemplateDo) Take() (*model.ShippingTemplate, error) {
+func (s shippingTemplatesDo) Take() (*model.ShippingTemplates, error) {
 	if result, err := s.DO.Take(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.ShippingTemplate), nil
+		return result.(*model.ShippingTemplates), nil
 	}
 }
 
-func (s shippingTemplateDo) Last() (*model.ShippingTemplate, error) {
+func (s shippingTemplatesDo) Last() (*model.ShippingTemplates, error) {
 	if result, err := s.DO.Last(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.ShippingTemplate), nil
+		return result.(*model.ShippingTemplates), nil
 	}
 }
 
-func (s shippingTemplateDo) Find() ([]*model.ShippingTemplate, error) {
+func (s shippingTemplatesDo) Find() ([]*model.ShippingTemplates, error) {
 	result, err := s.DO.Find()
-	return result.([]*model.ShippingTemplate), err
+	return result.([]*model.ShippingTemplates), err
 }
 
-func (s shippingTemplateDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.ShippingTemplate, err error) {
-	buf := make([]*model.ShippingTemplate, 0, batchSize)
+func (s shippingTemplatesDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.ShippingTemplates, err error) {
+	buf := make([]*model.ShippingTemplates, 0, batchSize)
 	err = s.DO.FindInBatches(&buf, batchSize, func(tx gen.Dao, batch int) error {
 		defer func() { results = append(results, buf...) }()
 		return fc(tx, batch)
@@ -340,49 +340,49 @@ func (s shippingTemplateDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch
 	return results, err
 }
 
-func (s shippingTemplateDo) FindInBatches(result *[]*model.ShippingTemplate, batchSize int, fc func(tx gen.Dao, batch int) error) error {
+func (s shippingTemplatesDo) FindInBatches(result *[]*model.ShippingTemplates, batchSize int, fc func(tx gen.Dao, batch int) error) error {
 	return s.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (s shippingTemplateDo) Attrs(attrs ...field.AssignExpr) IShippingTemplateDo {
+func (s shippingTemplatesDo) Attrs(attrs ...field.AssignExpr) IShippingTemplatesDo {
 	return s.withDO(s.DO.Attrs(attrs...))
 }
 
-func (s shippingTemplateDo) Assign(attrs ...field.AssignExpr) IShippingTemplateDo {
+func (s shippingTemplatesDo) Assign(attrs ...field.AssignExpr) IShippingTemplatesDo {
 	return s.withDO(s.DO.Assign(attrs...))
 }
 
-func (s shippingTemplateDo) Joins(fields ...field.RelationField) IShippingTemplateDo {
+func (s shippingTemplatesDo) Joins(fields ...field.RelationField) IShippingTemplatesDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Joins(_f))
 	}
 	return &s
 }
 
-func (s shippingTemplateDo) Preload(fields ...field.RelationField) IShippingTemplateDo {
+func (s shippingTemplatesDo) Preload(fields ...field.RelationField) IShippingTemplatesDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Preload(_f))
 	}
 	return &s
 }
 
-func (s shippingTemplateDo) FirstOrInit() (*model.ShippingTemplate, error) {
+func (s shippingTemplatesDo) FirstOrInit() (*model.ShippingTemplates, error) {
 	if result, err := s.DO.FirstOrInit(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.ShippingTemplate), nil
+		return result.(*model.ShippingTemplates), nil
 	}
 }
 
-func (s shippingTemplateDo) FirstOrCreate() (*model.ShippingTemplate, error) {
+func (s shippingTemplatesDo) FirstOrCreate() (*model.ShippingTemplates, error) {
 	if result, err := s.DO.FirstOrCreate(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.ShippingTemplate), nil
+		return result.(*model.ShippingTemplates), nil
 	}
 }
 
-func (s shippingTemplateDo) FindByPage(offset int, limit int) (result []*model.ShippingTemplate, count int64, err error) {
+func (s shippingTemplatesDo) FindByPage(offset int, limit int) (result []*model.ShippingTemplates, count int64, err error) {
 	result, err = s.Offset(offset).Limit(limit).Find()
 	if err != nil {
 		return
@@ -397,7 +397,7 @@ func (s shippingTemplateDo) FindByPage(offset int, limit int) (result []*model.S
 	return
 }
 
-func (s shippingTemplateDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
+func (s shippingTemplatesDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = s.Count()
 	if err != nil {
 		return
@@ -407,15 +407,15 @@ func (s shippingTemplateDo) ScanByPage(result interface{}, offset int, limit int
 	return
 }
 
-func (s shippingTemplateDo) Scan(result interface{}) (err error) {
+func (s shippingTemplatesDo) Scan(result interface{}) (err error) {
 	return s.DO.Scan(result)
 }
 
-func (s shippingTemplateDo) Delete(models ...*model.ShippingTemplate) (result gen.ResultInfo, err error) {
+func (s shippingTemplatesDo) Delete(models ...*model.ShippingTemplates) (result gen.ResultInfo, err error) {
 	return s.DO.Delete(models)
 }
 
-func (s *shippingTemplateDo) withDO(do gen.Dao) *shippingTemplateDo {
+func (s *shippingTemplatesDo) withDO(do gen.Dao) *shippingTemplatesDo {
 	s.DO = *do.(*gen.DO)
 	return s
 }

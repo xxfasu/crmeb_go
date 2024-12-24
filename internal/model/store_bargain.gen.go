@@ -36,7 +36,6 @@ type StoreBargain struct {
 	Cost            decimal.Decimal       `gorm:"column:cost;type:decimal(8,2) unsigned;comment:成本价" json:"cost"`                                                  // 成本价
 	Sort            int64                 `gorm:"column:sort;type:int unsigned;not null;comment:排序" json:"sort"`                                                   // 排序
 	IsHot           int64                 `gorm:"column:is_hot;type:tinyint unsigned;not null;comment:是否推荐0不推荐1推荐" json:"is_hot"`                                  // 是否推荐0不推荐1推荐
-	IsDel           int64                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:是否删除 0未删除 1删除" json:"is_del"`                                // 是否删除 0未删除 1删除
 	AddTime         int64                 `gorm:"column:add_time;type:bigint unsigned;comment:添加时间" json:"add_time"`                                               // 添加时间
 	IsPostage       int64                 `gorm:"column:is_postage;type:tinyint unsigned;not null;default:1;comment:是否包邮 0不包邮 1包邮" json:"is_postage"`              // 是否包邮 0不包邮 1包邮
 	Postage         decimal.Decimal       `gorm:"column:postage;type:decimal(10,2) unsigned;comment:邮费" json:"postage"`                                            // 邮费

@@ -20,7 +20,7 @@ import (
 
 	"crmeb_go/internal/model"
 
-	"crmeb_go/internal/data/service_data"
+	"crmeb_go/internal/common/data"
 )
 
 func newUser(db *gorm.DB, opts ...gen.DOOption) user {
@@ -31,7 +31,7 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 
 	tableName := _user.userDo.TableName()
 	_user.ALL = field.NewAsterisk(tableName)
-	_user.UID = field.NewInt64(tableName, "uid")
+	_user.ID = field.NewInt64(tableName, "id")
 	_user.Account = field.NewString(tableName, "account")
 	_user.Pwd = field.NewString(tableName, "pwd")
 	_user.RealName = field.NewString(tableName, "real_name")
@@ -84,7 +84,7 @@ type user struct {
 	userDo userDo
 
 	ALL            field.Asterisk
-	UID            field.Int64  // 用户id
+	ID             field.Int64  // 用户id
 	Account        field.String // 用户账号
 	Pwd            field.String // 用户密码
 	RealName       field.String // 真实姓名
@@ -142,7 +142,7 @@ func (u user) As(alias string) *user {
 
 func (u *user) updateTableName(table string) *user {
 	u.ALL = field.NewAsterisk(table)
-	u.UID = field.NewInt64(table, "uid")
+	u.ID = field.NewInt64(table, "id")
 	u.Account = field.NewString(table, "account")
 	u.Pwd = field.NewString(table, "pwd")
 	u.RealName = field.NewString(table, "real_name")
@@ -209,7 +209,7 @@ func (u *user) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 
 func (u *user) fillFieldMap() {
 	u.fieldMap = make(map[string]field.Expr, 42)
-	u.fieldMap["uid"] = u.UID
+	u.fieldMap["id"] = u.ID
 	u.fieldMap["account"] = u.Account
 	u.fieldMap["pwd"] = u.Pwd
 	u.fieldMap["real_name"] = u.RealName
@@ -325,44 +325,49 @@ type IUserDo interface {
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
 
-	GetUserByCondition(condition service_data.Condition) (result *model.User, err error)
+	GetAddUserCountGroupDate(condition *data.DateCondition) (result []*data.UserEveryDate, err error)
 }
 
-// SELECT id,user_id,nickname,email FROM users
+// SELECT
 //
+//		 DATE(FROM_UNIXTIME(created_at)) AS every_date,
+//	 COUNT(id) AS id,
+//
+// FROM
+//
+//		eb_user
 //	{{where}}
-//		{{if condition.Nickname !=""}}
-//			nickname = @condition.Nickname AND
+//		{{if condition.Start !=0}}
+//			eb_user.created_at >= @condition.Start AND
 //		{{end}}
-//		{{if condition.UserID !=""}}
-//			user_id = @condition.UserID AND
+//		{{if condition.End !=0}}
+//			eb_user.created_at <  @condition.End AND
 //		{{end}}
-//		{{if condition.Email !=""}}
-//			email = @condition.Email
-//		{{end}}
+//		eb_user.deleted_at = 0
 //	{{end}}
-func (u userDo) GetUserByCondition(condition service_data.Condition) (result *model.User, err error) {
+//
+// GROUP BY every_date
+// ORDER BY every_date ASC
+func (u userDo) GetAddUserCountGroupDate(condition *data.DateCondition) (result []*data.UserEveryDate, err error) {
 	var params []interface{}
 
 	var generateSQL strings.Builder
-	generateSQL.WriteString("SELECT id,user_id,nickname,email FROM users ")
+	generateSQL.WriteString("SELECT DATE(FROM_UNIXTIME(created_at)) AS every_date, COUNT(id) AS id, FROM eb_user ")
 	var whereSQL0 strings.Builder
-	if condition.Nickname != "" {
-		params = append(params, condition.Nickname)
-		whereSQL0.WriteString("nickname = ? AND ")
+	if condition.Start != 0 {
+		params = append(params, condition.Start)
+		whereSQL0.WriteString("eb_user.created_at >= ? AND ")
 	}
-	if condition.UserID != "" {
-		params = append(params, condition.UserID)
-		whereSQL0.WriteString("user_id = ? AND ")
+	if condition.End != 0 {
+		params = append(params, condition.End)
+		whereSQL0.WriteString("eb_user.created_at < ? AND ")
 	}
-	if condition.Email != "" {
-		params = append(params, condition.Email)
-		whereSQL0.WriteString("email = ? ")
-	}
+	whereSQL0.WriteString("eb_user.deleted_at = 0 ")
 	helper.JoinWhereBuilder(&generateSQL, whereSQL0)
+	generateSQL.WriteString("GROUP BY every_date ORDER BY every_date ASC ")
 
 	var executeSQL *gorm.DB
-	executeSQL = u.UnderlyingDB().Raw(generateSQL.String(), params...).Take(&result) // ignore_security_alert
+	executeSQL = u.UnderlyingDB().Raw(generateSQL.String(), params...).Find(&result) // ignore_security_alert
 	err = executeSQL.Error
 
 	return

@@ -2,12 +2,12 @@ package user_service
 
 import (
 	"context"
-	"crmeb_go/internal/model"
-	"crmeb_go/internal/validation"
+	"crmeb_go/internal/common/data"
+	"crmeb_go/internal/common/response"
 )
 
-type UserService interface {
-	Register(ctx context.Context, req *validation.Register) error
-	Login(ctx context.Context, req *validation.Login) (string, error)
-	FindUser(ctx context.Context, req *validation.FindUser) (*model.User, error)
+type Service interface {
+	GetMapInID(ctx context.Context, uidList []int64) (map[int64]response.User, error)
+	GetRegisterNumByDate(ctx context.Context, params *data.DateParams) (*data.DateResult, error)
+	GetAddUserCountGroupDate(ctx context.Context, date string) (*map[string]interface{}, error)
 }

@@ -35,7 +35,6 @@ func newStoreSeckillManger(db *gorm.DB, opts ...gen.DOOption) storeSeckillManger
 	_storeSeckillManger.SilderImgs = field.NewString(tableName, "silder_imgs")
 	_storeSeckillManger.Sort = field.NewInt64(tableName, "sort")
 	_storeSeckillManger.Status = field.NewInt64(tableName, "status")
-	_storeSeckillManger.IsDel = field.NewInt64(tableName, "is_del")
 	_storeSeckillManger.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeSeckillManger.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeSeckillManger.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -57,7 +56,6 @@ type storeSeckillManger struct {
 	SilderImgs field.String // 轮播图
 	Sort       field.Int64  // 排序
 	Status     field.Int64  // 状态 0=关闭 1=开启
-	IsDel      field.Int64  // 删除标记 0=为删除 1=删除
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
 	DeletedAt  field.Field
@@ -85,7 +83,6 @@ func (s *storeSeckillManger) updateTableName(table string) *storeSeckillManger {
 	s.SilderImgs = field.NewString(table, "silder_imgs")
 	s.Sort = field.NewInt64(table, "sort")
 	s.Status = field.NewInt64(table, "status")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -117,7 +114,7 @@ func (s *storeSeckillManger) GetFieldByName(fieldName string) (field.OrderExpr, 
 }
 
 func (s *storeSeckillManger) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 12)
+	s.fieldMap = make(map[string]field.Expr, 11)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["start_time"] = s.StartTime
@@ -126,7 +123,6 @@ func (s *storeSeckillManger) fillFieldMap() {
 	s.fieldMap["silder_imgs"] = s.SilderImgs
 	s.fieldMap["sort"] = s.Sort
 	s.fieldMap["status"] = s.Status
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt

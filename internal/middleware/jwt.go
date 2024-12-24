@@ -3,8 +3,7 @@ package middleware
 import (
 	"crmeb_go/pkg/jwt"
 	"crmeb_go/pkg/logs"
-	"crmeb_go/pkg/utils"
-	"errors"
+	"crmeb_go/pkg/response"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -22,62 +21,32 @@ func NewAuthM(j *jwt.JWT) *AuthM {
 
 func (m *AuthM) StrictAuth() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		tokenString := ctx.Request.Header.Get("Authorization")
-		if tokenString == "" {
+		// tokenString := ctx.Request.Header.Get("Authorization")
+		loginUserData, err := m.j.GetLoginUser(ctx)
+		if err != nil {
 			logs.Log.WithContext(ctx).Warn("No token", zap.Any("data", map[string]interface{}{
 				"url":    ctx.Request.URL,
 				"params": ctx.Params,
 			}))
-			utils.ResError(ctx, errors.New("token is empty"))
+			response.FailWithMessage(ctx, "token is empty")
 			ctx.Abort()
 			return
 		}
 
-		claims, err := m.j.ParseToken(tokenString)
-		if err != nil {
-			logs.Log.WithContext(ctx).Error("token error", zap.Any("data", map[string]interface{}{
-				"url":    ctx.Request.URL,
-				"params": ctx.Params,
-			}), zap.Error(err))
-			utils.ResError(ctx, errors.New("token is valid"))
-			ctx.Abort()
-			return
-		}
-
-		ctx.Set("claims", claims)
-		recoveryLoggerFunc(ctx)
+		ctx.Set("user-info", loginUserData)
 		ctx.Next()
 	}
 }
 
 func (m *AuthM) NoStrictAuth() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		tokenString := ctx.Request.Header.Get("Authorization")
-		if tokenString == "" {
-			tokenString, _ = ctx.Cookie("accessToken")
-		}
-		if tokenString == "" {
-			tokenString = ctx.Query("accessToken")
-		}
-		if tokenString == "" {
-			ctx.Next()
-			return
-		}
-
-		claims, err := m.j.ParseToken(tokenString)
+		loginUserData, err := m.j.GetLoginUser(ctx)
 		if err != nil {
 			ctx.Next()
 			return
 		}
 
-		ctx.Set("claims", claims)
-		recoveryLoggerFunc(ctx)
+		ctx.Set("response", loginUserData)
 		ctx.Next()
-	}
-}
-
-func recoveryLoggerFunc(ctx *gin.Context) {
-	if userInfo, ok := ctx.MustGet("claims").(*jwt.MyCustomClaims); ok {
-		logs.Log.WithValue(ctx, zap.String("UserId", userInfo.UserID))
 	}
 }

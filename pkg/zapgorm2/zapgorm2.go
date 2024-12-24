@@ -29,10 +29,10 @@ func New(zapLogger *zap.Logger) gormlogger.Interface {
 	return &Logger{
 		ZapLogger:                 zapLogger,
 		LogLevel:                  gormlogger.Warn,
-		SlowThreshold:             100 * time.Millisecond,
-		Colorful:                  false,
-		IgnoreRecordNotFoundError: false,
-		ParameterizedQueries:      false,
+		SlowThreshold:             200 * time.Millisecond,
+		Colorful:                  true,
+		IgnoreRecordNotFoundError: true,
+		ParameterizedQueries:      true,
 	}
 }
 
@@ -43,27 +43,27 @@ func (l *Logger) LogMode(level gormlogger.LogLevel) gormlogger.Interface {
 }
 
 // Info print info
-func (l Logger) Info(ctx context.Context, msg string, data ...interface{}) {
+func (l *Logger) Info(ctx context.Context, msg string, data ...interface{}) {
 	if l.LogLevel >= gormlogger.Info {
 		l.logger(ctx).Sugar().Infof(msg, data...)
 	}
 }
 
 // Warn print warn messages
-func (l Logger) Warn(ctx context.Context, msg string, data ...interface{}) {
+func (l *Logger) Warn(ctx context.Context, msg string, data ...interface{}) {
 	if l.LogLevel >= gormlogger.Warn {
 		l.logger(ctx).Sugar().Warnf(msg, data...)
 	}
 }
 
 // Error print error messages
-func (l Logger) Error(ctx context.Context, msg string, data ...interface{}) {
+func (l *Logger) Error(ctx context.Context, msg string, data ...interface{}) {
 	if l.LogLevel >= gormlogger.Error {
 		l.logger(ctx).Sugar().Errorf(msg, data...)
 	}
 }
 
-func (l Logger) Trace(ctx context.Context, begin time.Time, fc func() (string, int64), err error) {
+func (l *Logger) Trace(ctx context.Context, begin time.Time, fc func() (string, int64), err error) {
 	if l.LogLevel <= gormlogger.Silent {
 		return
 	}
@@ -101,7 +101,7 @@ var (
 	gormPackage = filepath.Join("gorm.io", "gorm")
 )
 
-func (l Logger) logger(ctx context.Context) *zap.Logger {
+func (l *Logger) logger(ctx context.Context) *zap.Logger {
 	logger := l.ZapLogger
 	if ctx != nil {
 		if c, ok := ctx.(*gin.Context); ok {

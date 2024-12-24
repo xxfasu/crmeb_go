@@ -32,7 +32,6 @@ type StoreProductAttrValue struct {
 	Quota        int64                 `gorm:"column:quota;type:int;comment:活动限购数量" json:"quota"`                                               // 活动限购数量
 	QuotaShow    int64                 `gorm:"column:quota_show;type:int;comment:活动限购数量显示" json:"quota_show"`                                   // 活动限购数量显示
 	AttrValue    string                `gorm:"column:attr_value;type:text;comment:attr_values 创建更新时的属性对应" json:"attr_value"`                    // attr_values 创建更新时的属性对应
-	IsDel        int64                 `gorm:"column:is_del;type:tinyint(1);not null;comment:是否删除,0-否，1-是" json:"is_del"`                       // 是否删除,0-否，1-是
 	CreatedAt    int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt    int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt    soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

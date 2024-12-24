@@ -31,7 +31,6 @@ type StoreCoupon struct {
 	Type             int64                 `gorm:"column:type;type:tinyint;not null;default:1;comment:优惠券类型 1 手动领取, 2 新人券, 3 赠送券" json:"type"` // 优惠券类型 1 手动领取, 2 新人券, 3 赠送券
 	Sort             int64                 `gorm:"column:sort;type:int unsigned;not null;default:1;comment:排序" json:"sort"`                    // 排序
 	Status           int64                 `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:状态（0：关闭，1：开启）" json:"status"` // 状态（0：关闭，1：开启）
-	IsDel            int64                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:是否删除 状态（0：否，1：是）" json:"is_del"`        // 是否删除 状态（0：否，1：是）
 	CreatedAt        int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt        int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt        soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

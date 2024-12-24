@@ -2,54 +2,41 @@ package user_repository
 
 import (
 	"context"
-	"crmeb_go/internal/data/service_data"
+	"crmeb_go/internal/common/data"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository/gen"
-	"errors"
 	"gorm.io/gorm"
 )
 
-func NewUserRepository(
+func New(
 	db *gorm.DB,
-) UserRepository {
-	return &userRepository{
+) Repository {
+	return &repository{
 		db: db,
 	}
 }
 
-type userRepository struct {
+type repository struct {
 	db *gorm.DB
 }
 
-func (r *userRepository) Create(ctx context.Context, user *model.User) error {
-	err := gen.User.WithContext(ctx).Create(user)
-	return err
+func (r *repository) GetUserListInID(ctx context.Context, idList []int64) ([]*model.User, error) {
+	user := gen.Q.User
+
+	return user.WithContext(ctx).
+		Where(user.ID.In(idList...)).
+		Find()
 }
 
-func (r *userRepository) CreateTx(ctx context.Context, query *gen.Query, user *model.User) error {
-	err := query.User.WithContext(ctx).Create(user)
-	return err
+func (r *repository) GetRegisterNumByDate(ctx context.Context, start, end int64) (int64, error) {
+	user := gen.Q.User
+
+	return user.WithContext(ctx).
+		Where(user.CreatedAt.Between(start, end)).
+		Count()
 }
 
-func (r *userRepository) Update(ctx context.Context, user *model.User) error {
-	err := gen.User.WithContext(ctx).Save(user)
-	return err
-}
-
-func (r *userRepository) GetByID(ctx context.Context, userId string) (*model.User, error) {
-	userList, err := gen.User.WithContext(ctx).Where(gen.User.Account.Eq(userId)).Find()
-	return userList[0], err
-}
-
-func (r *userRepository) GetByEmail(ctx context.Context, email string) (*model.User, error) {
-	userList, err := gen.User.WithContext(ctx).Where(gen.User.Account.Eq(email)).Find()
-	return userList[0], err
-}
-
-func (r *userRepository) GetUserByCondition(ctx context.Context, condition service_data.Condition) (*model.User, error) {
-	user, err := gen.User.WithContext(ctx).GetUserByCondition(condition)
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, nil
-	}
-	return user, err
+func (r *repository) GetAddUserCountGroupDate(ctx context.Context, start, end int64) ([]*data.UserEveryDate, error) {
+	user := gen.Q.User
+	return user.WithContext(ctx).GetAddUserCountGroupDate(&data.DateCondition{Start: start, End: end})
 }

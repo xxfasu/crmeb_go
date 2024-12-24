@@ -50,7 +50,6 @@ func newStoreBargain(db *gorm.DB, opts ...gen.DOOption) storeBargain {
 	_storeBargain.Cost = field.NewField(tableName, "cost")
 	_storeBargain.Sort = field.NewInt64(tableName, "sort")
 	_storeBargain.IsHot = field.NewInt64(tableName, "is_hot")
-	_storeBargain.IsDel = field.NewInt64(tableName, "is_del")
 	_storeBargain.AddTime = field.NewInt64(tableName, "add_time")
 	_storeBargain.IsPostage = field.NewInt64(tableName, "is_postage")
 	_storeBargain.Postage = field.NewField(tableName, "postage")
@@ -100,7 +99,6 @@ type storeBargain struct {
 	Cost            field.Field  // 成本价
 	Sort            field.Int64  // 排序
 	IsHot           field.Int64  // 是否推荐0不推荐1推荐
-	IsDel           field.Int64  // 是否删除 0未删除 1删除
 	AddTime         field.Int64  // 添加时间
 	IsPostage       field.Int64  // 是否包邮 0不包邮 1包邮
 	Postage         field.Field  // 邮费
@@ -155,7 +153,6 @@ func (s *storeBargain) updateTableName(table string) *storeBargain {
 	s.Cost = field.NewField(table, "cost")
 	s.Sort = field.NewInt64(table, "sort")
 	s.IsHot = field.NewInt64(table, "is_hot")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.AddTime = field.NewInt64(table, "add_time")
 	s.IsPostage = field.NewInt64(table, "is_postage")
 	s.Postage = field.NewField(table, "postage")
@@ -199,7 +196,7 @@ func (s *storeBargain) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (s *storeBargain) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 39)
+	s.fieldMap = make(map[string]field.Expr, 38)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["product_id"] = s.ProductID
 	s.fieldMap["title"] = s.Title
@@ -223,7 +220,6 @@ func (s *storeBargain) fillFieldMap() {
 	s.fieldMap["cost"] = s.Cost
 	s.fieldMap["sort"] = s.Sort
 	s.fieldMap["is_hot"] = s.IsHot
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["add_time"] = s.AddTime
 	s.fieldMap["is_postage"] = s.IsPostage
 	s.fieldMap["postage"] = s.Postage

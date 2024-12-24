@@ -45,7 +45,6 @@ func newStoreCoupon(db *gorm.DB, opts ...gen.DOOption) storeCoupon {
 	_storeCoupon.Type = field.NewInt64(tableName, "type")
 	_storeCoupon.Sort = field.NewInt64(tableName, "sort")
 	_storeCoupon.Status = field.NewInt64(tableName, "status")
-	_storeCoupon.IsDel = field.NewInt64(tableName, "is_del")
 	_storeCoupon.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeCoupon.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeCoupon.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -78,7 +77,6 @@ type storeCoupon struct {
 	Type             field.Int64 // 优惠券类型 1 手动领取, 2 新人券, 3 赠送券
 	Sort             field.Int64 // 排序
 	Status           field.Int64 // 状态（0：关闭，1：开启）
-	IsDel            field.Int64 // 是否删除 状态（0：否，1：是）
 	CreatedAt        field.Int64
 	UpdatedAt        field.Int64
 	DeletedAt        field.Field
@@ -116,7 +114,6 @@ func (s *storeCoupon) updateTableName(table string) *storeCoupon {
 	s.Type = field.NewInt64(table, "type")
 	s.Sort = field.NewInt64(table, "sort")
 	s.Status = field.NewInt64(table, "status")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -146,7 +143,7 @@ func (s *storeCoupon) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *storeCoupon) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 22)
+	s.fieldMap = make(map[string]field.Expr, 21)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["money"] = s.Money
@@ -165,7 +162,6 @@ func (s *storeCoupon) fillFieldMap() {
 	s.fieldMap["type"] = s.Type
 	s.fieldMap["sort"] = s.Sort
 	s.fieldMap["status"] = s.Status
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt

@@ -19,9 +19,8 @@ type SystemAdmin struct {
 	LoginCount int64                 `gorm:"column:login_count;type:int unsigned;not null;comment:登录次数" json:"login_count"`               // 登录次数
 	Level      int64                 `gorm:"column:level;type:tinyint unsigned;not null;default:1;comment:后台管理员级别" json:"level"`          // 后台管理员级别
 	Status     int64                 `gorm:"column:status;type:tinyint unsigned;not null;default:1;comment:后台管理员状态 1有效0无效" json:"status"` // 后台管理员状态 1有效0无效
-	IsDel      int64                 `gorm:"column:is_del;type:tinyint unsigned;not null" json:"is_del"`
-	Phone      string                `gorm:"column:phone;type:varchar(15);comment:手机号码" json:"phone"`          // 手机号码
-	IsSms      int64                 `gorm:"column:is_sms;type:tinyint unsigned;comment:是否接收短信" json:"is_sms"` // 是否接收短信
+	Phone      string                `gorm:"column:phone;type:varchar(15);comment:手机号码" json:"phone"`                                     // 手机号码
+	IsSms      int64                 `gorm:"column:is_sms;type:tinyint unsigned;comment:是否接收短信" json:"is_sms"`                            // 是否接收短信
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt  int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

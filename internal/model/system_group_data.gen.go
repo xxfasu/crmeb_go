@@ -6,10 +6,10 @@ package model
 
 import "gorm.io/plugin/soft_delete"
 
-const TableNameSystemGroupDatum = "eb_system_group_data"
+const TableNameSystemGroupData = "eb_system_group_data"
 
-// SystemGroupDatum 组合数据详情表
-type SystemGroupDatum struct {
+// SystemGroupData 组合数据详情表
+type SystemGroupData struct {
 	ID        int64                 `gorm:"column:id;type:int;primaryKey;autoIncrement:true;comment:组合数据详情ID" json:"id"`           // 组合数据详情ID
 	Gid       int64                 `gorm:"column:gid;type:int;not null;comment:对应的数据组id" json:"gid"`                              // 对应的数据组id
 	Value     string                `gorm:"column:value;type:text;not null;comment:数据组对应的数据值（json数据）" json:"value"`                // 数据组对应的数据值（json数据）
@@ -20,7 +20,7 @@ type SystemGroupDatum struct {
 	DeletedAt soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`
 }
 
-// TableName SystemGroupDatum's table name
-func (*SystemGroupDatum) TableName() string {
-	return TableNameSystemGroupDatum
+// TableName SystemGroupData's table name
+func (*SystemGroupData) TableName() string {
+	return TableNameSystemGroupData
 }

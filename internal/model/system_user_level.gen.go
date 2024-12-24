@@ -17,7 +17,6 @@ type SystemUserLevel struct {
 	Grade      int64                 `gorm:"column:grade;type:int;not null;comment:会员等级" json:"grade"`                      // 会员等级
 	Discount   int64                 `gorm:"column:discount;type:int;not null;default:100;comment:享受折扣" json:"discount"`    // 享受折扣
 	Icon       string                `gorm:"column:icon;type:varchar(255);not null;comment:会员图标" json:"icon"`               // 会员图标
-	IsDel      int64                 `gorm:"column:is_del;type:tinyint(1);not null;comment:是否删除.1=删除,0=未删除" json:"is_del"`  // 是否删除.1=删除,0=未删除
 	CreatedAt  int64                 `gorm:"column:created_at;type:bigint" json:"created_at"`
 	UpdatedAt  int64                 `gorm:"column:updated_at;type:bigint" json:"updated_at"`
 	DeletedAt  soft_delete.DeletedAt `gorm:"column:deleted_at;type:bigint" json:"-"`

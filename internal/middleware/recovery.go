@@ -1,12 +1,11 @@
 package middleware
 
 import (
-	"crmeb_go/pkg/errors"
 	"crmeb_go/pkg/logs"
-	"crmeb_go/pkg/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"net/http"
 	"net/http/httputil"
 	"strings"
 	"time"
@@ -44,7 +43,7 @@ func (m *Recovery) Handler() gin.HandlerFunc {
 				// 记录错误日志，包含时间戳和相关字段
 				logs.Log.WithContext(ctx).Error(fmt.Sprintf("[Recovery] %s panic recovered", time.Now().Format("2006/01/02 - 15:04:05")), fields...)
 				// 返回内部服务器错误响应给客户端
-				utils.ResError(c, errors.InternalServerError("", "Internal server error, please try again later"))
+				c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Internal server error, please try again later"})
 			}
 		}()
 

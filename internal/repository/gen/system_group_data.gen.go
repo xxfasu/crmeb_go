@@ -19,31 +19,31 @@ import (
 	"crmeb_go/internal/model"
 )
 
-func newSystemGroupDatum(db *gorm.DB, opts ...gen.DOOption) systemGroupDatum {
-	_systemGroupDatum := systemGroupDatum{}
+func newSystemGroupData(db *gorm.DB, opts ...gen.DOOption) systemGroupData {
+	_systemGroupData := systemGroupData{}
 
-	_systemGroupDatum.systemGroupDatumDo.UseDB(db, opts...)
-	_systemGroupDatum.systemGroupDatumDo.UseModel(&model.SystemGroupDatum{})
+	_systemGroupData.systemGroupDataDo.UseDB(db, opts...)
+	_systemGroupData.systemGroupDataDo.UseModel(&model.SystemGroupData{})
 
-	tableName := _systemGroupDatum.systemGroupDatumDo.TableName()
-	_systemGroupDatum.ALL = field.NewAsterisk(tableName)
-	_systemGroupDatum.ID = field.NewInt64(tableName, "id")
-	_systemGroupDatum.Gid = field.NewInt64(tableName, "gid")
-	_systemGroupDatum.Value = field.NewString(tableName, "value")
-	_systemGroupDatum.Sort = field.NewInt64(tableName, "sort")
-	_systemGroupDatum.Status = field.NewInt64(tableName, "status")
-	_systemGroupDatum.CreatedAt = field.NewInt64(tableName, "created_at")
-	_systemGroupDatum.UpdatedAt = field.NewInt64(tableName, "updated_at")
-	_systemGroupDatum.DeletedAt = field.NewField(tableName, "deleted_at")
+	tableName := _systemGroupData.systemGroupDataDo.TableName()
+	_systemGroupData.ALL = field.NewAsterisk(tableName)
+	_systemGroupData.ID = field.NewInt64(tableName, "id")
+	_systemGroupData.Gid = field.NewInt64(tableName, "gid")
+	_systemGroupData.Value = field.NewString(tableName, "value")
+	_systemGroupData.Sort = field.NewInt64(tableName, "sort")
+	_systemGroupData.Status = field.NewInt64(tableName, "status")
+	_systemGroupData.CreatedAt = field.NewInt64(tableName, "created_at")
+	_systemGroupData.UpdatedAt = field.NewInt64(tableName, "updated_at")
+	_systemGroupData.DeletedAt = field.NewField(tableName, "deleted_at")
 
-	_systemGroupDatum.fillFieldMap()
+	_systemGroupData.fillFieldMap()
 
-	return _systemGroupDatum
+	return _systemGroupData
 }
 
-// systemGroupDatum 组合数据详情表
-type systemGroupDatum struct {
-	systemGroupDatumDo systemGroupDatumDo
+// systemGroupData 组合数据详情表
+type systemGroupData struct {
+	systemGroupDataDo systemGroupDataDo
 
 	ALL       field.Asterisk
 	ID        field.Int64  // 组合数据详情ID
@@ -58,17 +58,17 @@ type systemGroupDatum struct {
 	fieldMap map[string]field.Expr
 }
 
-func (s systemGroupDatum) Table(newTableName string) *systemGroupDatum {
-	s.systemGroupDatumDo.UseTable(newTableName)
+func (s systemGroupData) Table(newTableName string) *systemGroupData {
+	s.systemGroupDataDo.UseTable(newTableName)
 	return s.updateTableName(newTableName)
 }
 
-func (s systemGroupDatum) As(alias string) *systemGroupDatum {
-	s.systemGroupDatumDo.DO = *(s.systemGroupDatumDo.As(alias).(*gen.DO))
+func (s systemGroupData) As(alias string) *systemGroupData {
+	s.systemGroupDataDo.DO = *(s.systemGroupDataDo.As(alias).(*gen.DO))
 	return s.updateTableName(alias)
 }
 
-func (s *systemGroupDatum) updateTableName(table string) *systemGroupDatum {
+func (s *systemGroupData) updateTableName(table string) *systemGroupData {
 	s.ALL = field.NewAsterisk(table)
 	s.ID = field.NewInt64(table, "id")
 	s.Gid = field.NewInt64(table, "gid")
@@ -84,19 +84,19 @@ func (s *systemGroupDatum) updateTableName(table string) *systemGroupDatum {
 	return s
 }
 
-func (s *systemGroupDatum) WithContext(ctx context.Context) ISystemGroupDatumDo {
-	return s.systemGroupDatumDo.WithContext(ctx)
+func (s *systemGroupData) WithContext(ctx context.Context) ISystemGroupDataDo {
+	return s.systemGroupDataDo.WithContext(ctx)
 }
 
-func (s systemGroupDatum) TableName() string { return s.systemGroupDatumDo.TableName() }
+func (s systemGroupData) TableName() string { return s.systemGroupDataDo.TableName() }
 
-func (s systemGroupDatum) Alias() string { return s.systemGroupDatumDo.Alias() }
+func (s systemGroupData) Alias() string { return s.systemGroupDataDo.Alias() }
 
-func (s systemGroupDatum) Columns(cols ...field.Expr) gen.Columns {
-	return s.systemGroupDatumDo.Columns(cols...)
+func (s systemGroupData) Columns(cols ...field.Expr) gen.Columns {
+	return s.systemGroupDataDo.Columns(cols...)
 }
 
-func (s *systemGroupDatum) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
+func (s *systemGroupData) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
 		return nil, false
@@ -105,7 +105,7 @@ func (s *systemGroupDatum) GetFieldByName(fieldName string) (field.OrderExpr, bo
 	return _oe, ok
 }
 
-func (s *systemGroupDatum) fillFieldMap() {
+func (s *systemGroupData) fillFieldMap() {
 	s.fieldMap = make(map[string]field.Expr, 8)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["gid"] = s.Gid
@@ -117,58 +117,58 @@ func (s *systemGroupDatum) fillFieldMap() {
 	s.fieldMap["deleted_at"] = s.DeletedAt
 }
 
-func (s systemGroupDatum) clone(db *gorm.DB) systemGroupDatum {
-	s.systemGroupDatumDo.ReplaceConnPool(db.Statement.ConnPool)
+func (s systemGroupData) clone(db *gorm.DB) systemGroupData {
+	s.systemGroupDataDo.ReplaceConnPool(db.Statement.ConnPool)
 	return s
 }
 
-func (s systemGroupDatum) replaceDB(db *gorm.DB) systemGroupDatum {
-	s.systemGroupDatumDo.ReplaceDB(db)
+func (s systemGroupData) replaceDB(db *gorm.DB) systemGroupData {
+	s.systemGroupDataDo.ReplaceDB(db)
 	return s
 }
 
-type systemGroupDatumDo struct{ gen.DO }
+type systemGroupDataDo struct{ gen.DO }
 
-type ISystemGroupDatumDo interface {
+type ISystemGroupDataDo interface {
 	gen.SubQuery
-	Debug() ISystemGroupDatumDo
-	WithContext(ctx context.Context) ISystemGroupDatumDo
+	Debug() ISystemGroupDataDo
+	WithContext(ctx context.Context) ISystemGroupDataDo
 	WithResult(fc func(tx gen.Dao)) gen.ResultInfo
 	ReplaceDB(db *gorm.DB)
-	ReadDB() ISystemGroupDatumDo
-	WriteDB() ISystemGroupDatumDo
+	ReadDB() ISystemGroupDataDo
+	WriteDB() ISystemGroupDataDo
 	As(alias string) gen.Dao
-	Session(config *gorm.Session) ISystemGroupDatumDo
+	Session(config *gorm.Session) ISystemGroupDataDo
 	Columns(cols ...field.Expr) gen.Columns
-	Clauses(conds ...clause.Expression) ISystemGroupDatumDo
-	Not(conds ...gen.Condition) ISystemGroupDatumDo
-	Or(conds ...gen.Condition) ISystemGroupDatumDo
-	Select(conds ...field.Expr) ISystemGroupDatumDo
-	Where(conds ...gen.Condition) ISystemGroupDatumDo
-	Order(conds ...field.Expr) ISystemGroupDatumDo
-	Distinct(cols ...field.Expr) ISystemGroupDatumDo
-	Omit(cols ...field.Expr) ISystemGroupDatumDo
-	Join(table schema.Tabler, on ...field.Expr) ISystemGroupDatumDo
-	LeftJoin(table schema.Tabler, on ...field.Expr) ISystemGroupDatumDo
-	RightJoin(table schema.Tabler, on ...field.Expr) ISystemGroupDatumDo
-	Group(cols ...field.Expr) ISystemGroupDatumDo
-	Having(conds ...gen.Condition) ISystemGroupDatumDo
-	Limit(limit int) ISystemGroupDatumDo
-	Offset(offset int) ISystemGroupDatumDo
+	Clauses(conds ...clause.Expression) ISystemGroupDataDo
+	Not(conds ...gen.Condition) ISystemGroupDataDo
+	Or(conds ...gen.Condition) ISystemGroupDataDo
+	Select(conds ...field.Expr) ISystemGroupDataDo
+	Where(conds ...gen.Condition) ISystemGroupDataDo
+	Order(conds ...field.Expr) ISystemGroupDataDo
+	Distinct(cols ...field.Expr) ISystemGroupDataDo
+	Omit(cols ...field.Expr) ISystemGroupDataDo
+	Join(table schema.Tabler, on ...field.Expr) ISystemGroupDataDo
+	LeftJoin(table schema.Tabler, on ...field.Expr) ISystemGroupDataDo
+	RightJoin(table schema.Tabler, on ...field.Expr) ISystemGroupDataDo
+	Group(cols ...field.Expr) ISystemGroupDataDo
+	Having(conds ...gen.Condition) ISystemGroupDataDo
+	Limit(limit int) ISystemGroupDataDo
+	Offset(offset int) ISystemGroupDataDo
 	Count() (count int64, err error)
-	Scopes(funcs ...func(gen.Dao) gen.Dao) ISystemGroupDatumDo
-	Unscoped() ISystemGroupDatumDo
-	Create(values ...*model.SystemGroupDatum) error
-	CreateInBatches(values []*model.SystemGroupDatum, batchSize int) error
-	Save(values ...*model.SystemGroupDatum) error
-	First() (*model.SystemGroupDatum, error)
-	Take() (*model.SystemGroupDatum, error)
-	Last() (*model.SystemGroupDatum, error)
-	Find() ([]*model.SystemGroupDatum, error)
-	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.SystemGroupDatum, err error)
-	FindInBatches(result *[]*model.SystemGroupDatum, batchSize int, fc func(tx gen.Dao, batch int) error) error
+	Scopes(funcs ...func(gen.Dao) gen.Dao) ISystemGroupDataDo
+	Unscoped() ISystemGroupDataDo
+	Create(values ...*model.SystemGroupData) error
+	CreateInBatches(values []*model.SystemGroupData, batchSize int) error
+	Save(values ...*model.SystemGroupData) error
+	First() (*model.SystemGroupData, error)
+	Take() (*model.SystemGroupData, error)
+	Last() (*model.SystemGroupData, error)
+	Find() ([]*model.SystemGroupData, error)
+	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.SystemGroupData, err error)
+	FindInBatches(result *[]*model.SystemGroupData, batchSize int, fc func(tx gen.Dao, batch int) error) error
 	Pluck(column field.Expr, dest interface{}) error
-	Delete(...*model.SystemGroupDatum) (info gen.ResultInfo, err error)
+	Delete(...*model.SystemGroupData) (info gen.ResultInfo, err error)
 	Update(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
 	UpdateSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	Updates(value interface{}) (info gen.ResultInfo, err error)
@@ -176,163 +176,163 @@ type ISystemGroupDatumDo interface {
 	UpdateColumnSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	UpdateColumns(value interface{}) (info gen.ResultInfo, err error)
 	UpdateFrom(q gen.SubQuery) gen.Dao
-	Attrs(attrs ...field.AssignExpr) ISystemGroupDatumDo
-	Assign(attrs ...field.AssignExpr) ISystemGroupDatumDo
-	Joins(fields ...field.RelationField) ISystemGroupDatumDo
-	Preload(fields ...field.RelationField) ISystemGroupDatumDo
-	FirstOrInit() (*model.SystemGroupDatum, error)
-	FirstOrCreate() (*model.SystemGroupDatum, error)
-	FindByPage(offset int, limit int) (result []*model.SystemGroupDatum, count int64, err error)
+	Attrs(attrs ...field.AssignExpr) ISystemGroupDataDo
+	Assign(attrs ...field.AssignExpr) ISystemGroupDataDo
+	Joins(fields ...field.RelationField) ISystemGroupDataDo
+	Preload(fields ...field.RelationField) ISystemGroupDataDo
+	FirstOrInit() (*model.SystemGroupData, error)
+	FirstOrCreate() (*model.SystemGroupData, error)
+	FindByPage(offset int, limit int) (result []*model.SystemGroupData, count int64, err error)
 	ScanByPage(result interface{}, offset int, limit int) (count int64, err error)
 	Scan(result interface{}) (err error)
-	Returning(value interface{}, columns ...string) ISystemGroupDatumDo
+	Returning(value interface{}, columns ...string) ISystemGroupDataDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
 }
 
-func (s systemGroupDatumDo) Debug() ISystemGroupDatumDo {
+func (s systemGroupDataDo) Debug() ISystemGroupDataDo {
 	return s.withDO(s.DO.Debug())
 }
 
-func (s systemGroupDatumDo) WithContext(ctx context.Context) ISystemGroupDatumDo {
+func (s systemGroupDataDo) WithContext(ctx context.Context) ISystemGroupDataDo {
 	return s.withDO(s.DO.WithContext(ctx))
 }
 
-func (s systemGroupDatumDo) ReadDB() ISystemGroupDatumDo {
+func (s systemGroupDataDo) ReadDB() ISystemGroupDataDo {
 	return s.Clauses(dbresolver.Read)
 }
 
-func (s systemGroupDatumDo) WriteDB() ISystemGroupDatumDo {
+func (s systemGroupDataDo) WriteDB() ISystemGroupDataDo {
 	return s.Clauses(dbresolver.Write)
 }
 
-func (s systemGroupDatumDo) Session(config *gorm.Session) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Session(config *gorm.Session) ISystemGroupDataDo {
 	return s.withDO(s.DO.Session(config))
 }
 
-func (s systemGroupDatumDo) Clauses(conds ...clause.Expression) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Clauses(conds ...clause.Expression) ISystemGroupDataDo {
 	return s.withDO(s.DO.Clauses(conds...))
 }
 
-func (s systemGroupDatumDo) Returning(value interface{}, columns ...string) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Returning(value interface{}, columns ...string) ISystemGroupDataDo {
 	return s.withDO(s.DO.Returning(value, columns...))
 }
 
-func (s systemGroupDatumDo) Not(conds ...gen.Condition) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Not(conds ...gen.Condition) ISystemGroupDataDo {
 	return s.withDO(s.DO.Not(conds...))
 }
 
-func (s systemGroupDatumDo) Or(conds ...gen.Condition) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Or(conds ...gen.Condition) ISystemGroupDataDo {
 	return s.withDO(s.DO.Or(conds...))
 }
 
-func (s systemGroupDatumDo) Select(conds ...field.Expr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Select(conds ...field.Expr) ISystemGroupDataDo {
 	return s.withDO(s.DO.Select(conds...))
 }
 
-func (s systemGroupDatumDo) Where(conds ...gen.Condition) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Where(conds ...gen.Condition) ISystemGroupDataDo {
 	return s.withDO(s.DO.Where(conds...))
 }
 
-func (s systemGroupDatumDo) Order(conds ...field.Expr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Order(conds ...field.Expr) ISystemGroupDataDo {
 	return s.withDO(s.DO.Order(conds...))
 }
 
-func (s systemGroupDatumDo) Distinct(cols ...field.Expr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Distinct(cols ...field.Expr) ISystemGroupDataDo {
 	return s.withDO(s.DO.Distinct(cols...))
 }
 
-func (s systemGroupDatumDo) Omit(cols ...field.Expr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Omit(cols ...field.Expr) ISystemGroupDataDo {
 	return s.withDO(s.DO.Omit(cols...))
 }
 
-func (s systemGroupDatumDo) Join(table schema.Tabler, on ...field.Expr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Join(table schema.Tabler, on ...field.Expr) ISystemGroupDataDo {
 	return s.withDO(s.DO.Join(table, on...))
 }
 
-func (s systemGroupDatumDo) LeftJoin(table schema.Tabler, on ...field.Expr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) LeftJoin(table schema.Tabler, on ...field.Expr) ISystemGroupDataDo {
 	return s.withDO(s.DO.LeftJoin(table, on...))
 }
 
-func (s systemGroupDatumDo) RightJoin(table schema.Tabler, on ...field.Expr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) RightJoin(table schema.Tabler, on ...field.Expr) ISystemGroupDataDo {
 	return s.withDO(s.DO.RightJoin(table, on...))
 }
 
-func (s systemGroupDatumDo) Group(cols ...field.Expr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Group(cols ...field.Expr) ISystemGroupDataDo {
 	return s.withDO(s.DO.Group(cols...))
 }
 
-func (s systemGroupDatumDo) Having(conds ...gen.Condition) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Having(conds ...gen.Condition) ISystemGroupDataDo {
 	return s.withDO(s.DO.Having(conds...))
 }
 
-func (s systemGroupDatumDo) Limit(limit int) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Limit(limit int) ISystemGroupDataDo {
 	return s.withDO(s.DO.Limit(limit))
 }
 
-func (s systemGroupDatumDo) Offset(offset int) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Offset(offset int) ISystemGroupDataDo {
 	return s.withDO(s.DO.Offset(offset))
 }
 
-func (s systemGroupDatumDo) Scopes(funcs ...func(gen.Dao) gen.Dao) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Scopes(funcs ...func(gen.Dao) gen.Dao) ISystemGroupDataDo {
 	return s.withDO(s.DO.Scopes(funcs...))
 }
 
-func (s systemGroupDatumDo) Unscoped() ISystemGroupDatumDo {
+func (s systemGroupDataDo) Unscoped() ISystemGroupDataDo {
 	return s.withDO(s.DO.Unscoped())
 }
 
-func (s systemGroupDatumDo) Create(values ...*model.SystemGroupDatum) error {
+func (s systemGroupDataDo) Create(values ...*model.SystemGroupData) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return s.DO.Create(values)
 }
 
-func (s systemGroupDatumDo) CreateInBatches(values []*model.SystemGroupDatum, batchSize int) error {
+func (s systemGroupDataDo) CreateInBatches(values []*model.SystemGroupData, batchSize int) error {
 	return s.DO.CreateInBatches(values, batchSize)
 }
 
 // Save : !!! underlying implementation is different with GORM
 // The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
-func (s systemGroupDatumDo) Save(values ...*model.SystemGroupDatum) error {
+func (s systemGroupDataDo) Save(values ...*model.SystemGroupData) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return s.DO.Save(values)
 }
 
-func (s systemGroupDatumDo) First() (*model.SystemGroupDatum, error) {
+func (s systemGroupDataDo) First() (*model.SystemGroupData, error) {
 	if result, err := s.DO.First(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.SystemGroupDatum), nil
+		return result.(*model.SystemGroupData), nil
 	}
 }
 
-func (s systemGroupDatumDo) Take() (*model.SystemGroupDatum, error) {
+func (s systemGroupDataDo) Take() (*model.SystemGroupData, error) {
 	if result, err := s.DO.Take(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.SystemGroupDatum), nil
+		return result.(*model.SystemGroupData), nil
 	}
 }
 
-func (s systemGroupDatumDo) Last() (*model.SystemGroupDatum, error) {
+func (s systemGroupDataDo) Last() (*model.SystemGroupData, error) {
 	if result, err := s.DO.Last(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.SystemGroupDatum), nil
+		return result.(*model.SystemGroupData), nil
 	}
 }
 
-func (s systemGroupDatumDo) Find() ([]*model.SystemGroupDatum, error) {
+func (s systemGroupDataDo) Find() ([]*model.SystemGroupData, error) {
 	result, err := s.DO.Find()
-	return result.([]*model.SystemGroupDatum), err
+	return result.([]*model.SystemGroupData), err
 }
 
-func (s systemGroupDatumDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.SystemGroupDatum, err error) {
-	buf := make([]*model.SystemGroupDatum, 0, batchSize)
+func (s systemGroupDataDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.SystemGroupData, err error) {
+	buf := make([]*model.SystemGroupData, 0, batchSize)
 	err = s.DO.FindInBatches(&buf, batchSize, func(tx gen.Dao, batch int) error {
 		defer func() { results = append(results, buf...) }()
 		return fc(tx, batch)
@@ -340,49 +340,49 @@ func (s systemGroupDatumDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch
 	return results, err
 }
 
-func (s systemGroupDatumDo) FindInBatches(result *[]*model.SystemGroupDatum, batchSize int, fc func(tx gen.Dao, batch int) error) error {
+func (s systemGroupDataDo) FindInBatches(result *[]*model.SystemGroupData, batchSize int, fc func(tx gen.Dao, batch int) error) error {
 	return s.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (s systemGroupDatumDo) Attrs(attrs ...field.AssignExpr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Attrs(attrs ...field.AssignExpr) ISystemGroupDataDo {
 	return s.withDO(s.DO.Attrs(attrs...))
 }
 
-func (s systemGroupDatumDo) Assign(attrs ...field.AssignExpr) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Assign(attrs ...field.AssignExpr) ISystemGroupDataDo {
 	return s.withDO(s.DO.Assign(attrs...))
 }
 
-func (s systemGroupDatumDo) Joins(fields ...field.RelationField) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Joins(fields ...field.RelationField) ISystemGroupDataDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Joins(_f))
 	}
 	return &s
 }
 
-func (s systemGroupDatumDo) Preload(fields ...field.RelationField) ISystemGroupDatumDo {
+func (s systemGroupDataDo) Preload(fields ...field.RelationField) ISystemGroupDataDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Preload(_f))
 	}
 	return &s
 }
 
-func (s systemGroupDatumDo) FirstOrInit() (*model.SystemGroupDatum, error) {
+func (s systemGroupDataDo) FirstOrInit() (*model.SystemGroupData, error) {
 	if result, err := s.DO.FirstOrInit(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.SystemGroupDatum), nil
+		return result.(*model.SystemGroupData), nil
 	}
 }
 
-func (s systemGroupDatumDo) FirstOrCreate() (*model.SystemGroupDatum, error) {
+func (s systemGroupDataDo) FirstOrCreate() (*model.SystemGroupData, error) {
 	if result, err := s.DO.FirstOrCreate(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.SystemGroupDatum), nil
+		return result.(*model.SystemGroupData), nil
 	}
 }
 
-func (s systemGroupDatumDo) FindByPage(offset int, limit int) (result []*model.SystemGroupDatum, count int64, err error) {
+func (s systemGroupDataDo) FindByPage(offset int, limit int) (result []*model.SystemGroupData, count int64, err error) {
 	result, err = s.Offset(offset).Limit(limit).Find()
 	if err != nil {
 		return
@@ -397,7 +397,7 @@ func (s systemGroupDatumDo) FindByPage(offset int, limit int) (result []*model.S
 	return
 }
 
-func (s systemGroupDatumDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
+func (s systemGroupDataDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = s.Count()
 	if err != nil {
 		return
@@ -407,15 +407,15 @@ func (s systemGroupDatumDo) ScanByPage(result interface{}, offset int, limit int
 	return
 }
 
-func (s systemGroupDatumDo) Scan(result interface{}) (err error) {
+func (s systemGroupDataDo) Scan(result interface{}) (err error) {
 	return s.DO.Scan(result)
 }
 
-func (s systemGroupDatumDo) Delete(models ...*model.SystemGroupDatum) (result gen.ResultInfo, err error) {
+func (s systemGroupDataDo) Delete(models ...*model.SystemGroupData) (result gen.ResultInfo, err error) {
 	return s.DO.Delete(models)
 }
 
-func (s *systemGroupDatumDo) withDO(do gen.Dao) *systemGroupDatumDo {
+func (s *systemGroupDataDo) withDO(do gen.Dao) *systemGroupDataDo {
 	s.DO = *do.(*gen.DO)
 	return s
 }

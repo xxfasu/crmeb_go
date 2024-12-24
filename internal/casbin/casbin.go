@@ -1,89 +1,94 @@
 package casbin
 
 import (
-	"crmeb_go/internal/model"
-	"github.com/casbin/gorm-adapter/v3"
-	"log"
-
+	"crmeb_go/pkg/logs"
 	"github.com/casbin/casbin/v2"
+	casbinmodel "github.com/casbin/casbin/v2/model"
+	"github.com/casbin/gorm-adapter/v3"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
+	"log"
 )
 
+type service struct {
+	e  *casbin.SyncedCachedEnforcer
+	db *gorm.DB
+}
+
 // InitCasbinEnforcer 初始化Casbin
-func InitCasbinEnforcer(db *gorm.DB) *casbin.Enforcer {
+func InitCasbinEnforcer(db *gorm.DB) (Service, error) {
 	a, err := gormadapter.NewAdapterByDB(db)
 	if err != nil {
 		log.Fatalf("failed to create gorm adapter: %v", err)
 	}
-
-	e, err := casbin.NewEnforcer("rbac_model.conf", a)
+	text := `
+		[request_definition]
+		r = sub, obj, act
+		
+		[policy_definition]
+		p = sub, obj, act
+		
+		[role_definition]
+		g = _, _
+		
+		[policy_effect]
+		e = some(where (p.eft == allow))
+		
+		[matchers]
+		m = r.sub == p.sub && keyMatch2(r.obj,p.obj) && r.act == p.act
+		`
+	m, err := casbinmodel.NewModelFromString(text)
 	if err != nil {
-		log.Fatalf("failed to create enforcer: %v", err)
+		logs.Log.Error("failed to create casbin model", zap.Error(err))
+		return nil, err
 	}
+	e, err := casbin.NewSyncedCachedEnforcer(m, a)
+	if err != nil {
+		logs.Log.Error("failed to create enforcer:", zap.Error(err))
+	}
+	e.SetExpireTime(60 * 60)
 
 	err = e.LoadPolicy()
 	if err != nil {
 		log.Fatalf("failed to load policy: %v", err)
 	}
 
-	return e
+	return &service{e, db}, nil
 }
 
-// SyncPolicies 同步数据库中的角色-菜单关系到Casbin的policy中
-func SyncPolicies(db *gorm.DB, e *casbin.Enforcer) error {
-	var roles []model.SystemRole
-	if err := db.Find(&roles).Error; err != nil {
-		return err
-	}
+func (s *service) Enforce(role, obj, act string) (bool, error) {
+	return s.e.Enforce(role, obj, act)
+}
 
-	var menus []model.SystemMenu
-	if err := db.Find(&menus).Error; err != nil {
-		return err
-	}
-
-	menuPermsMap := make(map[int64]string)
-	for _, m := range menus {
-		menuPermsMap[m.ID] = m.Perms
-	}
-
-	// 清空原有策略
-	_, err := e.RemoveFilteredPolicy(0)
+func (s *service) UpdateCasbinApi(oldPerms, newPerms string) error {
+	err := s.db.Model(&gormadapter.CasbinRule{}).Where("v1 = ?", oldPerms).Update("v1", newPerms).Error
 	if err != nil {
 		return err
 	}
-
-	for _, role := range roles {
-		// 查询角色关联的菜单
-		var roleMenus []model.SystemRoleMenu
-		if err := db.Where("rid = ?", role.ID).Find(&roleMenus).Error; err != nil {
-			return err
-		}
-
-		for _, rm := range roleMenus {
-			perms, ok := menuPermsMap[rm.MenuID]
-			if !ok || perms == "" {
-				continue
-			}
-
-			// 根据权限字符串判断act
-			// 假设菜单权限是"view"，按钮权限是"click"
-			act := "view"
-			if isButtonPerm(perms) {
-				act = "click"
-			}
-
-			// 添加策略: p, sub(角色), obj(权限标识), act(动作)
-			_, err = e.AddPolicy(role.RoleName, perms, act)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	return e.SavePolicy()
+	return s.e.LoadPolicy()
 }
 
-func isButtonPerm(perms string) bool {
-	// 简单判断，假设以"button:"开头则是按钮权限
-	return len(perms) > 7 && perms[:7] == "button:"
+func (s *service) RemoveFilteredPolicy(roleID string) error {
+	err := s.db.Delete(&gormadapter.CasbinRule{}, "v0 = ?", roleID).Error
+	if err != nil {
+		return err
+	}
+	return s.e.LoadPolicy()
+}
+
+func (s *service) AddPolicies(rules [][]string) error {
+	var casbinRules []gormadapter.CasbinRule
+	for i := range rules {
+		casbinRules = append(casbinRules, gormadapter.CasbinRule{
+			Ptype: "p",
+			V0:    rules[i][0],
+			V1:    rules[i][1],
+			V2:    "ALL",
+		})
+	}
+	return s.db.Create(&casbinRules).Error
+}
+
+func (s *service) FreshCasbin() error {
+	return s.e.LoadPolicy()
 }

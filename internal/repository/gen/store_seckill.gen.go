@@ -47,7 +47,6 @@ func newStoreSeckill(db *gorm.DB, opts ...gen.DOOption) storeSeckill {
 	_storeSeckill.StopTime = field.NewTime(tableName, "stop_time")
 	_storeSeckill.Status = field.NewInt64(tableName, "status")
 	_storeSeckill.IsPostage = field.NewInt64(tableName, "is_postage")
-	_storeSeckill.IsDel = field.NewInt64(tableName, "is_del")
 	_storeSeckill.Num = field.NewInt64(tableName, "num")
 	_storeSeckill.IsShow = field.NewInt64(tableName, "is_show")
 	_storeSeckill.TimeID = field.NewInt64(tableName, "time_id")
@@ -91,7 +90,6 @@ type storeSeckill struct {
 	StopTime     field.Time   // 结束时间
 	Status       field.Int64  // 秒杀状态 0=关闭 1=开启
 	IsPostage    field.Int64  // 是否包邮
-	IsDel        field.Int64  // 删除 0未删除1已删除
 	Num          field.Int64  // 当天参与活动次数
 	IsShow       field.Int64  // 显示
 	TimeID       field.Int64  // 时间段ID
@@ -140,7 +138,6 @@ func (s *storeSeckill) updateTableName(table string) *storeSeckill {
 	s.StopTime = field.NewTime(table, "stop_time")
 	s.Status = field.NewInt64(table, "status")
 	s.IsPostage = field.NewInt64(table, "is_postage")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.Num = field.NewInt64(table, "num")
 	s.IsShow = field.NewInt64(table, "is_show")
 	s.TimeID = field.NewInt64(table, "time_id")
@@ -181,7 +178,7 @@ func (s *storeSeckill) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (s *storeSeckill) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 33)
+	s.fieldMap = make(map[string]field.Expr, 32)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["product_id"] = s.ProductID
 	s.fieldMap["image"] = s.Image
@@ -202,7 +199,6 @@ func (s *storeSeckill) fillFieldMap() {
 	s.fieldMap["stop_time"] = s.StopTime
 	s.fieldMap["status"] = s.Status
 	s.fieldMap["is_postage"] = s.IsPostage
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["num"] = s.Num
 	s.fieldMap["is_show"] = s.IsShow
 	s.fieldMap["time_id"] = s.TimeID

@@ -29,7 +29,6 @@ type StoreCombination struct {
 	AddTime       int64                 `gorm:"column:add_time;type:bigint;not null;comment:添加时间" json:"add_time"`                  // 添加时间
 	IsHost        int64                 `gorm:"column:is_host;type:tinyint unsigned;not null;comment:推荐" json:"is_host"`            // 推荐
 	IsShow        int64                 `gorm:"column:is_show;type:tinyint unsigned;not null;comment:商品状态" json:"is_show"`          // 商品状态
-	IsDel         int64                 `gorm:"column:is_del;type:tinyint unsigned;not null" json:"is_del"`
 	Combination   int64                 `gorm:"column:combination;type:tinyint unsigned;default:1" json:"combination"`
 	MerUse        int64                 `gorm:"column:mer_use;type:tinyint unsigned;comment:商户是否可用1可用0不可用" json:"mer_use"`                 // 商户是否可用1可用0不可用
 	IsPostage     int64                 `gorm:"column:is_postage;type:tinyint unsigned;comment:是否包邮1是0否" json:"is_postage"`                // 是否包邮1是0否

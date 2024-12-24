@@ -35,7 +35,6 @@ type StoreSeckill struct {
 	StopTime     time.Time             `gorm:"column:stop_time;type:datetime;not null;comment:结束时间" json:"stop_time"`                                     // 结束时间
 	Status       int64                 `gorm:"column:status;type:tinyint unsigned;not null;comment:秒杀状态 0=关闭 1=开启" json:"status"`                         // 秒杀状态 0=关闭 1=开启
 	IsPostage    int64                 `gorm:"column:is_postage;type:tinyint unsigned;not null;comment:是否包邮" json:"is_postage"`                           // 是否包邮
-	IsDel        int64                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:删除 0未删除1已删除" json:"is_del"`                            // 删除 0未删除1已删除
 	Num          int64                 `gorm:"column:num;type:int unsigned;not null;comment:当天参与活动次数" json:"num"`                                         // 当天参与活动次数
 	IsShow       int64                 `gorm:"column:is_show;type:tinyint unsigned;not null;default:1;comment:显示" json:"is_show"`                         // 显示
 	TimeID       int64                 `gorm:"column:time_id;type:int;comment:时间段ID" json:"time_id"`                                                      // 时间段ID

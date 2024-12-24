@@ -6,7 +6,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func InitRedSync(client *redis.Client) *redsync.Redsync {
+func InitRedSync(client redis.UniversalClient) *redsync.Redsync {
 	// 创建 Redsync 的 Redis 连接池
 	pool := goredis.NewPool(client)
 

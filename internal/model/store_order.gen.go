@@ -46,7 +46,6 @@ type StoreOrder struct {
 	UseIntegral            int64                 `gorm:"column:use_integral;type:int;comment:使用积分" json:"use_integral"`                                         // 使用积分
 	BackIntegral           int64                 `gorm:"column:back_integral;type:int;comment:给用户退了多少积分" json:"back_integral"`                                  // 给用户退了多少积分
 	Mark                   string                `gorm:"column:mark;type:varchar(512);not null;comment:备注" json:"mark"`                                         // 备注
-	IsDel                  int64                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:是否删除" json:"is_del"`                               // 是否删除
 	Remark                 string                `gorm:"column:remark;type:varchar(512);comment:管理员备注" json:"remark"`                                           // 管理员备注
 	MerID                  int64                 `gorm:"column:mer_id;type:int unsigned;not null;comment:商户ID" json:"mer_id"`                                   // 商户ID
 	IsMerCheck             int64                 `gorm:"column:is_mer_check;type:tinyint unsigned;not null" json:"is_mer_check"`

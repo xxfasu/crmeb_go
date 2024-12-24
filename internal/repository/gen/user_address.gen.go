@@ -40,7 +40,6 @@ func newUserAddress(db *gorm.DB, opts ...gen.DOOption) userAddress {
 	_userAddress.Longitude = field.NewString(tableName, "longitude")
 	_userAddress.Latitude = field.NewString(tableName, "latitude")
 	_userAddress.IsDefault = field.NewInt64(tableName, "is_default")
-	_userAddress.IsDel = field.NewInt64(tableName, "is_del")
 	_userAddress.CreatedAt = field.NewInt64(tableName, "created_at")
 	_userAddress.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_userAddress.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -68,7 +67,6 @@ type userAddress struct {
 	Longitude field.String // 经度
 	Latitude  field.String // 纬度
 	IsDefault field.Int64  // 是否默认
-	IsDel     field.Int64  // 是否删除
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -101,7 +99,6 @@ func (u *userAddress) updateTableName(table string) *userAddress {
 	u.Longitude = field.NewString(table, "longitude")
 	u.Latitude = field.NewString(table, "latitude")
 	u.IsDefault = field.NewInt64(table, "is_default")
-	u.IsDel = field.NewInt64(table, "is_del")
 	u.CreatedAt = field.NewInt64(table, "created_at")
 	u.UpdatedAt = field.NewInt64(table, "updated_at")
 	u.DeletedAt = field.NewField(table, "deleted_at")
@@ -131,7 +128,7 @@ func (u *userAddress) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (u *userAddress) fillFieldMap() {
-	u.fieldMap = make(map[string]field.Expr, 17)
+	u.fieldMap = make(map[string]field.Expr, 16)
 	u.fieldMap["id"] = u.ID
 	u.fieldMap["uid"] = u.UID
 	u.fieldMap["real_name"] = u.RealName
@@ -145,7 +142,6 @@ func (u *userAddress) fillFieldMap() {
 	u.fieldMap["longitude"] = u.Longitude
 	u.fieldMap["latitude"] = u.Latitude
 	u.fieldMap["is_default"] = u.IsDefault
-	u.fieldMap["is_del"] = u.IsDel
 	u.fieldMap["created_at"] = u.CreatedAt
 	u.fieldMap["updated_at"] = u.UpdatedAt
 	u.fieldMap["deleted_at"] = u.DeletedAt

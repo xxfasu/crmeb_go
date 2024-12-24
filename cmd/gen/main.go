@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crmeb_go/internal/repository/store_order_repository"
+	"crmeb_go/internal/repository/system_menu_repository"
 	"crmeb_go/internal/repository/user_repository"
 	"fmt"
 	"gorm.io/driver/mysql"
@@ -65,13 +67,13 @@ func main() {
 	})
 
 	// 处理表名
-	//g.WithTableNameStrategy(func(tableName string) (targetTableName string) {
-	//	// 需要忽略的表
-	//	if strings.EqualFold(tableName, "tableName") {
-	//		return ""
-	//	}
-	//	return tableName
-	//})
+	g.WithTableNameStrategy(func(tableName string) (targetTableName string) {
+		// 需要忽略的表
+		if strings.EqualFold(tableName, "casbin_rule") {
+			return ""
+		}
+		return tableName
+	})
 
 	// 处理 model名
 	g.WithModelNameStrategy(func(tableName string) (targetTableName string) {
@@ -79,7 +81,9 @@ func main() {
 		if strings.HasPrefix(tableName, "eb_") {
 			s = strings.TrimPrefix(tableName, "eb_")
 		}
-		ns := schema.NamingStrategy{}
+		ns := schema.NamingStrategy{
+			SingularTable: true,
+		}
 		return ns.SchemaName(s)
 	})
 
@@ -115,11 +119,15 @@ func main() {
 	softDeleteField := gen.FieldType("deleted_at", "soft_delete.DeletedAt")
 	// 模型自定义选项组
 	fieldOpts := []gen.ModelOpt{jsonField, softDeleteField}
-	g.ApplyBasic(g.GenerateAllTable(fieldOpts...)...)
-	//g.ApplyInterface(func() {}, g.GenerateAllTable(fieldOpts...)...)
-	g.ApplyInterface(func(user_repository.Querier) {}, g.GenerateModel("eb_user", fieldOpts...))
+	g.ApplyInterface(func() {}, g.GenerateAllTable(fieldOpts...)...)
+	applyInterface(g, fieldOpts)
 	g.WithImportPkgPath("github.com/shopspring/decimal")
-
 	// 执行并生成代码
 	g.Execute()
+}
+
+func applyInterface(g *gen.Generator, fieldOpts []gen.ModelOpt) {
+	g.ApplyInterface(func(system_menu_repository.Querier) {}, g.GenerateModel("eb_system_menu", fieldOpts...))
+	g.ApplyInterface(func(store_order_repository.Querier) {}, g.GenerateModel("eb_store_order", fieldOpts...))
+	g.ApplyInterface(func(user_repository.Querier) {}, g.GenerateModel("eb_user", fieldOpts...))
 }

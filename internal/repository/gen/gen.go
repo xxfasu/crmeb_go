@@ -20,7 +20,7 @@ var (
 	Article                 *article
 	Category                *category
 	Express                 *express
-	ShippingTemplate        *shippingTemplate
+	ShippingTemplates       *shippingTemplates
 	ShippingTemplatesFree   *shippingTemplatesFree
 	ShippingTemplatesRegion *shippingTemplatesRegion
 	SmsRecord               *smsRecord
@@ -55,7 +55,7 @@ var (
 	SystemConfig            *systemConfig
 	SystemFormTemp          *systemFormTemp
 	SystemGroup             *systemGroup
-	SystemGroupDatum        *systemGroupDatum
+	SystemGroupData         *systemGroupData
 	SystemMenu              *systemMenu
 	SystemNotification      *systemNotification
 	SystemRole              *systemRole
@@ -79,7 +79,7 @@ var (
 	UserToken               *userToken
 	UserVisitRecord         *userVisitRecord
 	WechatCallback          *wechatCallback
-	WechatException         *wechatException
+	WechatExceptions        *wechatExceptions
 	WechatPayInfo           *wechatPayInfo
 	WechatReply             *wechatReply
 )
@@ -89,7 +89,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Article = &Q.Article
 	Category = &Q.Category
 	Express = &Q.Express
-	ShippingTemplate = &Q.ShippingTemplate
+	ShippingTemplates = &Q.ShippingTemplates
 	ShippingTemplatesFree = &Q.ShippingTemplatesFree
 	ShippingTemplatesRegion = &Q.ShippingTemplatesRegion
 	SmsRecord = &Q.SmsRecord
@@ -124,7 +124,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	SystemConfig = &Q.SystemConfig
 	SystemFormTemp = &Q.SystemFormTemp
 	SystemGroup = &Q.SystemGroup
-	SystemGroupDatum = &Q.SystemGroupDatum
+	SystemGroupData = &Q.SystemGroupData
 	SystemMenu = &Q.SystemMenu
 	SystemNotification = &Q.SystemNotification
 	SystemRole = &Q.SystemRole
@@ -148,7 +148,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	UserToken = &Q.UserToken
 	UserVisitRecord = &Q.UserVisitRecord
 	WechatCallback = &Q.WechatCallback
-	WechatException = &Q.WechatException
+	WechatExceptions = &Q.WechatExceptions
 	WechatPayInfo = &Q.WechatPayInfo
 	WechatReply = &Q.WechatReply
 }
@@ -159,7 +159,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Article:                 newArticle(db, opts...),
 		Category:                newCategory(db, opts...),
 		Express:                 newExpress(db, opts...),
-		ShippingTemplate:        newShippingTemplate(db, opts...),
+		ShippingTemplates:       newShippingTemplates(db, opts...),
 		ShippingTemplatesFree:   newShippingTemplatesFree(db, opts...),
 		ShippingTemplatesRegion: newShippingTemplatesRegion(db, opts...),
 		SmsRecord:               newSmsRecord(db, opts...),
@@ -194,7 +194,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SystemConfig:            newSystemConfig(db, opts...),
 		SystemFormTemp:          newSystemFormTemp(db, opts...),
 		SystemGroup:             newSystemGroup(db, opts...),
-		SystemGroupDatum:        newSystemGroupDatum(db, opts...),
+		SystemGroupData:         newSystemGroupData(db, opts...),
 		SystemMenu:              newSystemMenu(db, opts...),
 		SystemNotification:      newSystemNotification(db, opts...),
 		SystemRole:              newSystemRole(db, opts...),
@@ -218,7 +218,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		UserToken:               newUserToken(db, opts...),
 		UserVisitRecord:         newUserVisitRecord(db, opts...),
 		WechatCallback:          newWechatCallback(db, opts...),
-		WechatException:         newWechatException(db, opts...),
+		WechatExceptions:        newWechatExceptions(db, opts...),
 		WechatPayInfo:           newWechatPayInfo(db, opts...),
 		WechatReply:             newWechatReply(db, opts...),
 	}
@@ -230,7 +230,7 @@ type Query struct {
 	Article                 article
 	Category                category
 	Express                 express
-	ShippingTemplate        shippingTemplate
+	ShippingTemplates       shippingTemplates
 	ShippingTemplatesFree   shippingTemplatesFree
 	ShippingTemplatesRegion shippingTemplatesRegion
 	SmsRecord               smsRecord
@@ -265,7 +265,7 @@ type Query struct {
 	SystemConfig            systemConfig
 	SystemFormTemp          systemFormTemp
 	SystemGroup             systemGroup
-	SystemGroupDatum        systemGroupDatum
+	SystemGroupData         systemGroupData
 	SystemMenu              systemMenu
 	SystemNotification      systemNotification
 	SystemRole              systemRole
@@ -289,7 +289,7 @@ type Query struct {
 	UserToken               userToken
 	UserVisitRecord         userVisitRecord
 	WechatCallback          wechatCallback
-	WechatException         wechatException
+	WechatExceptions        wechatExceptions
 	WechatPayInfo           wechatPayInfo
 	WechatReply             wechatReply
 }
@@ -302,7 +302,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Article:                 q.Article.clone(db),
 		Category:                q.Category.clone(db),
 		Express:                 q.Express.clone(db),
-		ShippingTemplate:        q.ShippingTemplate.clone(db),
+		ShippingTemplates:       q.ShippingTemplates.clone(db),
 		ShippingTemplatesFree:   q.ShippingTemplatesFree.clone(db),
 		ShippingTemplatesRegion: q.ShippingTemplatesRegion.clone(db),
 		SmsRecord:               q.SmsRecord.clone(db),
@@ -337,7 +337,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SystemConfig:            q.SystemConfig.clone(db),
 		SystemFormTemp:          q.SystemFormTemp.clone(db),
 		SystemGroup:             q.SystemGroup.clone(db),
-		SystemGroupDatum:        q.SystemGroupDatum.clone(db),
+		SystemGroupData:         q.SystemGroupData.clone(db),
 		SystemMenu:              q.SystemMenu.clone(db),
 		SystemNotification:      q.SystemNotification.clone(db),
 		SystemRole:              q.SystemRole.clone(db),
@@ -361,7 +361,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		UserToken:               q.UserToken.clone(db),
 		UserVisitRecord:         q.UserVisitRecord.clone(db),
 		WechatCallback:          q.WechatCallback.clone(db),
-		WechatException:         q.WechatException.clone(db),
+		WechatExceptions:        q.WechatExceptions.clone(db),
 		WechatPayInfo:           q.WechatPayInfo.clone(db),
 		WechatReply:             q.WechatReply.clone(db),
 	}
@@ -381,7 +381,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Article:                 q.Article.replaceDB(db),
 		Category:                q.Category.replaceDB(db),
 		Express:                 q.Express.replaceDB(db),
-		ShippingTemplate:        q.ShippingTemplate.replaceDB(db),
+		ShippingTemplates:       q.ShippingTemplates.replaceDB(db),
 		ShippingTemplatesFree:   q.ShippingTemplatesFree.replaceDB(db),
 		ShippingTemplatesRegion: q.ShippingTemplatesRegion.replaceDB(db),
 		SmsRecord:               q.SmsRecord.replaceDB(db),
@@ -416,7 +416,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SystemConfig:            q.SystemConfig.replaceDB(db),
 		SystemFormTemp:          q.SystemFormTemp.replaceDB(db),
 		SystemGroup:             q.SystemGroup.replaceDB(db),
-		SystemGroupDatum:        q.SystemGroupDatum.replaceDB(db),
+		SystemGroupData:         q.SystemGroupData.replaceDB(db),
 		SystemMenu:              q.SystemMenu.replaceDB(db),
 		SystemNotification:      q.SystemNotification.replaceDB(db),
 		SystemRole:              q.SystemRole.replaceDB(db),
@@ -440,7 +440,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		UserToken:               q.UserToken.replaceDB(db),
 		UserVisitRecord:         q.UserVisitRecord.replaceDB(db),
 		WechatCallback:          q.WechatCallback.replaceDB(db),
-		WechatException:         q.WechatException.replaceDB(db),
+		WechatExceptions:        q.WechatExceptions.replaceDB(db),
 		WechatPayInfo:           q.WechatPayInfo.replaceDB(db),
 		WechatReply:             q.WechatReply.replaceDB(db),
 	}
@@ -450,7 +450,7 @@ type queryCtx struct {
 	Article                 IArticleDo
 	Category                ICategoryDo
 	Express                 IExpressDo
-	ShippingTemplate        IShippingTemplateDo
+	ShippingTemplates       IShippingTemplatesDo
 	ShippingTemplatesFree   IShippingTemplatesFreeDo
 	ShippingTemplatesRegion IShippingTemplatesRegionDo
 	SmsRecord               ISmsRecordDo
@@ -485,7 +485,7 @@ type queryCtx struct {
 	SystemConfig            ISystemConfigDo
 	SystemFormTemp          ISystemFormTempDo
 	SystemGroup             ISystemGroupDo
-	SystemGroupDatum        ISystemGroupDatumDo
+	SystemGroupData         ISystemGroupDataDo
 	SystemMenu              ISystemMenuDo
 	SystemNotification      ISystemNotificationDo
 	SystemRole              ISystemRoleDo
@@ -509,7 +509,7 @@ type queryCtx struct {
 	UserToken               IUserTokenDo
 	UserVisitRecord         IUserVisitRecordDo
 	WechatCallback          IWechatCallbackDo
-	WechatException         IWechatExceptionDo
+	WechatExceptions        IWechatExceptionsDo
 	WechatPayInfo           IWechatPayInfoDo
 	WechatReply             IWechatReplyDo
 }
@@ -519,7 +519,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Article:                 q.Article.WithContext(ctx),
 		Category:                q.Category.WithContext(ctx),
 		Express:                 q.Express.WithContext(ctx),
-		ShippingTemplate:        q.ShippingTemplate.WithContext(ctx),
+		ShippingTemplates:       q.ShippingTemplates.WithContext(ctx),
 		ShippingTemplatesFree:   q.ShippingTemplatesFree.WithContext(ctx),
 		ShippingTemplatesRegion: q.ShippingTemplatesRegion.WithContext(ctx),
 		SmsRecord:               q.SmsRecord.WithContext(ctx),
@@ -554,7 +554,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SystemConfig:            q.SystemConfig.WithContext(ctx),
 		SystemFormTemp:          q.SystemFormTemp.WithContext(ctx),
 		SystemGroup:             q.SystemGroup.WithContext(ctx),
-		SystemGroupDatum:        q.SystemGroupDatum.WithContext(ctx),
+		SystemGroupData:         q.SystemGroupData.WithContext(ctx),
 		SystemMenu:              q.SystemMenu.WithContext(ctx),
 		SystemNotification:      q.SystemNotification.WithContext(ctx),
 		SystemRole:              q.SystemRole.WithContext(ctx),
@@ -578,7 +578,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		UserToken:               q.UserToken.WithContext(ctx),
 		UserVisitRecord:         q.UserVisitRecord.WithContext(ctx),
 		WechatCallback:          q.WechatCallback.WithContext(ctx),
-		WechatException:         q.WechatException.WithContext(ctx),
+		WechatExceptions:        q.WechatExceptions.WithContext(ctx),
 		WechatPayInfo:           q.WechatPayInfo.WithContext(ctx),
 		WechatReply:             q.WechatReply.WithContext(ctx),
 	}

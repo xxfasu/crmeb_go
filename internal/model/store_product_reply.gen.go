@@ -22,7 +22,6 @@ type StoreProductReply struct {
 	Pics                 string                `gorm:"column:pics;type:text;not null;comment:评论图片" json:"pics"`                                                 // 评论图片
 	MerchantReplyContent string                `gorm:"column:merchant_reply_content;type:varchar(300);comment:管理员回复内容" json:"merchant_reply_content"`           // 管理员回复内容
 	MerchantReplyTime    int64                 `gorm:"column:merchant_reply_time;type:int;comment:管理员回复时间" json:"merchant_reply_time"`                          // 管理员回复时间
-	IsDel                int64                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:0未删除1已删除" json:"is_del"`                             // 0未删除1已删除
 	IsReply              int64                 `gorm:"column:is_reply;type:tinyint(1);not null;comment:0未回复1已回复" json:"is_reply"`                               // 0未回复1已回复
 	Nickname             string                `gorm:"column:nickname;type:varchar(64);not null;comment:用户名称" json:"nickname"`                                  // 用户名称
 	Avatar               string                `gorm:"column:avatar;type:varchar(255);not null;comment:用户头像" json:"avatar"`                                     // 用户头像

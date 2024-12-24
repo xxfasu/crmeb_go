@@ -34,7 +34,6 @@ func newUserLevel(db *gorm.DB, opts ...gen.DOOption) userLevel {
 	_userLevel.Status = field.NewInt64(tableName, "status")
 	_userLevel.Mark = field.NewString(tableName, "mark")
 	_userLevel.Remind = field.NewInt64(tableName, "remind")
-	_userLevel.IsDel = field.NewInt64(tableName, "is_del")
 	_userLevel.Discount = field.NewInt64(tableName, "discount")
 	_userLevel.ExpiredTime = field.NewInt64(tableName, "expired_time")
 	_userLevel.CreatedAt = field.NewInt64(tableName, "created_at")
@@ -58,7 +57,6 @@ type userLevel struct {
 	Status      field.Int64  // 0:禁止,1:正常
 	Mark        field.String // 备注
 	Remind      field.Int64  // 是否已通知
-	IsDel       field.Int64  // 是否删除,0=未删除,1=删除
 	Discount    field.Int64  // 享受折扣
 	ExpiredTime field.Int64
 	CreatedAt   field.Int64
@@ -87,7 +85,6 @@ func (u *userLevel) updateTableName(table string) *userLevel {
 	u.Status = field.NewInt64(table, "status")
 	u.Mark = field.NewString(table, "mark")
 	u.Remind = field.NewInt64(table, "remind")
-	u.IsDel = field.NewInt64(table, "is_del")
 	u.Discount = field.NewInt64(table, "discount")
 	u.ExpiredTime = field.NewInt64(table, "expired_time")
 	u.CreatedAt = field.NewInt64(table, "created_at")
@@ -119,7 +116,7 @@ func (u *userLevel) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (u *userLevel) fillFieldMap() {
-	u.fieldMap = make(map[string]field.Expr, 13)
+	u.fieldMap = make(map[string]field.Expr, 12)
 	u.fieldMap["id"] = u.ID
 	u.fieldMap["uid"] = u.UID
 	u.fieldMap["level_id"] = u.LevelID
@@ -127,7 +124,6 @@ func (u *userLevel) fillFieldMap() {
 	u.fieldMap["status"] = u.Status
 	u.fieldMap["mark"] = u.Mark
 	u.fieldMap["remind"] = u.Remind
-	u.fieldMap["is_del"] = u.IsDel
 	u.fieldMap["discount"] = u.Discount
 	u.fieldMap["expired_time"] = u.ExpiredTime
 	u.fieldMap["created_at"] = u.CreatedAt

@@ -34,7 +34,6 @@ func newSystemUserLevel(db *gorm.DB, opts ...gen.DOOption) systemUserLevel {
 	_systemUserLevel.Grade = field.NewInt64(tableName, "grade")
 	_systemUserLevel.Discount = field.NewInt64(tableName, "discount")
 	_systemUserLevel.Icon = field.NewString(tableName, "icon")
-	_systemUserLevel.IsDel = field.NewInt64(tableName, "is_del")
 	_systemUserLevel.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemUserLevel.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemUserLevel.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -56,7 +55,6 @@ type systemUserLevel struct {
 	Grade      field.Int64  // 会员等级
 	Discount   field.Int64  // 享受折扣
 	Icon       field.String // 会员图标
-	IsDel      field.Int64  // 是否删除.1=删除,0=未删除
 	CreatedAt  field.Int64
 	UpdatedAt  field.Int64
 	DeletedAt  field.Field
@@ -83,7 +81,6 @@ func (s *systemUserLevel) updateTableName(table string) *systemUserLevel {
 	s.Grade = field.NewInt64(table, "grade")
 	s.Discount = field.NewInt64(table, "discount")
 	s.Icon = field.NewString(table, "icon")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -115,7 +112,7 @@ func (s *systemUserLevel) GetFieldByName(fieldName string) (field.OrderExpr, boo
 }
 
 func (s *systemUserLevel) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 11)
+	s.fieldMap = make(map[string]field.Expr, 10)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["experience"] = s.Experience
@@ -123,7 +120,6 @@ func (s *systemUserLevel) fillFieldMap() {
 	s.fieldMap["grade"] = s.Grade
 	s.fieldMap["discount"] = s.Discount
 	s.fieldMap["icon"] = s.Icon
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt

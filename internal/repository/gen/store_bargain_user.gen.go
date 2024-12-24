@@ -35,7 +35,6 @@ func newStoreBargainUser(db *gorm.DB, opts ...gen.DOOption) storeBargainUser {
 	_storeBargainUser.Price = field.NewField(tableName, "price")
 	_storeBargainUser.Status = field.NewInt64(tableName, "status")
 	_storeBargainUser.AddTime = field.NewInt64(tableName, "add_time")
-	_storeBargainUser.IsDel = field.NewInt64(tableName, "is_del")
 	_storeBargainUser.CreatedAt = field.NewInt64(tableName, "created_at")
 	_storeBargainUser.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_storeBargainUser.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -58,7 +57,6 @@ type storeBargainUser struct {
 	Price           field.Field // 砍掉的价格
 	Status          field.Int64 // 状态 1参与中 2 活动结束参与失败 3活动结束参与成功
 	AddTime         field.Int64 // 参与时间
-	IsDel           field.Int64 // 是否取消
 	CreatedAt       field.Int64
 	UpdatedAt       field.Int64
 	DeletedAt       field.Field
@@ -86,7 +84,6 @@ func (s *storeBargainUser) updateTableName(table string) *storeBargainUser {
 	s.Price = field.NewField(table, "price")
 	s.Status = field.NewInt64(table, "status")
 	s.AddTime = field.NewInt64(table, "add_time")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -118,7 +115,7 @@ func (s *storeBargainUser) GetFieldByName(fieldName string) (field.OrderExpr, bo
 }
 
 func (s *storeBargainUser) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 12)
+	s.fieldMap = make(map[string]field.Expr, 11)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["uid"] = s.UID
 	s.fieldMap["bargain_id"] = s.BargainID
@@ -127,7 +124,6 @@ func (s *storeBargainUser) fillFieldMap() {
 	s.fieldMap["price"] = s.Price
 	s.fieldMap["status"] = s.Status
 	s.fieldMap["add_time"] = s.AddTime
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt

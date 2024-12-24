@@ -1,7 +1,6 @@
 package oss
 
 import (
-	"crmeb_go/consts"
 	"crmeb_go/internal/conf"
 	"crmeb_go/pkg/logs"
 	"errors"
@@ -107,10 +106,10 @@ func (c *AliyunOSSClient) SignURL(ossFilePath, fileName string, expiresInSec int
 	logs.Log.Info("SignURL", zap.String("ossFilePath", ossFilePath), zap.String("fileName", fileName), zap.Int64("expiresInSec", expiresInSec), zap.Int("category", category))
 
 	options := make([]oss.Option, 0)
-	if category == consts.DownloadFile {
+	if category == enums.DownloadFile {
 		options = append(options, oss.ResponseContentDisposition(fmt.Sprintf("attachment; filename*=utf-8''%s", url.PathEscape(fileName))))
 	}
-	if category == consts.UploadFile {
+	if category == enums.UploadFile {
 		objectURL, err := c.bucket.SignURL(ossFilePath, oss.HTTPPut, expiresInSec)
 		return objectURL, err
 	}

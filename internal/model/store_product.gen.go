@@ -37,7 +37,6 @@ type StoreProduct struct {
 	IsNew        int64                 `gorm:"column:is_new;type:tinyint(1);not null;comment:是否新品" json:"is_new"`                               // 是否新品
 	AddTime      int64                 `gorm:"column:add_time;type:int unsigned;not null;comment:添加时间" json:"add_time"`                         // 添加时间
 	IsPostage    int64                 `gorm:"column:is_postage;type:tinyint unsigned;not null;comment:是否包邮" json:"is_postage"`                 // 是否包邮
-	IsDel        int64                 `gorm:"column:is_del;type:tinyint unsigned;not null;comment:是否删除" json:"is_del"`                         // 是否删除
 	MerUse       int64                 `gorm:"column:mer_use;type:tinyint unsigned;not null;comment:商户是否代理 0不可代理1可代理" json:"mer_use"`           // 商户是否代理 0不可代理1可代理
 	GiveIntegral int64                 `gorm:"column:give_integral;type:int;comment:获得积分" json:"give_integral"`                                 // 获得积分
 	Cost         decimal.Decimal       `gorm:"column:cost;type:decimal(8,2) unsigned;not null;default:0.00;comment:成本价" json:"cost"`            // 成本价

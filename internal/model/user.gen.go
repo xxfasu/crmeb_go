@@ -13,7 +13,7 @@ const TableNameUser = "eb_user"
 
 // User 用户表
 type User struct {
-	UID            int64                 `gorm:"column:uid;type:int unsigned;primaryKey;autoIncrement:true;comment:用户id" json:"uid"`        // 用户id
+	ID             int64                 `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:用户id" json:"id"`          // 用户id
 	Account        string                `gorm:"column:account;type:varchar(32);not null;comment:用户账号" json:"account"`                      // 用户账号
 	Pwd            string                `gorm:"column:pwd;type:varchar(32);comment:用户密码" json:"pwd"`                                       // 用户密码
 	RealName       string                `gorm:"column:real_name;type:varchar(25);comment:真实姓名" json:"real_name"`                           // 真实姓名

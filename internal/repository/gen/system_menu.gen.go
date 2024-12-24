@@ -6,6 +6,7 @@ package gen
 
 import (
 	"context"
+	"strings"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -13,6 +14,7 @@ import (
 
 	"gorm.io/gen"
 	"gorm.io/gen/field"
+	"gorm.io/gen/helper"
 
 	"gorm.io/plugin/dbresolver"
 
@@ -36,7 +38,6 @@ func newSystemMenu(db *gorm.DB, opts ...gen.DOOption) systemMenu {
 	_systemMenu.MenuType = field.NewString(tableName, "menu_type")
 	_systemMenu.Sort = field.NewInt64(tableName, "sort")
 	_systemMenu.IsShow = field.NewInt64(tableName, "is_show")
-	_systemMenu.IsDelte = field.NewInt64(tableName, "is_delte")
 	_systemMenu.CreatedAt = field.NewInt64(tableName, "created_at")
 	_systemMenu.UpdatedAt = field.NewInt64(tableName, "updated_at")
 	_systemMenu.DeletedAt = field.NewField(tableName, "deleted_at")
@@ -60,7 +61,6 @@ type systemMenu struct {
 	MenuType  field.String // 类型，M-目录，C-菜单，A-按钮
 	Sort      field.Int64  // 排序
 	IsShow    field.Int64  // 显示状态
-	IsDelte   field.Int64  // 是否删除
 	CreatedAt field.Int64
 	UpdatedAt field.Int64
 	DeletedAt field.Field
@@ -89,7 +89,6 @@ func (s *systemMenu) updateTableName(table string) *systemMenu {
 	s.MenuType = field.NewString(table, "menu_type")
 	s.Sort = field.NewInt64(table, "sort")
 	s.IsShow = field.NewInt64(table, "is_show")
-	s.IsDelte = field.NewInt64(table, "is_delte")
 	s.CreatedAt = field.NewInt64(table, "created_at")
 	s.UpdatedAt = field.NewInt64(table, "updated_at")
 	s.DeletedAt = field.NewField(table, "deleted_at")
@@ -119,7 +118,7 @@ func (s *systemMenu) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *systemMenu) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 13)
+	s.fieldMap = make(map[string]field.Expr, 12)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["pid"] = s.Pid
 	s.fieldMap["name"] = s.Name
@@ -129,7 +128,6 @@ func (s *systemMenu) fillFieldMap() {
 	s.fieldMap["menu_type"] = s.MenuType
 	s.fieldMap["sort"] = s.Sort
 	s.fieldMap["is_show"] = s.IsShow
-	s.fieldMap["is_delte"] = s.IsDelte
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 	s.fieldMap["deleted_at"] = s.DeletedAt
@@ -206,6 +204,61 @@ type ISystemMenuDo interface {
 	Returning(value interface{}, columns ...string) ISystemMenuDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
+
+	GetUserPermission(userID int64) (result []*model.SystemMenu, err error)
+	GetUserMenus(userID int64) (result []*model.SystemMenu, err error)
+}
+
+// SELECT DISTINCT m.*
+//
+//	FROM eb_system_menu m
+//	RIGHT JOIN eb_system_role_menu rm on rm.menu_id = m.id
+//	RIGHT JOIN eb_system_role r on rm.rid = r.id
+//	RIGHT JOIN eb_system_admin a on FIND_IN_SET(r.id, a.roles)
+//	{{where}}
+//		m.deleted_at = 0 AND r.status = 1 AND a.id = @userID
+//	{{end}}
+func (s systemMenuDo) GetUserPermission(userID int64) (result []*model.SystemMenu, err error) {
+	var params []interface{}
+
+	var generateSQL strings.Builder
+	generateSQL.WriteString("SELECT DISTINCT m.* FROM eb_system_menu m RIGHT JOIN eb_system_role_menu rm on rm.menu_id = m.id RIGHT JOIN eb_system_role r on rm.rid = r.id RIGHT JOIN eb_system_admin a on FIND_IN_SET(r.id, a.roles) ")
+	var whereSQL0 strings.Builder
+	params = append(params, userID)
+	whereSQL0.WriteString("m.deleted_at = 0 AND r.status = 1 AND a.id = ? ")
+	helper.JoinWhereBuilder(&generateSQL, whereSQL0)
+
+	var executeSQL *gorm.DB
+	executeSQL = s.UnderlyingDB().Raw(generateSQL.String(), params...).Find(&result) // ignore_security_alert
+	err = executeSQL.Error
+
+	return
+}
+
+// SELECT DISTINCT m.*
+//
+//	FROM eb_system_menu m
+//	RIGHT JOIN eb_system_role_menu rm on rm.menu_id = m.id
+//	RIGHT JOIN eb_system_role r on rm.rid = r.id
+//	RIGHT JOIN eb_system_admin a on FIND_IN_SET(r.id, a.roles)
+//	{{where}}
+//		m.deleted_at = 0 AND r.status = 1 AND m.menu_type != 'A' AND m.is_show = 1 AND a.id = @userID
+//	{{end}}
+func (s systemMenuDo) GetUserMenus(userID int64) (result []*model.SystemMenu, err error) {
+	var params []interface{}
+
+	var generateSQL strings.Builder
+	generateSQL.WriteString("SELECT DISTINCT m.* FROM eb_system_menu m RIGHT JOIN eb_system_role_menu rm on rm.menu_id = m.id RIGHT JOIN eb_system_role r on rm.rid = r.id RIGHT JOIN eb_system_admin a on FIND_IN_SET(r.id, a.roles) ")
+	var whereSQL0 strings.Builder
+	params = append(params, userID)
+	whereSQL0.WriteString("m.deleted_at = 0 AND r.status = 1 AND m.menu_type != 'A' AND m.is_show = 1 AND a.id = ? ")
+	helper.JoinWhereBuilder(&generateSQL, whereSQL0)
+
+	var executeSQL *gorm.DB
+	executeSQL = s.UnderlyingDB().Raw(generateSQL.String(), params...).Find(&result) // ignore_security_alert
+	err = executeSQL.Error
+
+	return
 }
 
 func (s systemMenuDo) Debug() ISystemMenuDo {

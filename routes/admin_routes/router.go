@@ -1,7 +1,10 @@
 package admin_routes
 
 import (
-	"crmeb_go/internal/handler/admin_handler/v1/user_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/home_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/system_config_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/system_store_staff_handler"
 	"crmeb_go/internal/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
@@ -15,7 +18,11 @@ func NewRouter(
 	corsM *middleware.Cors,
 	logM *middleware.LogM,
 	authM *middleware.AuthM,
-	userHandler *user_handler.UserHandler,
+	casbinM *middleware.CasbinM,
+	adminLoginHandler *admin_login_handler.Handler,
+	systemStoreStaffHandler *system_store_staff_handler.Handler,
+	systemConfigHandler *system_config_handler.Handler,
+	homeHandler *home_handler.Handler,
 ) *gin.Engine {
 	router := gin.New()
 	if true {
@@ -27,22 +34,33 @@ func NewRouter(
 	router.Use(corsM.Handler())
 	router.Use(logM.RequestLogMiddleware())
 	router.Use(logM.ResponseLogMiddleware())
-	router.Use(authM.NoStrictAuth())
 
 	publicGroup := router.Group("/api")
 	publicGroup.Use(authM.NoStrictAuth())
 	privateGroup := router.Group("/api")
 	privateGroup.Use(authM.StrictAuth())
 
+	// 提供静态文件，访问路径为 /crmebimage
+	router.Static("/crmebimage", "./crmebimage")
+
 	{
 		// 健康监测
 		publicGroup.GET("/health", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "ok")
 		})
+
 	}
 
 	{
-		adminLoginRouter(publicGroup, privateGroup, userHandler)
+		jsConfigRouter(casbinM, privateGroup, systemConfigHandler)
+
+		adminLoginRouter(casbinM, publicGroup, privateGroup, adminLoginHandler)
+
+		systemConfigRouter(casbinM, privateGroup, systemConfigHandler)
+
+		systemStoreStaffRouter(casbinM, privateGroup, systemStoreStaffHandler)
+
+		homeRouter(casbinM, privateGroup, homeHandler)
 	}
 	return router
 }

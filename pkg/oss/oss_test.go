@@ -1,7 +1,6 @@
 package oss
 
 import (
-	"crmeb_go/consts"
 	"crmeb_go/internal/redis"
 	"fmt"
 	"os"
@@ -42,17 +41,6 @@ func TestGetOnly(t *testing.T) {
 		t.Error(err)
 	}
 	t.Log(file)
-}
-
-func TestSignURL(t *testing.T) {
-	path := "test/"
-	fileName := "ttaa.pdf"
-	signedURL, err := ossClient.SignURL(path, fileName, consts.UrlExpireTime, consts.PreviewFile)
-	if err != nil {
-		t.Errorf("Error generating signed URL: %v", err)
-	}
-	// 输出签名URL
-	t.Logf("Signed URL: %s", signedURL)
 }
 
 func TestRename(t *testing.T) {

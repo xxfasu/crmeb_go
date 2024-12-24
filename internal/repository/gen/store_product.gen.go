@@ -51,7 +51,6 @@ func newStoreProduct(db *gorm.DB, opts ...gen.DOOption) storeProduct {
 	_storeProduct.IsNew = field.NewInt64(tableName, "is_new")
 	_storeProduct.AddTime = field.NewInt64(tableName, "add_time")
 	_storeProduct.IsPostage = field.NewInt64(tableName, "is_postage")
-	_storeProduct.IsDel = field.NewInt64(tableName, "is_del")
 	_storeProduct.MerUse = field.NewInt64(tableName, "mer_use")
 	_storeProduct.GiveIntegral = field.NewInt64(tableName, "give_integral")
 	_storeProduct.Cost = field.NewField(tableName, "cost")
@@ -107,7 +106,6 @@ type storeProduct struct {
 	IsNew        field.Int64  // 是否新品
 	AddTime      field.Int64  // 添加时间
 	IsPostage    field.Int64  // 是否包邮
-	IsDel        field.Int64  // 是否删除
 	MerUse       field.Int64  // 商户是否代理 0不可代理1可代理
 	GiveIntegral field.Int64  // 获得积分
 	Cost         field.Field  // 成本价
@@ -168,7 +166,6 @@ func (s *storeProduct) updateTableName(table string) *storeProduct {
 	s.IsNew = field.NewInt64(table, "is_new")
 	s.AddTime = field.NewInt64(table, "add_time")
 	s.IsPostage = field.NewInt64(table, "is_postage")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.MerUse = field.NewInt64(table, "mer_use")
 	s.GiveIntegral = field.NewInt64(table, "give_integral")
 	s.Cost = field.NewField(table, "cost")
@@ -217,7 +214,7 @@ func (s *storeProduct) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (s *storeProduct) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 45)
+	s.fieldMap = make(map[string]field.Expr, 44)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["mer_id"] = s.MerID
 	s.fieldMap["image"] = s.Image
@@ -242,7 +239,6 @@ func (s *storeProduct) fillFieldMap() {
 	s.fieldMap["is_new"] = s.IsNew
 	s.fieldMap["add_time"] = s.AddTime
 	s.fieldMap["is_postage"] = s.IsPostage
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["mer_use"] = s.MerUse
 	s.fieldMap["give_integral"] = s.GiveIntegral
 	s.fieldMap["cost"] = s.Cost

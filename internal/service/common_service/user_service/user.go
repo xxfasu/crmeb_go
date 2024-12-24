@@ -2,104 +2,83 @@ package user_service
 
 import (
 	"context"
-	"crmeb_go/internal/data/service_data"
-	"crmeb_go/internal/model"
+	"crmeb_go/constants"
+	"crmeb_go/internal/common/data"
+	"crmeb_go/internal/common/response"
 	"crmeb_go/internal/repository"
-	"crmeb_go/internal/repository/gen"
 	"crmeb_go/internal/repository/user_repository"
-	"crmeb_go/internal/validation"
-	"crmeb_go/pkg/cache"
-	"crmeb_go/pkg/jwt"
-	"crmeb_go/pkg/logs"
-	"github.com/go-redsync/redsync/v4"
-	"github.com/google/uuid"
-	"go.uber.org/zap"
-
-	"golang.org/x/crypto/bcrypt"
+	"crmeb_go/pkg/util"
 	"time"
 )
 
-func NewUserService(
-	cache *cache.Cache,
-	rLock *redsync.Redsync,
+func New(
 	tm repository.Transaction,
-	userRepo user_repository.UserRepository,
-	jwt *jwt.JWT,
-) UserService {
-	return &userService{
+	userRepo user_repository.Repository,
+) Service {
+	return &service{
+		tm:       tm,
 		userRepo: userRepo,
-		tx:       tm,
-		jwt:      jwt,
 	}
 }
 
-type userService struct {
-	userRepo user_repository.UserRepository
-	tx       repository.Transaction
-	jwt      *jwt.JWT
+type service struct {
+	tm       repository.Transaction
+	userRepo user_repository.Repository
 }
 
-func (s *userService) Register(ctx context.Context, req *validation.Register) error {
-	// check username
-	user, err := s.userRepo.GetByEmail(ctx, req.Email)
+func (s *service) GetMapInID(ctx context.Context, uidList []int64) (map[int64]response.User, error) {
+	userMap := make(map[int64]response.User)
+	list, err := s.userRepo.GetUserListInID(ctx, uidList)
 	if err != nil {
-		logs.Log.Error("get user by email error:", zap.Error(err))
-		return err
+		return nil, err
 	}
-	if err == nil && user != nil {
-		return err
-	}
-
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return err
-	}
-	// Generate user ID
-	userId := uuid.NewString()
-	user = &model.User{
-		UserID:   userId,
-		Email:    req.Email,
-		Password: string(hashedPassword),
-	}
-	// Transaction demo
-	err = s.tx.Transaction(ctx, func(query *gen.Query) error {
-		// Create a user
-		if err = s.userRepo.CreateTx(ctx, query, user); err != nil {
-			return err
+	for _, item := range list {
+		var user response.User
+		err = user.ConvertFromModel(item)
+		if err != nil {
+			return nil, err
 		}
-		// TODO: other repo
-		return nil
-	})
-	return err
+		userMap[item.ID] = user
+	}
+	return userMap, nil
 }
 
-func (s *userService) Login(ctx context.Context, req *validation.Login) (string, error) {
-	user, err := s.userRepo.GetByEmail(ctx, req.Email)
-	if err != nil || user == nil {
-		return "", err
-	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+func (s *service) GetRegisterNumByDate(ctx context.Context, params *data.DateParams) (*data.DateResult, error) {
+	resp := new(data.DateResult)
+	// 今日用户注册量
+	nowPageViews, err := s.userRepo.GetRegisterNumByDate(ctx, params.Start, params.End)
 	if err != nil {
-		return "", err
-	}
-	token, err := s.jwt.GenToken(user.UserID, time.Now().Add(time.Hour*24*90))
-	if err != nil {
-		return "", err
+		return resp, err
 	}
 
-	return token, nil
-}
-
-func (s *userService) FindUser(ctx context.Context, req *validation.FindUser) (*model.User, error) {
-	user, err := s.userRepo.GetUserByCondition(ctx, service_data.Condition{
-		Email:    req.Email,
-		Nickname: req.Nickname,
-		UserID:   req.UserID,
-	})
+	// 昨天用户注册量
+	yesterdayPageViews, err := s.userRepo.GetRegisterNumByDate(ctx, params.YesterdayStart, params.YesterdayEnd)
 	if err != nil {
 		return nil, err
 	}
 
-	return user, nil
+	resp.NowData = nowPageViews
+	resp.YesterdayData = yesterdayPageViews
+	return resp, nil
+}
+
+func (s *service) GetAddUserCountGroupDate(ctx context.Context, date string) (*map[string]interface{}, error) {
+	start, end := util.CalculateDateRange(date)
+	// 计算时间范围
+	data, err := s.userRepo.GetAddUserCountGroupDate(ctx, start, end)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := make(map[string]interface{}, len(data))
+	for _, v := range data {
+		parse, err := time.Parse(time.RFC3339, v.EveryDate)
+		if err != nil {
+			return nil, err
+		}
+		formatDate := parse.Format(constants.SystemTimeMonthDayFormat)
+		resp[formatDate] = v.ID
+	}
+
+	return &resp, nil
 }

@@ -39,7 +39,6 @@ func newStoreProductReply(db *gorm.DB, opts ...gen.DOOption) storeProductReply {
 	_storeProductReply.Pics = field.NewString(tableName, "pics")
 	_storeProductReply.MerchantReplyContent = field.NewString(tableName, "merchant_reply_content")
 	_storeProductReply.MerchantReplyTime = field.NewInt64(tableName, "merchant_reply_time")
-	_storeProductReply.IsDel = field.NewInt64(tableName, "is_del")
 	_storeProductReply.IsReply = field.NewInt64(tableName, "is_reply")
 	_storeProductReply.Nickname = field.NewString(tableName, "nickname")
 	_storeProductReply.Avatar = field.NewString(tableName, "avatar")
@@ -70,7 +69,6 @@ type storeProductReply struct {
 	Pics                 field.String // 评论图片
 	MerchantReplyContent field.String // 管理员回复内容
 	MerchantReplyTime    field.Int64  // 管理员回复时间
-	IsDel                field.Int64  // 0未删除1已删除
 	IsReply              field.Int64  // 0未回复1已回复
 	Nickname             field.String // 用户名称
 	Avatar               field.String // 用户头像
@@ -106,7 +104,6 @@ func (s *storeProductReply) updateTableName(table string) *storeProductReply {
 	s.Pics = field.NewString(table, "pics")
 	s.MerchantReplyContent = field.NewString(table, "merchant_reply_content")
 	s.MerchantReplyTime = field.NewInt64(table, "merchant_reply_time")
-	s.IsDel = field.NewInt64(table, "is_del")
 	s.IsReply = field.NewInt64(table, "is_reply")
 	s.Nickname = field.NewString(table, "nickname")
 	s.Avatar = field.NewString(table, "avatar")
@@ -142,7 +139,7 @@ func (s *storeProductReply) GetFieldByName(fieldName string) (field.OrderExpr, b
 }
 
 func (s *storeProductReply) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 20)
+	s.fieldMap = make(map[string]field.Expr, 19)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["uid"] = s.UID
 	s.fieldMap["oid"] = s.Oid
@@ -155,7 +152,6 @@ func (s *storeProductReply) fillFieldMap() {
 	s.fieldMap["pics"] = s.Pics
 	s.fieldMap["merchant_reply_content"] = s.MerchantReplyContent
 	s.fieldMap["merchant_reply_time"] = s.MerchantReplyTime
-	s.fieldMap["is_del"] = s.IsDel
 	s.fieldMap["is_reply"] = s.IsReply
 	s.fieldMap["nickname"] = s.Nickname
 	s.fieldMap["avatar"] = s.Avatar
