@@ -2,13 +2,11 @@ package user_service
 
 import (
 	"context"
-	"crmeb_go/constants"
 	"crmeb_go/internal/common/data"
 	"crmeb_go/internal/common/response"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/user_repository"
 	"crmeb_go/pkg/util"
-	"time"
 )
 
 func New(
@@ -62,23 +60,13 @@ func (s *service) GetRegisterNumByDate(ctx context.Context, params *data.DatePar
 	return resp, nil
 }
 
-func (s *service) GetAddUserCountGroupDate(ctx context.Context, date string) (*map[string]interface{}, error) {
+func (s *service) GetAddUserCountGroupDate(ctx context.Context, date string) ([]*data.UserEveryDate, error) {
 	start, end := util.CalculateDateRange(date)
 	// 计算时间范围
-	data, err := s.userRepo.GetAddUserCountGroupDate(ctx, start, end)
+	list, err := s.userRepo.GetAddUserCountGroupDate(ctx, start, end)
 	if err != nil {
 		return nil, err
 	}
 
-	resp := make(map[string]interface{}, len(data))
-	for _, v := range data {
-		parse, err := time.Parse(time.RFC3339, v.EveryDate)
-		if err != nil {
-			return nil, err
-		}
-		formatDate := parse.Format(constants.SystemTimeMonthDayFormat)
-		resp[formatDate] = v.ID
-	}
-
-	return &resp, nil
+	return list, nil
 }

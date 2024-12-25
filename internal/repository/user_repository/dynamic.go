@@ -5,7 +5,7 @@ import "crmeb_go/internal/common/data"
 type Querier interface {
 	//	SELECT
 	//	 DATE(FROM_UNIXTIME(created_at)) AS every_date,
-	//   COUNT(id) AS id,
+	//   COUNT(id) AS id
 	//  FROM
 	//		eb_user
 	// 	{{where}}

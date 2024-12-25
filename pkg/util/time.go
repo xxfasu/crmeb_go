@@ -64,3 +64,31 @@ func getDayStartEnd(t time.Time) (int64, int64) {
 	end := time.Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 999999999, t.Location()).Unix()
 	return start, end
 }
+
+// GetListDate 获取某一时间段内的时间集合
+func GetListDate(data string) []string {
+	today := time.Now()
+	dateString := make([]string, 0, 32)
+	switch data {
+	case constants.SearchDateLately30:
+		startDate := today.AddDate(0, 0, -30)
+		for date := startDate; date.Unix() <= today.Unix(); date = date.Add(24 * time.Hour) {
+			dateString = append(dateString, date.Format("01-02"))
+		}
+	case constants.SearchDateMonth:
+		year, month, _ := today.Date()
+		location := today.Location()
+		firstOfMonth := time.Date(year, month, 1, 0, 0, 0, 0, location)
+		lastOfMonth := firstOfMonth.AddDate(0, 1, -1)
+		for day := firstOfMonth; day.Before(lastOfMonth) || day.Equal(lastOfMonth); day = day.AddDate(0, 0, 1) {
+			startOfDay := time.Date(day.Year(), day.Month(), day.Day(), 0, 0, 0, 0, location)
+			dateString = append(dateString, startOfDay.Format("2"))
+		}
+	case constants.SearchDateWeek:
+		dateString = []string{"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"}
+	case constants.SearchDateYear:
+		dateString = []string{"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"}
+	}
+
+	return dateString
+}

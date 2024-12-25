@@ -9,5 +9,5 @@ import (
 type Service interface {
 	GetMapInID(ctx context.Context, uidList []int64) (map[int64]response.User, error)
 	GetRegisterNumByDate(ctx context.Context, params *data.DateParams) (*data.DateResult, error)
-	GetAddUserCountGroupDate(ctx context.Context, date string) (*map[string]interface{}, error)
+	GetAddUserCountGroupDate(ctx context.Context, date string) ([]*data.UserEveryDate, error)
 }

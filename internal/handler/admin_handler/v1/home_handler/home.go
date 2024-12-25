@@ -26,7 +26,7 @@ func (h *Handler) IndexDate(ctx *gin.Context) {
 }
 
 func (h *Handler) ChartUser(ctx *gin.Context) {
-	resp, err := h.service.ChartOrder(ctx)
+	resp, err := h.service.ChartUser(ctx)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
@@ -44,7 +44,7 @@ func (h *Handler) ChartOrder(ctx *gin.Context) {
 }
 
 func (h *Handler) ChartOrderInWeek(ctx *gin.Context) {
-	resp, err := h.service.ChartOrder(ctx)
+	resp, err := h.service.ChartOrderWeek(ctx)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
@@ -53,7 +53,7 @@ func (h *Handler) ChartOrderInWeek(ctx *gin.Context) {
 }
 
 func (h *Handler) ChartOrderInMonth(ctx *gin.Context) {
-	resp, err := h.service.ChartOrder(ctx)
+	resp, err := h.service.ChartOrderMonth(ctx)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
@@ -62,7 +62,7 @@ func (h *Handler) ChartOrderInMonth(ctx *gin.Context) {
 }
 
 func (h *Handler) ChartOrderInYear(ctx *gin.Context) {
-	resp, err := h.service.ChartOrder(ctx)
+	resp, err := h.service.ChartOrderYear(ctx)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return

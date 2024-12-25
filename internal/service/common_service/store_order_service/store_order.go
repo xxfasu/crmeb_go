@@ -2,12 +2,10 @@ package store_order_service
 
 import (
 	"context"
-	"crmeb_go/constants"
 	"crmeb_go/internal/common/data"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/store_order_repository"
 	"crmeb_go/pkg/util"
-	"time"
 )
 
 func New(
@@ -63,29 +61,12 @@ func (s *service) GetPayOrderAmountByDate(ctx context.Context, params *data.Date
 	return resp, nil
 }
 
-func (s *service) GetOrderGroupByDate(ctx context.Context, date string) (*map[string]interface{}, error) {
+func (s *service) GetOrderGroupByDate(ctx context.Context, date string) ([]*data.StoreOrderEveryDate, error) {
 	start, end := util.CalculateDateRange(date)
 	// 计算时间范围
-	data, err := s.storeOrderRepo.FindOrderGroupByDate(ctx, start, end)
+	list, err := s.storeOrderRepo.FindOrderGroupByDate(ctx, start, end)
 	if err != nil {
 		return nil, err
 	}
-
-	resp := make(map[string]interface{}, len(data))
-	priceMap := make(map[string]interface{}, len(data))
-	IdMap := make(map[string]interface{}, len(data))
-	for _, v := range data {
-		parse, err := time.Parse(time.RFC3339, v.EveryDate)
-		if err != nil {
-			return nil, err
-		}
-		formatDate := parse.Format(constants.SystemTimeMonthDayFormat)
-
-		priceMap[formatDate] = v.PayPrice
-		IdMap[formatDate] = v.ID
-	}
-
-	resp["price"] = priceMap
-	resp["quality"] = IdMap
-	return &resp, nil
+	return list, nil
 }

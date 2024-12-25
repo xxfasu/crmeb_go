@@ -331,7 +331,7 @@ type IUserDo interface {
 // SELECT
 //
 //		 DATE(FROM_UNIXTIME(created_at)) AS every_date,
-//	 COUNT(id) AS id,
+//	 COUNT(id) AS id
 //
 // FROM
 //
@@ -352,7 +352,7 @@ func (u userDo) GetAddUserCountGroupDate(condition *data.DateCondition) (result 
 	var params []interface{}
 
 	var generateSQL strings.Builder
-	generateSQL.WriteString("SELECT DATE(FROM_UNIXTIME(created_at)) AS every_date, COUNT(id) AS id, FROM eb_user ")
+	generateSQL.WriteString("SELECT DATE(FROM_UNIXTIME(created_at)) AS every_date, COUNT(id) AS id FROM eb_user ")
 	var whereSQL0 strings.Builder
 	if condition.Start != 0 {
 		params = append(params, condition.Start)

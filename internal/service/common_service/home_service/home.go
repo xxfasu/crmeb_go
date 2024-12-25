@@ -9,6 +9,9 @@ import (
 	"crmeb_go/internal/service/common_service/store_order_service"
 	"crmeb_go/internal/service/common_service/user_service"
 	"crmeb_go/internal/service/common_service/user_visit_record_service"
+	"crmeb_go/pkg/util"
+	"github.com/iancoleman/orderedmap"
+	"strconv"
 	"time"
 )
 
@@ -83,17 +86,184 @@ func (s *service) IndexDate(ctx context.Context) (*response.HomeRate, error) {
 	return resp, nil
 }
 
-func (s *service) ChartUser(ctx context.Context) (*map[string]interface{}, error) {
-	resp, err := s.userService.GetAddUserCountGroupDate(ctx, constants.SearchDateLately30)
+func (s *service) ChartUser(ctx context.Context) (*orderedmap.OrderedMap, error) {
+	everyDateResp, err := s.userService.GetAddUserCountGroupDate(ctx, constants.SearchDateLately30)
+	listDate := util.GetListDate(constants.SearchDateLately30)
+	resp := orderedmap.New()
+	s.setValue(listDate, resp)
+	for _, v := range everyDateResp {
+		parse, err := time.Parse(time.RFC3339, v.EveryDate)
+		if err != nil {
+			return nil, err
+		}
+		formatDate := parse.Format(constants.SystemTimeMonthDayFormat)
+		resp.Set(formatDate, v.ID)
+	}
 	return resp, err
 }
 
-func (s *service) ChartOrder(ctx context.Context) (*map[string]interface{}, error) {
-	resp, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDateLately30)
+func (s *service) ChartOrder(ctx context.Context) (*response.ChartOrder, error) {
+	everyDateResp, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDateLately30)
+	if err != nil {
+		return nil, err
+	}
+	listDate := util.GetListDate(constants.SearchDateLately30)
+	resp := new(response.ChartOrder)
+	priceMap, idMap, err := s.getPriceAndIdMap(everyDateResp, listDate, constants.SearchDateLately30)
+	if err != nil {
+		return nil, err
+	}
+
+	resp.Price = priceMap
+	resp.Quality = idMap
 	return resp, err
 }
 
-func (s *service) ChartOrderWeek(ctx context.Context) (*map[string]interface{}, error) {
-	resp, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDateLately30)
+func (s *service) ChartOrderWeek(ctx context.Context) (*response.ChartOrder, error) {
+	listDate := util.GetListDate(constants.SearchDateWeek)
+	weekData, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDateWeek)
+
+	resp := new(response.ChartOrder)
+	priceMap, idMap, err := s.getPriceAndIdMap(weekData, listDate, constants.SearchDateWeek)
+	if err != nil {
+		return nil, err
+	}
+
+	// 上周
+	preWeekData, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDatePreWeek)
+	if err != nil {
+		return nil, err
+	}
+
+	prePriceMap, preIdMap, err := s.getPriceAndIdMap(preWeekData, listDate, constants.SearchDatePreWeek)
+	if err != nil {
+		return nil, err
+	}
+
+	resp.PrePrice = prePriceMap
+	resp.PreQuality = preIdMap
+	resp.Price = priceMap
+	resp.Quality = idMap
+
 	return resp, err
+}
+
+func (s *service) ChartOrderMonth(ctx context.Context) (*response.ChartOrder, error) {
+	listDate := util.GetListDate(constants.SearchDateMonth)
+	monthData, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDateMonth)
+
+	resp := new(response.ChartOrder)
+	priceMap, idMap, err := s.getPriceAndIdMap(monthData, listDate, constants.SearchDateMonth)
+	if err != nil {
+		return nil, err
+	}
+
+	// 上月
+	preWeekData, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDatePreMonth)
+	if err != nil {
+		return nil, err
+	}
+
+	prePriceMap, preIdMap, err := s.getPriceAndIdMap(preWeekData, listDate, constants.SearchDateMonth)
+	if err != nil {
+		return nil, err
+	}
+
+	resp.PrePrice = prePriceMap
+	resp.PreQuality = preIdMap
+	resp.Price = priceMap
+	resp.Quality = idMap
+
+	return resp, err
+}
+
+func (s *service) ChartOrderYear(ctx context.Context) (*response.ChartOrder, error) {
+	listDate := util.GetListDate(constants.SearchDateYear)
+	yearData, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDateYear)
+
+	resp := new(response.ChartOrder)
+	priceMap, idMap, err := s.getPriceAndIdMap(yearData, listDate, constants.SearchDateYear)
+	if err != nil {
+		return nil, err
+	}
+
+	// 上年
+	preWeekData, err := s.storeOrderService.GetOrderGroupByDate(ctx, constants.SearchDatePreYear)
+	if err != nil {
+		return nil, err
+	}
+
+	prePriceMap, preIdMap, err := s.getPriceAndIdMap(preWeekData, listDate, constants.SearchDatePreYear)
+	if err != nil {
+		return nil, err
+	}
+
+	resp.PrePrice = prePriceMap
+	resp.PreQuality = preIdMap
+	resp.Price = priceMap
+	resp.Quality = idMap
+
+	return resp, err
+}
+
+func (s *service) getPriceAndIdMap(everyDateList []*data.StoreOrderEveryDate, listDate []string, data string) (*orderedmap.OrderedMap, *orderedmap.OrderedMap, error) {
+	priceMap := orderedmap.New()
+	idMap := orderedmap.New()
+	s.setValue(listDate, priceMap)
+	s.setValue(listDate, idMap)
+	for _, v := range everyDateList {
+		switch data {
+		case constants.SearchDateLately30:
+			parse, err := time.Parse(time.RFC3339, v.EveryDate)
+			if err != nil {
+				return nil, nil, err
+			}
+			formatDate := parse.Format(constants.SystemTimeMonthDayFormat)
+			priceMap.Set(formatDate, v.PayPrice)
+			idMap.Set(formatDate, v.ID)
+		case constants.SearchDatePreWeek, constants.SearchDateWeek:
+			parse, err := time.Parse(time.RFC3339, v.EveryDate)
+			if err != nil {
+				return nil, nil, err
+			}
+			// 获取星期几
+			weekday := parse.Weekday()
+			weekdayList := []string{"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"}
+			weekdayStr := weekdayList[weekday]
+			priceMap.Set(weekdayStr, v.PayPrice)
+			idMap.Set(weekdayStr, v.ID)
+		case constants.SearchDatePreMonth, constants.SearchDateMonth:
+			parse, err := time.Parse(time.RFC3339, v.EveryDate)
+			if err != nil {
+				return nil, nil, err
+			}
+			// 获取是当月几号
+			day := parse.Day()
+			dayStr := strconv.Itoa(day)
+			priceMap.Set(dayStr, v.PayPrice)
+			idMap.Set(dayStr, v.ID)
+		case constants.SearchDatePreYear, constants.SearchDateYear:
+			parse, err := time.Parse(time.RFC3339, v.EveryDate)
+			if err != nil {
+				return nil, nil, err
+			}
+			// 获取是当月几号
+			month := parse.Month()
+			monthList := []string{"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"}
+			monthStr := monthList[month-1]
+			priceMap.Set(monthStr, v.PayPrice)
+			idMap.Set(monthStr, v.ID)
+		}
+	}
+
+	return priceMap, idMap, nil
+}
+
+func (s *service) setValue(listDate []string, priceMap *orderedmap.OrderedMap) {
+	for _, v := range listDate {
+		if _, ok := priceMap.Get(v); ok {
+			continue
+		}
+		priceMap.Set(v, 0)
+	}
 }
