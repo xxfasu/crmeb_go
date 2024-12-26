@@ -38,8 +38,8 @@ func ConvertCopyOption(to, from any) copier.Option {
 				SrcType: from,
 				DstType: to,
 				Mapping: map[string]string{
-					"CreatedAt": "CreatedTime",
-					"UpdatedAt": "UpdatedTime",
+					"CreatedAt": "CreateTime",
+					"UpdatedAt": "UpdateTime",
 				}},
 		}}
 }

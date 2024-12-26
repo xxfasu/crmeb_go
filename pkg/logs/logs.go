@@ -42,6 +42,11 @@ func InitLog() {
 		Compress:   conf.Config.Log.Compress,    // Compression or not
 	}
 
+	// 自定义日志级别显示
+	customLevelEncoder := func(level zapcore.Level, enc zapcore.PrimitiveArrayEncoder) {
+		enc.AppendString("[" + level.CapitalString() + "]")
+	}
+
 	var encoder zapcore.Encoder
 	if conf.Config.Log.Encoding == "console" {
 		encoder = zapcore.NewConsoleEncoder(zapcore.EncoderConfig{
@@ -52,7 +57,7 @@ func InitLog() {
 			MessageKey:     "msg",
 			StacktraceKey:  "stacktrace",
 			LineEnding:     zapcore.DefaultLineEnding,
-			EncodeLevel:    zapcore.LowercaseColorLevelEncoder,
+			EncodeLevel:    customLevelEncoder,
 			EncodeTime:     timeEncoder,
 			EncodeDuration: zapcore.SecondsDurationEncoder,
 			EncodeCaller:   zapcore.FullCallerEncoder,
@@ -88,7 +93,7 @@ func InitLog() {
 
 func timeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 	// enc.AppendString(t.Format("2006-01-02 15:04:05"))
-	enc.AppendString(t.Format("2006-01-02 15:04:05.000000000"))
+	enc.AppendString(t.Format("2006-01-02 15:04:05.000"))
 }
 
 // WithValue Adds a field to the specified context

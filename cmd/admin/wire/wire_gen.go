@@ -84,7 +84,7 @@ func NewWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine,
 	system_store_staff_handlerHandler := system_store_staff_handler.New(system_store_staff_serviceService)
 	system_config_handlerHandler := system_config_handler.New(system_config_serviceService)
 	system_role_repositoryRepository := system_role_repository.New(db)
-	system_role_serviceService := system_role_service.New(transaction, system_role_repositoryRepository)
+	system_role_serviceService := system_role_service.New(transaction, system_role_repositoryRepository, service)
 	system_role_handlerHandler := system_role_handler.New(system_role_serviceService)
 	store_order_repositoryRepository := store_order_repository.New(db)
 	store_order_serviceService := store_order_service.New(transaction, store_order_repositoryRepository)

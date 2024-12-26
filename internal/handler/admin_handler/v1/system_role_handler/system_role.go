@@ -2,6 +2,8 @@ package system_role_handler
 
 import (
 	"crmeb_go/internal/service/common_service/system_role_service"
+	"crmeb_go/internal/validation"
+	"crmeb_go/pkg/response"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +18,17 @@ func New(service system_role_service.Service) *Handler {
 }
 
 func (h *Handler) List(ctx *gin.Context) {
-
+	req := new(validation.SystemRoleSearch)
+	if err := ctx.ShouldBindQuery(req); err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	resp, err := h.service.List(ctx, req)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.OkWithData(ctx, resp)
 }
 
 func (h *Handler) Save(ctx *gin.Context) {

@@ -28,6 +28,10 @@ func (m *CasbinM) CasbinMiddleware(obj string) gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "No user found"})
 			return
 		}
+		if loginUser.User == nil {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "No user found"})
+			return
+		}
 		userRole := strconv.Itoa(int(loginUser.User.ID))
 		if userRole == "" {
 			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "No role found"})
