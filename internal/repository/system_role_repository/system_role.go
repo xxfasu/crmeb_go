@@ -31,5 +31,5 @@ func (r *repository) GetList(ctx context.Context, condition *validation.SystemRo
 		tx = tx.Where(systemRole.Status.Eq(*condition.Status))
 	}
 	tx = tx.Order(systemRole.ID.Asc())
-	return tx.FindByPage(condition.Page, condition.Limit)
+	return tx.FindByPage((condition.Page-1)*condition.Limit, condition.Limit)
 }

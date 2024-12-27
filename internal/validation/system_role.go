@@ -8,7 +8,7 @@ type SystemRoleSearch struct {
 
 type SystemRole struct {
 	ID       int64  `json:"id"`
-	RoleName string `json:"roleName"`
-	Rules    string `json:"rules"`
-	Status   int64  `json:"status"`
+	RoleName string `json:"roleName" binding:"max=32"`
+	Rules    string `json:"rules" binding:"required"`
+	Status   int64  `json:"status" binding:"required"`
 }

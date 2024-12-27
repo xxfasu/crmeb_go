@@ -5,6 +5,7 @@ import (
 	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/home_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_config_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/system_menu_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_role_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_store_staff_handler"
 	"crmeb_go/internal/middleware"
@@ -25,6 +26,7 @@ func NewRouter(
 	systemStoreStaffHandler *system_store_staff_handler.Handler,
 	systemConfigHandler *system_config_handler.Handler,
 	systemRoleHandler *system_role_handler.Handler,
+	systemMenuHandler *system_menu_handler.Handler,
 	homeHandler *home_handler.Handler,
 ) *gin.Engine {
 	router := gin.New()
@@ -63,6 +65,8 @@ func NewRouter(
 		systemStoreStaffRouter(casbinM, privateGroup, systemStoreStaffHandler)
 
 		systemRoleRouter(casbinM, privateGroup, systemRoleHandler)
+
+		systemMenuRouter(casbinM, privateGroup, systemMenuHandler)
 
 		homeRouter(casbinM, privateGroup, homeHandler)
 	}
