@@ -6,6 +6,7 @@ import (
 	"crmeb_go/internal/repository/system_config_repository"
 	"crmeb_go/internal/repository/system_group_data_repository"
 	"crmeb_go/internal/repository/system_menu_repository"
+	"crmeb_go/internal/repository/system_role_menu_repository"
 	"crmeb_go/internal/repository/system_role_repository"
 	"crmeb_go/internal/repository/system_store_repository"
 	"crmeb_go/internal/repository/system_store_staff_repository"
@@ -25,6 +26,7 @@ var ProviderSet = wire.NewSet(
 	system_store_staff_repository.New,
 	system_store_repository.New,
 	system_role_repository.New,
+	system_role_menu_repository.New,
 	user_repository.New,
 	user_visit_record_repository.New,
 )

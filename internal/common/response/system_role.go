@@ -19,3 +19,16 @@ type SystemRole struct {
 func (s *SystemRole) ConvertFromModel(m *model.SystemRole) error {
 	return copier.CopyWithOption(s, m, util.ConvertCopyOption(*s, *m))
 }
+
+type RoleInfo struct {
+	ID         int64        `json:"id"`
+	RoleName   string       `json:"roleName"`
+	Status     int64        `json:"status"`
+	CreateTime string       `json:"createTime"`
+	UpdateTime string       `json:"updateTime"`
+	MenuList   []*MenuCheck `json:"menuList"`
+}
+
+func (s *RoleInfo) ConvertFromModel(m *model.SystemRole) error {
+	return copier.CopyWithOption(s, m, util.ConvertCopyOption(*s, *m))
+}

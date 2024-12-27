@@ -8,6 +8,7 @@ import (
 
 type Reader interface {
 	GetList(ctx context.Context, condition *validation.SystemRoleSearch) ([]*model.SystemRole, int64, error)
+	GetByID(ctx context.Context, id int64) (*model.SystemRole, error)
 }
 
 type Writer interface {

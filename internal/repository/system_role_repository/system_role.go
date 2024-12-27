@@ -33,3 +33,8 @@ func (r *repository) GetList(ctx context.Context, condition *validation.SystemRo
 	tx = tx.Order(systemRole.ID.Asc())
 	return tx.FindByPage((condition.Page-1)*condition.Limit, condition.Limit)
 }
+
+func (r *repository) GetByID(ctx context.Context, id int64) (*model.SystemRole, error) {
+	systemRole := gen.Q.SystemRole
+	return systemRole.WithContext(ctx).Where(systemRole.ID.Eq(id)).First()
+}

@@ -44,7 +44,13 @@ func (h *Handler) Update(ctx *gin.Context) {
 }
 
 func (h *Handler) Info(ctx *gin.Context) {
-
+	id := ctx.Param("id")
+	resp, err := h.service.Info(ctx, id)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.OkWithData(ctx, resp)
 }
 
 func (h *Handler) UpdateStatus(ctx *gin.Context) {

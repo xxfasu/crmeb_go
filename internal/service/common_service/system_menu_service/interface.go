@@ -11,6 +11,7 @@ type Service interface {
 	GetUserPermissions(ctx context.Context, userID int64) ([]*model.SystemMenu, error)
 	GetAllMenus(ctx context.Context) ([]*model.SystemMenu, error)
 	GetUserMenus(ctx context.Context, userID int64) ([]*model.SystemMenu, error)
+	GetCacheList(ctx context.Context) ([]*model.SystemMenu, error)
 	GetCacheTree(ctx context.Context) ([]*response.MenuCheck, error)
 	BuildTree(menuList []*response.MenuCheck) []*response.MenuCheck
 }

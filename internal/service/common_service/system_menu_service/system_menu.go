@@ -2,10 +2,12 @@ package system_menu_service
 
 import (
 	"context"
+	"crmeb_go/constants"
 	"crmeb_go/internal/common/response"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
 	"crmeb_go/internal/repository/system_menu_repository"
+	"encoding/json"
 	"github.com/redis/go-redis/v9"
 	"github.com/samber/lo"
 )
@@ -44,8 +46,33 @@ func (s *service) GetUserMenus(ctx context.Context, userID int64) ([]*model.Syst
 	return s.systemMenuRepo.GetMenusByUserID(ctx, userID)
 }
 
+func (s *service) GetCacheList(ctx context.Context) ([]*model.SystemMenu, error) {
+	result, err := s.redisClient.Exists(ctx, constants.RedisMenuListKey).Result()
+	if err != nil {
+		return nil, err
+	}
+	systemMenuList := make([]*model.SystemMenu, 0)
+	if result > 0 {
+		menuListStr, err := s.redisClient.Get(ctx, constants.RedisMenuListKey).Result()
+		if err != nil {
+			return nil, err
+		}
+		err = json.Unmarshal([]byte(menuListStr), &systemMenuList)
+		if err != nil {
+			return nil, err
+		}
+		return systemMenuList, nil
+	}
+	systemMenuList, err = s.systemMenuRepo.GetAllMenus(ctx)
+	if err != nil {
+		return nil, err
+	}
+	s.redisClient.Set(ctx, constants.RedisMenuListKey, systemMenuList, 0)
+	return systemMenuList, nil
+}
+
 func (s *service) GetCacheTree(ctx context.Context) ([]*response.MenuCheck, error) {
-	systemMenuList, err := s.getCacheList(ctx)
+	systemMenuList, err := s.GetCacheList(ctx)
 	if err != nil {
 		return nil, err
 	}

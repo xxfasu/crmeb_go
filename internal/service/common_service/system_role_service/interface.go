@@ -9,4 +9,5 @@ import (
 
 type Service interface {
 	List(ctx context.Context, req *validation.SystemRoleSearch) (*page.CommonPageResp[response.SystemRole], error)
+	Info(ctx context.Context, id string) (*response.RoleInfo, error)
 }
