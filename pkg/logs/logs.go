@@ -42,29 +42,24 @@ func InitLog() {
 		Compress:   conf.Config.Log.Compress,    // Compression or not
 	}
 
-	// 自定义日志级别显示
-	customLevelEncoder := func(level zapcore.Level, enc zapcore.PrimitiveArrayEncoder) {
-		enc.AppendString("[" + level.CapitalString() + "]")
-	}
-
 	var encoder zapcore.Encoder
 	if conf.Config.Log.Encoding == "console" {
 		encoder = zapcore.NewConsoleEncoder(zapcore.EncoderConfig{
-			TimeKey:        "ts",
+			TimeKey:        "time",
 			LevelKey:       "level",
 			NameKey:        "Logger",
 			CallerKey:      "caller",
 			MessageKey:     "msg",
 			StacktraceKey:  "stacktrace",
 			LineEnding:     zapcore.DefaultLineEnding,
-			EncodeLevel:    customLevelEncoder,
+			EncodeLevel:    zapcore.CapitalColorLevelEncoder,
 			EncodeTime:     timeEncoder,
 			EncodeDuration: zapcore.SecondsDurationEncoder,
 			EncodeCaller:   zapcore.FullCallerEncoder,
 		})
 	} else {
 		encoder = zapcore.NewJSONEncoder(zapcore.EncoderConfig{
-			TimeKey:        "ts",
+			TimeKey:        "time",
 			LevelKey:       "level",
 			NameKey:        "logger",
 			CallerKey:      "caller",

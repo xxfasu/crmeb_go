@@ -1,6 +1,7 @@
 package admin_routes
 
 import (
+	"crmeb_go/internal/conf"
 	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/home_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_config_handler"
@@ -27,15 +28,14 @@ func NewRouter(
 	homeHandler *home_handler.Handler,
 ) *gin.Engine {
 	router := gin.New()
-	if true {
+	if conf.Env.Environment == "local" {
 		gin.SetMode(gin.DebugMode)
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	router.Use(recoveryM.Handler())
 	router.Use(corsM.Handler())
-	router.Use(logM.RequestLogMiddleware())
-	router.Use(logM.ResponseLogMiddleware())
+	router.Use(logM.Handler())
 
 	publicGroup := router.Group("/api")
 	publicGroup.Use(authM.NoStrictAuth())

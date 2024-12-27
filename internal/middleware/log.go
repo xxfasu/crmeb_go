@@ -5,6 +5,7 @@ import (
 	"crmeb_go/pkg/logs"
 	"github.com/google/uuid"
 	"io"
+	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -19,45 +20,90 @@ func NewLogM() *LogM {
 	return &LogM{}
 }
 
-func (m *LogM) RequestLogMiddleware() gin.HandlerFunc {
+func (m *LogM) Handler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		// The configuration is initialized once per request
-		if !strings.HasPrefix(ctx.Request.URL.String(), "/crmebimage") {
-			trace := uuid.NewString()
-			logs.Log.WithValue(ctx, zap.String("trace", trace))
-			logs.Log.WithValue(ctx, zap.String("request_method", ctx.Request.Method))
-			logs.Log.WithValue(ctx, zap.Any("request_headers", ctx.Request.Header))
-			logs.Log.WithValue(ctx, zap.String("request_url", ctx.Request.URL.String()))
-			if ctx.Request.Body != nil {
-				bodyBytes, _ := ctx.GetRawData()
-				ctx.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes)) // 关键点
-				logs.Log.WithValue(ctx, zap.String("request_params", string(bodyBytes)))
+		if strings.HasPrefix(ctx.Request.URL.String(), "/crmebimage") {
+			ctx.Next()
+			return
+		}
+		start := time.Now()
+		trace := uuid.NewString()
+		logs.Log.WithValue(ctx, zap.String("trace", trace))
+
+		ctx.Next()
+		requestParams := m.getRequestParams(ctx)
+		method := ctx.Request.Method
+
+		logs.Log.WithContext(ctx).Info("Request",
+			zap.String("request_method", method),
+			zap.String("request_url", ctx.Request.URL.String()),
+			zap.String("client_ip", ctx.ClientIP()),
+			zap.Int("status", ctx.Writer.Status()),
+			zap.String("latency", time.Since(start).String()),
+			zap.String("request_params", requestParams),
+		)
+	}
+}
+
+func (m *LogM) getRequestParams(ctx *gin.Context) string {
+	method := ctx.Request.Method
+
+	// 准备一个变量来存所有请求参数的字符串
+	var requestParams string
+
+	// 1. 处理 Query 参数（常见于 GET）
+	if ctx.Request.URL.RawQuery != "" {
+		if len(requestParams) > 0 {
+			requestParams += " | "
+		}
+		requestParams += "Query: " + ctx.Request.URL.RawQuery
+	}
+
+	// 2. 如果是 POST 或 PUT、PATCH 等，尝试读取请求体
+	//    - 根据 Content-Type 决定如何处理
+	if method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch {
+		contentType := ctx.GetHeader("Content-Type")
+		if strings.Contains(contentType, "application/json") {
+			// 读取原始 JSON body
+			rawData, err := ctx.GetRawData()
+			if err == nil {
+				if len(requestParams) > 0 {
+					requestParams += " | "
+				}
+				requestParams += "JSON: " + string(rawData)
+				// 重新放回 body，以便后续 Handler 还能 Bind 到
+				ctx.Request.Body = io.NopCloser(bytes.NewBuffer(rawData))
 			}
-			logs.Log.WithContext(ctx).Info("Request")
+		} else if strings.Contains(contentType, "application/x-www-form-urlencoded") ||
+			strings.Contains(contentType, "multipart/form-data") {
+			// 表单
+			_ = ctx.Request.ParseForm() // 解析表单
+			formString := ctx.Request.Form.Encode()
+			if formString != "" {
+				if len(requestParams) > 0 {
+					requestParams += " | "
+				}
+				requestParams += "Form: " + formString
+			}
 		}
-
-		ctx.Next()
+		// 若还有别的 Content-Type，可以再添加分支逻辑
 	}
-}
-func (m *LogM) ResponseLogMiddleware() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		blw := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: ctx.Writer}
-		ctx.Writer = blw
-		startTime := time.Now()
-		ctx.Next()
-		if !strings.HasPrefix(ctx.Request.URL.String(), "/crmebimage") {
-			duration := time.Since(startTime).String()
-			logs.Log.WithContext(ctx).Info("Response", zap.Any("response_body", blw.body.String()), zap.Any("time", duration))
+
+	// 3. Path Param
+	//    若路径定义了 :id 等动态参数，这里可以获取
+	//    演示：取所有已知的路由参数再拼接
+	// c.Params 本质上是 []gin.Param
+	if len(ctx.Params) > 0 {
+		var pathParams []string
+		for _, p := range ctx.Params {
+			pathParams = append(pathParams, p.Key+"="+p.Value)
+		}
+		if len(pathParams) > 0 {
+			if len(requestParams) > 0 {
+				requestParams += " | "
+			}
+			requestParams += "PathParam: " + strings.Join(pathParams, "&")
 		}
 	}
-}
-
-type bodyLogWriter struct {
-	gin.ResponseWriter
-	body *bytes.Buffer
-}
-
-func (w bodyLogWriter) Write(b []byte) (int, error) {
-	w.body.Write(b)
-	return w.ResponseWriter.Write(b)
+	return requestParams
 }

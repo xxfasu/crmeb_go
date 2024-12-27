@@ -49,7 +49,7 @@ func (s *service) get(ctx context.Context, name string) string {
 	if !conf.Config.CrmebConfig.AsyncConfig {
 		systemConfig, err := s.systemConfigRepo.GetConfigByName(ctx, name)
 		if err != nil {
-			logs.Log.Error("GetConfigByName err: ", zap.Error(err))
+			logs.Log.WithContext(ctx).Error("GetConfigByName err: ", zap.Error(err))
 			return ""
 		}
 		return "http://localhost:7788/" + systemConfig.Value
@@ -71,7 +71,7 @@ func (s *service) setRedisByVoList(ctx context.Context) {
 	}
 	systemConfigList, err := s.systemConfigRepo.GetConfigALL(ctx)
 	if err != nil {
-		logs.Log.Error("GetConfigALL err: ", zap.Error(err))
+		logs.Log.WithContext(ctx).Error("GetConfigALL err: ", zap.Error(err))
 		return
 	}
 	s.async(ctx, systemConfigList)
