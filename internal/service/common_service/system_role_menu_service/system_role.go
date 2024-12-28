@@ -4,6 +4,7 @@ import (
 	"context"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
+	"crmeb_go/internal/repository/gen"
 	"crmeb_go/internal/repository/system_role_menu_repository"
 	"github.com/samber/lo"
 )
@@ -32,4 +33,8 @@ func (s *service) GetMenuIDList(ctx context.Context, roleID int64) ([]int64, err
 		return item.MenuID
 	})
 	return menuIDList, nil
+}
+
+func (s *service) TxBatchCreate(ctx context.Context, tx *gen.Query, menuIDList []*model.SystemRoleMenu) error {
+	return s.systemRoleMenuRepo.TxBatchCreate(ctx, tx, menuIDList)
 }

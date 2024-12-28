@@ -14,4 +14,5 @@ type Service interface {
 	GetCacheList(ctx context.Context) ([]*model.SystemMenu, error)
 	GetCacheTree(ctx context.Context) ([]*response.MenuCheck, error)
 	BuildTree(menuList []*response.MenuCheck) []*response.MenuCheck
+	GetMenusByIDList(ctx context.Context, menuIDList []int64) ([]*model.SystemMenu, error)
 }

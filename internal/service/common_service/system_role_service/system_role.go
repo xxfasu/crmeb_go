@@ -7,14 +7,17 @@ import (
 	"crmeb_go/internal/common/response"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository"
+	"crmeb_go/internal/repository/gen"
 	"crmeb_go/internal/repository/system_role_repository"
 	"crmeb_go/internal/service/common_service/system_menu_service"
 	"crmeb_go/internal/service/common_service/system_role_menu_service"
 	"crmeb_go/internal/validation"
 	"errors"
+	"github.com/jinzhu/copier"
 	"github.com/samber/lo"
 	"slices"
 	"strconv"
+	"strings"
 )
 
 func New(
@@ -58,6 +61,65 @@ func (s *service) List(ctx context.Context, req *validation.SystemRoleSearch) (*
 
 	resp := page.RestPage(req.PageParam, systemRoleRespList, total)
 	return resp, nil
+}
+
+func (s *service) Save(ctx context.Context, req *validation.SystemRole) (bool, error) {
+	exist, err := s.systemRoleRepo.ExistRoleName(ctx, req.RoleName, 0)
+	if err != nil {
+		return false, err
+	}
+	if !exist {
+		return false, errors.New("角色已存在")
+	}
+
+	menuIDList := lo.Map(strings.Split(req.Rules, ","), func(item string, index int) int64 {
+		rule, _ := strconv.Atoi(item)
+		return int64(rule)
+	})
+	menuIDList = lo.Uniq(menuIDList)
+	systemRole := new(model.SystemRole)
+	copier.Copy(systemRole, req)
+	systemRole.Rules = ""
+	systemRole.ID = 0
+
+	err = s.tm.Transaction(ctx, func(query *gen.Query) error {
+		err = s.systemRoleRepo.TxCreate(ctx, query, systemRole)
+		if err != nil {
+			return err
+		}
+		roleMenuList := lo.Map(menuIDList, func(item int64, index int) *model.SystemRoleMenu {
+			roleMenu := new(model.SystemRoleMenu)
+			roleMenu.Rid = systemRole.ID
+			roleMenu.MenuID = item
+			return roleMenu
+		})
+		err = s.systemRoleMenuService.TxBatchCreate(ctx, query, roleMenuList)
+		if err != nil {
+			return err
+		}
+		rules := make([]string, 0, len(menuIDList))
+		systemMenuList, err := s.systemMenuService.GetMenusByIDList(ctx, menuIDList)
+		if err != nil {
+			return err
+		}
+		for _, item := range systemMenuList {
+			rules = append(rules, item.Perms)
+		}
+		err = s.casbinService.AddPolicies(rules, strconv.FormatInt(systemRole.ID, 10))
+		if err != nil {
+			return err
+		}
+		err = s.casbinService.FreshCasbin()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
 
 func (s *service) Info(ctx context.Context, id string) (*response.RoleInfo, error) {

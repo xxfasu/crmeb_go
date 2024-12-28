@@ -38,3 +38,19 @@ func (r *repository) GetByID(ctx context.Context, id int64) (*model.SystemRole, 
 	systemRole := gen.Q.SystemRole
 	return systemRole.WithContext(ctx).Where(systemRole.ID.Eq(id)).First()
 }
+
+func (r *repository) ExistRoleName(ctx context.Context, roleName string, id int64) (bool, error) {
+	systemRole := gen.Q.SystemRole
+	tx := systemRole.WithContext(ctx)
+	tx = tx.Where(systemRole.RoleName.Eq(roleName))
+	if id > 0 {
+		tx = tx.Where(systemRole.ID.Neq(id))
+	}
+	tx.Limit(1)
+	count, err := tx.Count()
+	return count > 0, err
+}
+
+func (r *repository) TxCreate(ctx context.Context, tx *gen.Query, entity *model.SystemRole) error {
+	return tx.SystemRole.WithContext(ctx).Create(entity)
+}

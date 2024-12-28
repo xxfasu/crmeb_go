@@ -32,7 +32,17 @@ func (h *Handler) List(ctx *gin.Context) {
 }
 
 func (h *Handler) Save(ctx *gin.Context) {
-
+	req := new(validation.SystemRole)
+	if err := ctx.ShouldBindQuery(req); err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	resp, err := h.service.Save(ctx, req)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.OkWithData(ctx, resp)
 }
 
 func (h *Handler) Delete(ctx *gin.Context) {

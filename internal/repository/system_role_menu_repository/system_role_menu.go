@@ -26,3 +26,7 @@ func (r *repository) GetMenuIDListByRoleID(ctx context.Context, roleID int64) ([
 		Where(systemRoleMenu.Rid.Eq(roleID)).
 		Find()
 }
+
+func (r *repository) TxBatchCreate(ctx context.Context, tx *gen.Query, entityList []*model.SystemRoleMenu) error {
+	return tx.WithContext(ctx).SystemRoleMenu.Create(entityList...)
+}

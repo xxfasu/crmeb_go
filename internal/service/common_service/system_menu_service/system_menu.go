@@ -84,3 +84,7 @@ func (s *service) GetCacheTree(ctx context.Context) ([]*response.MenuCheck, erro
 	resp := s.BuildTree(menuCheckList)
 	return resp, nil
 }
+
+func (s *service) GetMenusByIDList(ctx context.Context, menuIDList []int64) ([]*model.SystemMenu, error) {
+	return s.systemMenuRepo.GetMenusByIDList(ctx, menuIDList)
+}

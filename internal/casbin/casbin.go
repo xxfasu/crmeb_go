@@ -24,16 +24,16 @@ func InitCasbinEnforcer(db *gorm.DB) (Service, error) {
 	text := `
 		[request_definition]
 		r = sub, obj, act
-		
+
 		[policy_definition]
 		p = sub, obj, act
-		
+
 		[role_definition]
 		g = _, _
-		
+
 		[policy_effect]
 		e = some(where (p.eft == allow))
-		
+
 		[matchers]
 		m = r.sub == p.sub && keyMatch2(r.obj,p.obj) && r.act == p.act
 		`
@@ -76,13 +76,13 @@ func (s *service) RemoveFilteredPolicy(roleID string) error {
 	return s.e.LoadPolicy()
 }
 
-func (s *service) AddPolicies(rules [][]string) error {
+func (s *service) AddPolicies(rules []string, roleID string) error {
 	var casbinRules []gormadapter.CasbinRule
 	for i := range rules {
 		casbinRules = append(casbinRules, gormadapter.CasbinRule{
 			Ptype: "p",
-			V0:    rules[i][0],
-			V1:    rules[i][1],
+			V0:    roleID,
+			V1:    rules[i],
 			V2:    "ALL",
 		})
 	}

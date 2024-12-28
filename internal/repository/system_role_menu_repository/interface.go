@@ -3,6 +3,7 @@ package system_role_menu_repository
 import (
 	"context"
 	"crmeb_go/internal/model"
+	"crmeb_go/internal/repository/gen"
 )
 
 type Reader interface {
@@ -10,6 +11,7 @@ type Reader interface {
 }
 
 type Writer interface {
+	TxBatchCreate(ctx context.Context, tx *gen.Query, entityList []*model.SystemRoleMenu) error
 }
 
 type Repository interface {

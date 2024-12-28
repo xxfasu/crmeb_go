@@ -11,7 +11,7 @@ func systemRoleRouter(casbinM *middleware.CasbinM, privateRouter *gin.RouterGrou
 
 	{
 		privateRouter.GET("/list", casbinM.CasbinMiddleware("admin:system:role:list"), handler.List)
-		privateRouter.GET("/save", casbinM.CasbinMiddleware("admin:system:role:save"), handler.Save)
+		privateRouter.POST("/save", casbinM.CasbinMiddleware("admin:system:role:save"), handler.Save)
 		privateRouter.GET("/delete", casbinM.CasbinMiddleware("admin:system:role:delete"), handler.Delete)
 		privateRouter.POST("/update", casbinM.CasbinMiddleware("admin:system:role:update"), handler.Update)
 		privateRouter.GET("/info/{id}", casbinM.CasbinMiddleware("admin:system:role:info"), handler.Info)

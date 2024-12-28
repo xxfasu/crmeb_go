@@ -43,3 +43,8 @@ func (r *repository) GetMenusByUserID(ctx context.Context, userID int64) ([]*mod
 	systemMenu := gen.Q.SystemMenu
 	return systemMenu.WithContext(ctx).GetUserMenus(userID)
 }
+
+func (r *repository) GetMenusByIDList(ctx context.Context, menuIDList []int64) ([]*model.SystemMenu, error) {
+	systemMenu := gen.Q.SystemMenu
+	return systemMenu.WithContext(ctx).Where(systemMenu.ID.In(menuIDList...)).Find()
+}
