@@ -28,5 +28,11 @@ func (r *repository) GetMenuIDListByRoleID(ctx context.Context, roleID int64) ([
 }
 
 func (r *repository) TxBatchCreate(ctx context.Context, tx *gen.Query, entityList []*model.SystemRoleMenu) error {
-	return tx.WithContext(ctx).SystemRoleMenu.Create(entityList...)
+	return tx.SystemRoleMenu.WithContext(ctx).Create(entityList...)
+}
+
+func (r *repository) TxDeleteByRoleID(ctx context.Context, tx *gen.Query, roleID int64) error {
+	systemRoleMenu := tx.SystemRoleMenu
+	_, err := systemRoleMenu.WithContext(ctx).Where(systemRoleMenu.Rid.Eq(roleID)).Delete()
+	return err
 }

@@ -12,6 +12,7 @@ type Reader interface {
 
 type Writer interface {
 	TxBatchCreate(ctx context.Context, tx *gen.Query, entityList []*model.SystemRoleMenu) error
+	TxDeleteByRoleID(ctx context.Context, tx *gen.Query, roleID int64) error
 }
 
 type Repository interface {

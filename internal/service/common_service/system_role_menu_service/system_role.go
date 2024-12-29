@@ -35,6 +35,10 @@ func (s *service) GetMenuIDList(ctx context.Context, roleID int64) ([]int64, err
 	return menuIDList, nil
 }
 
-func (s *service) TxBatchCreate(ctx context.Context, tx *gen.Query, menuIDList []*model.SystemRoleMenu) error {
+func (s *service) TxBatchCreateSystemRoleMenu(ctx context.Context, tx *gen.Query, menuIDList []*model.SystemRoleMenu) error {
 	return s.systemRoleMenuRepo.TxBatchCreate(ctx, tx, menuIDList)
+}
+
+func (s *service) TxDeleteSystemRoleMenuByRoleID(ctx context.Context, tx *gen.Query, roleID int64) error {
+	return s.systemRoleMenuRepo.TxDeleteByRoleID(ctx, tx, roleID)
 }

@@ -51,6 +51,24 @@ func (r *repository) ExistRoleName(ctx context.Context, roleName string, id int6
 	return count > 0, err
 }
 
+func (r *repository) UpdateByID(ctx context.Context, umap map[string]any, id int64) error {
+	systemRole := gen.Q.SystemRole
+	_, err := systemRole.WithContext(ctx).Where(systemRole.ID.Eq(id)).Updates(umap)
+	return err
+}
+
 func (r *repository) TxCreate(ctx context.Context, tx *gen.Query, entity *model.SystemRole) error {
 	return tx.SystemRole.WithContext(ctx).Create(entity)
+}
+
+func (r *repository) TxUpdateByID(ctx context.Context, tx *gen.Query, umap map[string]any, id int64) error {
+	systemRole := tx.SystemRole
+	_, err := systemRole.WithContext(ctx).Where(systemRole.ID.Eq(id)).Updates(umap)
+	return err
+}
+
+func (r *repository) TxDeleteByID(ctx context.Context, tx *gen.Query, id int64) error {
+	systemRole := tx.SystemRole
+	_, err := systemRole.WithContext(ctx).Where(systemRole.ID.Eq(id)).Delete()
+	return err
 }

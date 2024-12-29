@@ -8,10 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/kardianos/service"
 	"log"
-	"os"
-	"os/signal"
 	"sync"
-	"syscall"
 )
 
 // 定义程序结构体
@@ -100,9 +97,5 @@ func main() {
 		}
 	}()
 
-	// 等待中断信号以优雅关闭
-	sigs := make(chan os.Signal, 1)
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-	<-sigs
 	log.Println("Shutting down...")
 }

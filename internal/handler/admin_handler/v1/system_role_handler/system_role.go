@@ -5,6 +5,7 @@ import (
 	"crmeb_go/internal/validation"
 	"crmeb_go/pkg/response"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 type Handler struct {
@@ -33,29 +34,52 @@ func (h *Handler) List(ctx *gin.Context) {
 
 func (h *Handler) Save(ctx *gin.Context) {
 	req := new(validation.SystemRole)
-	if err := ctx.ShouldBindQuery(req); err != nil {
+	if err := ctx.ShouldBindJSON(req); err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
 	}
-	resp, err := h.service.Save(ctx, req)
+	err := h.service.Save(ctx, req)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
 	}
-	response.OkWithData(ctx, resp)
+	response.Ok(ctx)
 }
 
 func (h *Handler) Delete(ctx *gin.Context) {
-
+	idStr := ctx.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+	}
+	err = h.service.Delete(ctx, int64(id))
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.Ok(ctx)
 }
 
 func (h *Handler) Update(ctx *gin.Context) {
-
+	req := new(validation.SystemRole)
+	if err := ctx.ShouldBindJSON(req); err != nil {
+		response.FailWithMessage(ctx, err.Error())
+	}
+	err := h.service.Update(ctx, req)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.Ok(ctx)
 }
 
 func (h *Handler) Info(ctx *gin.Context) {
-	id := ctx.Param("id")
-	resp, err := h.service.Info(ctx, id)
+	idStr := ctx.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+	}
+	resp, err := h.service.Info(ctx, int64(id))
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
@@ -64,5 +88,19 @@ func (h *Handler) Info(ctx *gin.Context) {
 }
 
 func (h *Handler) UpdateStatus(ctx *gin.Context) {
-
+	idStr := ctx.Param("id")
+	statusStr := ctx.Param("status")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+	}
+	status, err := strconv.Atoi(statusStr)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+	}
+	err = h.service.UpdateStatus(ctx, int64(id), int64(status))
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+	}
+	response.Ok(ctx)
 }

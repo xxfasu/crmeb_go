@@ -63,13 +63,13 @@ func (s *service) List(ctx context.Context, req *validation.SystemRoleSearch) (*
 	return resp, nil
 }
 
-func (s *service) Save(ctx context.Context, req *validation.SystemRole) (bool, error) {
+func (s *service) Save(ctx context.Context, req *validation.SystemRole) error {
 	exist, err := s.systemRoleRepo.ExistRoleName(ctx, req.RoleName, 0)
 	if err != nil {
-		return false, err
+		return err
 	}
 	if !exist {
-		return false, errors.New("角色已存在")
+		return errors.New("角色已存在")
 	}
 
 	menuIDList := lo.Map(strings.Split(req.Rules, ","), func(item string, index int) int64 {
@@ -93,7 +93,7 @@ func (s *service) Save(ctx context.Context, req *validation.SystemRole) (bool, e
 			roleMenu.MenuID = item
 			return roleMenu
 		})
-		err = s.systemRoleMenuService.TxBatchCreate(ctx, query, roleMenuList)
+		err = s.systemRoleMenuService.TxBatchCreateSystemRoleMenu(ctx, query, roleMenuList)
 		if err != nil {
 			return err
 		}
@@ -117,14 +117,13 @@ func (s *service) Save(ctx context.Context, req *validation.SystemRole) (bool, e
 	})
 
 	if err != nil {
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
 }
 
-func (s *service) Info(ctx context.Context, id string) (*response.RoleInfo, error) {
-	roleID, err := strconv.Atoi(id)
-	systemRole, err := s.systemRoleRepo.GetByID(ctx, int64(roleID))
+func (s *service) Info(ctx context.Context, id int64) (*response.RoleInfo, error) {
+	systemRole, err := s.systemRoleRepo.GetByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +132,7 @@ func (s *service) Info(ctx context.Context, id string) (*response.RoleInfo, erro
 	}
 	// 查询角色对应的菜单(权限)
 	menuList, err := s.systemMenuService.GetCacheList(ctx)
-	menuIDList, err := s.systemRoleMenuService.GetMenuIDList(ctx, int64(roleID))
+	menuIDList, err := s.systemRoleMenuService.GetMenuIDList(ctx, id)
 	menuCheckList := lo.Map(menuList, func(item *model.SystemMenu, index int) *response.MenuCheck {
 		menuCheck := new(response.MenuCheck)
 		menuCheck.ConvertFromModel(item)
@@ -149,4 +148,121 @@ func (s *service) Info(ctx context.Context, id string) (*response.RoleInfo, erro
 	}
 	resp.MenuList = s.systemMenuService.BuildTree(menuCheckList)
 	return resp, nil
+}
+
+func (s *service) Delete(ctx context.Context, id int64) error {
+	systemRole, err := s.systemRoleRepo.GetByID(ctx, id)
+	if err != nil {
+		return err
+	}
+	if systemRole == nil {
+		return errors.New("角色不存在")
+	}
+	err = s.tm.Transaction(ctx, func(query *gen.Query) error {
+		err = s.systemRoleRepo.TxDeleteByID(ctx, query, id)
+		if err != nil {
+			return err
+		}
+		err = s.systemRoleMenuService.TxDeleteSystemRoleMenuByRoleID(ctx, query, id)
+		if err != nil {
+			return err
+		}
+		err = s.casbinService.RemoveFilteredPolicy(strconv.FormatInt(id, 10))
+		if err != nil {
+			return err
+		}
+		err = s.casbinService.FreshCasbin()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *service) Update(ctx context.Context, req *validation.SystemRole) error {
+	exist, err := s.systemRoleRepo.ExistRoleName(ctx, req.RoleName, 0)
+	if err != nil {
+		return err
+	}
+	if !exist {
+		return errors.New("角色名称重复")
+	}
+
+	menuIDList := lo.Map(strings.Split(req.Rules, ","), func(item string, index int) int64 {
+		rule, _ := strconv.Atoi(item)
+		return int64(rule)
+	})
+	menuIDList = lo.Uniq(menuIDList)
+	systemRole := new(model.SystemRole)
+	copier.Copy(systemRole, req)
+	systemRole.Rules = ""
+
+	err = s.tm.Transaction(ctx, func(query *gen.Query) error {
+		umap := make(map[string]any)
+		umap["role_name"] = systemRole.RoleName
+		umap["status"] = systemRole.Status
+		err = s.systemRoleRepo.TxUpdateByID(ctx, query, umap, systemRole.ID)
+		if err != nil {
+			return err
+		}
+		roleMenuList := lo.Map(menuIDList, func(item int64, index int) *model.SystemRoleMenu {
+			roleMenu := new(model.SystemRoleMenu)
+			roleMenu.Rid = systemRole.ID
+			roleMenu.MenuID = item
+			return roleMenu
+		})
+
+		err = s.systemRoleMenuService.TxDeleteSystemRoleMenuByRoleID(ctx, query, systemRole.ID)
+		if err != nil {
+			return err
+		}
+
+		err = s.systemRoleMenuService.TxBatchCreateSystemRoleMenu(ctx, query, roleMenuList)
+		if err != nil {
+			return err
+		}
+		rules := make([]string, 0, len(menuIDList))
+		systemMenuList, err := s.systemMenuService.GetMenusByIDList(ctx, menuIDList)
+		if err != nil {
+			return err
+		}
+		for _, item := range systemMenuList {
+			rules = append(rules, item.Perms)
+		}
+		err = s.casbinService.RemoveFilteredPolicy(strconv.FormatInt(systemRole.ID, 10))
+		if err != nil {
+			return err
+		}
+		err = s.casbinService.FreshCasbin()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *service) UpdateStatus(ctx context.Context, id, status int64) error {
+	systemRole, err := s.systemRoleRepo.GetByID(ctx, id)
+	if err != nil {
+		return err
+	}
+	if systemRole == nil {
+		return errors.New("角色不存在")
+	}
+	if systemRole.Status == status {
+		return nil
+	}
+	umap := make(map[string]any)
+	umap["status"] = status
+	return s.systemRoleRepo.UpdateByID(ctx, umap, id)
 }

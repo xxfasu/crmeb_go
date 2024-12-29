@@ -9,6 +9,9 @@ import (
 
 type Service interface {
 	List(ctx context.Context, req *validation.SystemRoleSearch) (*page.CommonPageResp[response.SystemRole], error)
-	Save(ctx context.Context, req *validation.SystemRole) (bool, error)
-	Info(ctx context.Context, id string) (*response.RoleInfo, error)
+	Save(ctx context.Context, req *validation.SystemRole) error
+	Info(ctx context.Context, id int64) (*response.RoleInfo, error)
+	Delete(ctx context.Context, id int64) error
+	Update(ctx context.Context, req *validation.SystemRole) error
+	UpdateStatus(ctx context.Context, id, status int64) error
 }

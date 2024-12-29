@@ -14,7 +14,10 @@ type Reader interface {
 }
 
 type Writer interface {
+	UpdateByID(ctx context.Context, umap map[string]any, id int64) error
 	TxCreate(ctx context.Context, tx *gen.Query, entity *model.SystemRole) error
+	TxUpdateByID(ctx context.Context, tx *gen.Query, umap map[string]any, id int64) error
+	TxDeleteByID(ctx context.Context, tx *gen.Query, id int64) error
 }
 
 type Repository interface {
