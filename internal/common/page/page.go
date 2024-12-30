@@ -29,3 +29,7 @@ func DefaultPageParams() validation.PageParam {
 		Limit: 20,
 	}
 }
+
+func PageParam(param validation.PageParam) (int, int) {
+	return (param.Page - 1) * param.Limit, param.Limit
+}

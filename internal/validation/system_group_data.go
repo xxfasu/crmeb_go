@@ -1,9 +1,9 @@
 package validation
 
 type SystemGroupDataSearch struct {
-	Keywords string `json:"keywords"`
-	GID      int64  `json:"gid"`
-	Status   int64  `json:"status"`
+	Keywords string `json:"keywords" form:"keywords"`
+	GID      int64  `json:"gid" form:"gid"`
+	Status   int64  `json:"status" form:"status"`
 	PageParam
 }
 

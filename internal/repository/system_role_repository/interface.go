@@ -8,7 +8,8 @@ import (
 )
 
 type Reader interface {
-	GetList(ctx context.Context, condition *validation.SystemRoleSearch) ([]*model.SystemRole, int64, error)
+	GetAllList(ctx context.Context) ([]*model.SystemRole, error)
+	GetPage(ctx context.Context, condition *validation.SystemRoleSearch) ([]*model.SystemRole, int64, error)
 	GetByID(ctx context.Context, id int64) (*model.SystemRole, error)
 	ExistRoleName(ctx context.Context, roleName string, id int64) (bool, error)
 }

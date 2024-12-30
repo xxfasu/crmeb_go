@@ -72,6 +72,9 @@ func (s *service) SystemAdminLogin(ctx context.Context, req *validation.SystemAd
 	if err != nil {
 		return resp, errors.New("用户不存在")
 	}
+	if !util.ComparePasswords(systemAdmin.Pwd, req.Pwd) {
+		return resp, errors.New("密码错误")
+	}
 	token, err := getToken(ctx, s, systemAdmin)
 	if err != nil {
 		return resp, err
@@ -84,7 +87,7 @@ func (s *service) SystemAdminLogin(ctx context.Context, req *validation.SystemAd
 	umap := make(map[string]interface{}, 2)
 	umap["login_count"] = systemAdmin.LoginCount + 1
 	umap["last_ip"] = ip
-	err = s.systemAdminRepo.Update(ctx, systemAdmin.ID, umap)
+	err = s.systemAdminRepo.UpdateFields(ctx, systemAdmin.ID, umap)
 	if err != nil {
 		return resp, err
 	}

@@ -2,6 +2,7 @@ package system_store_staff_repository
 
 import (
 	"context"
+	"crmeb_go/internal/common/page"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository/gen"
 	"crmeb_go/internal/validation"
@@ -28,5 +29,5 @@ func (r *repository) GetStoreStaffPageList(ctx context.Context, condition *valid
 			systemStoreStaff.StoreID.Eq(condition.StoreID),
 		)
 	}
-	return tx.FindByPage((condition.Page-1)*condition.Limit, condition.Limit)
+	return tx.FindByPage(page.PageParam(condition.PageParam))
 }

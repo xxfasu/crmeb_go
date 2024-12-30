@@ -3352,12 +3352,12 @@ DROP TABLE IF EXISTS `eb_store_bargain_user_help`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_store_bargain_user_help`
 (
-  `id`         int unsigned NOT NULL AUTO_INCREMENT COMMENT '砍价用户帮助表ID',
-  `uid`        int unsigned DEFAULT NULL COMMENT '帮助的用户id',
+  `id`       int unsigned NOT NULL AUTO_INCREMENT COMMENT '砍价用户帮助表ID',
+  `uid`      int unsigned DEFAULT NULL COMMENT '帮助的用户id',
   `bargain_id` int unsigned DEFAULT NULL COMMENT '砍价商品ID',
   `bargain_user_id` int unsigned DEFAULT NULL COMMENT '用户参与砍价表id',
-  `price`      decimal(8, 2) unsigned DEFAULT NULL COMMENT '帮助砍价多少金额',
-  `add_time`   bigint unsigned DEFAULT NULL COMMENT '添加时间',
+  `price`    decimal(8, 2) unsigned DEFAULT NULL COMMENT '帮助砍价多少金额',
+  `add_time` bigint unsigned DEFAULT NULL COMMENT '添加时间',
   `created_at` bigint DEFAULT NULL,
   `updated_at` bigint DEFAULT NULL,
   `deleted_at` bigint DEFAULT NULL,
@@ -3385,27 +3385,27 @@ DROP TABLE IF EXISTS `eb_store_cart`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_store_cart`
 (
-  `id`             bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '购物车表ID',
-  `uid`            int unsigned NOT NULL COMMENT '用户ID',
-  `type`           varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型',
-  `product_id`     int unsigned NOT NULL COMMENT '商品ID',
+  `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '购物车表ID',
+  `uid`        int unsigned NOT NULL COMMENT '用户ID',
+  `type`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型',
+  `product_id` int unsigned NOT NULL COMMENT '商品ID',
   `product_attr_unique` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '商品属性',
-  `cart_num`       smallint unsigned NOT NULL DEFAULT '0' COMMENT '商品数量',
-  `is_new`         tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为立即购买',
+  `cart_num`   smallint unsigned NOT NULL DEFAULT '0' COMMENT '商品数量',
+  `is_new`     tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为立即购买',
   `combination_id` int unsigned DEFAULT '0' COMMENT '拼团id',
-  `seckill_id`     int unsigned NOT NULL DEFAULT '0' COMMENT '秒杀商品ID',
-  `bargain_id`     int unsigned NOT NULL DEFAULT '0' COMMENT '砍价id',
-  `status`         tinyint(1) NOT NULL DEFAULT '1' COMMENT '购物车状态',
-  `created_at`     bigint DEFAULT NULL,
-  `updated_at`     bigint DEFAULT NULL,
-  `deleted_at`     bigint DEFAULT NULL,
+  `seckill_id` int unsigned NOT NULL DEFAULT '0' COMMENT '秒杀商品ID',
+  `bargain_id` int unsigned NOT NULL DEFAULT '0' COMMENT '砍价id',
+  `status`     tinyint(1) NOT NULL DEFAULT '1' COMMENT '购物车状态',
+  `created_at` bigint DEFAULT NULL,
+  `updated_at` bigint DEFAULT NULL,
+  `deleted_at` bigint DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY              `user_id` (`uid`) USING BTREE,
-  KEY              `goods_id` (`product_id`) USING BTREE,
-  KEY              `uid` (`uid`) USING BTREE,
-  KEY              `uid_2` (`uid`) USING BTREE,
-  KEY              `uid_3` (`uid`,`is_new`) USING BTREE,
-  KEY              `type` (`type`) USING BTREE
+  KEY          `user_id` (`uid`) USING BTREE,
+  KEY          `goods_id` (`product_id`) USING BTREE,
+  KEY          `uid` (`uid`) USING BTREE,
+  KEY          `uid_2` (`uid`) USING BTREE,
+  KEY          `uid_3` (`uid`,`is_new`) USING BTREE,
+  KEY          `type` (`type`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=COMPACT COMMENT='购物车表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3750,14 +3750,14 @@ DROP TABLE IF EXISTS `eb_store_order_status`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_store_order_status`
 (
-  `oid`         int unsigned NOT NULL COMMENT '订单id',
+  `oid`        int unsigned NOT NULL COMMENT '订单id',
   `change_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '操作类型',
   `change_message` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '操作备注',
-  `created_at`  bigint DEFAULT NULL,
-  `updated_at`  bigint DEFAULT NULL,
-  `deleted_at`  bigint DEFAULT NULL,
-  KEY           `oid` (`oid`) USING BTREE,
-  KEY           `change_type` (`change_type`) USING BTREE
+  `created_at` bigint DEFAULT NULL,
+  `updated_at` bigint DEFAULT NULL,
+  `deleted_at` bigint DEFAULT NULL,
+  KEY          `oid` (`oid`) USING BTREE,
+  KEY          `change_type` (`change_type`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='订单操作记录表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -3957,16 +3957,16 @@ DROP TABLE IF EXISTS `eb_store_product_attr`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_store_product_attr`
 (
-  `id`         mediumint                                                    NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id`        mediumint                                                    NOT NULL AUTO_INCREMENT COMMENT '主键',
   `product_id` int unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
-  `attr_name`  varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性名',
+  `attr_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性名',
   `attr_values` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '属性值',
-  `type`       tinyint(1) DEFAULT '0' COMMENT '活动类型 0=商品，1=秒杀，2=砍价，3=拼团',
+  `type`      tinyint(1) DEFAULT '0' COMMENT '活动类型 0=商品，1=秒杀，2=砍价，3=拼团',
   `created_at` bigint DEFAULT NULL,
   `updated_at` bigint DEFAULT NULL,
   `deleted_at` bigint DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY          `store_id` (`product_id`) USING BTREE
+  KEY         `store_id` (`product_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=COMPACT COMMENT='商品属性表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4015,16 +4015,16 @@ DROP TABLE IF EXISTS `eb_store_product_attr_result`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_store_product_attr_result`
 (
-  `id`         int NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id`     int NOT NULL AUTO_INCREMENT COMMENT '主键',
   `product_id` int unsigned NOT NULL COMMENT '商品ID',
-  `result`     longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品属性参数',
+  `result` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品属性参数',
   `change_time` int unsigned NOT NULL COMMENT '上次修改时间',
-  `type`       tinyint(1) DEFAULT '0' COMMENT '活动类型 0=商品，1=秒杀，2=砍价，3=拼团',
+  `type`   tinyint(1) DEFAULT '0' COMMENT '活动类型 0=商品，1=秒杀，2=砍价，3=拼团',
   `created_at` bigint DEFAULT NULL,
   `updated_at` bigint DEFAULT NULL,
   `deleted_at` bigint DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY          `product_id` (`product_id`) USING BTREE
+  KEY      `product_id` (`product_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=COMPACT COMMENT='商品属性详情表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4293,9 +4293,9 @@ CREATE TABLE `eb_store_product_description`
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '商品详情',
   `type`       tinyint(1) NOT NULL DEFAULT '0' COMMENT '商品类型',
   `id`         int unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` bigint       DEFAULT NULL,
-  `updated_at` bigint       DEFAULT NULL,
-  `deleted_at` bigint       DEFAULT NULL,
+  `created_at` bigint DEFAULT NULL,
+  `updated_at` bigint DEFAULT NULL,
+  `deleted_at` bigint DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY          `product_id` (`product_id`,`type`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=COMPACT COMMENT='商品描述表';
@@ -4418,18 +4418,18 @@ DROP TABLE IF EXISTS `eb_store_product_relation`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_store_product_relation`
 (
-  `id`       int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `uid`      int unsigned NOT NULL COMMENT '用户ID',
+  `id`   int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uid`  int unsigned NOT NULL COMMENT '用户ID',
   `product_id` int unsigned NOT NULL COMMENT '商品ID',
-  `type`     varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型(收藏(collect）、点赞(like))',
+  `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型(收藏(collect）、点赞(like))',
   `category` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '某种类型的商品(普通商品、秒杀商品)',
   `created_at` bigint DEFAULT NULL,
   `updated_at` bigint DEFAULT NULL,
   `deleted_at` bigint DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uid` (`uid`,`product_id`,`type`,`category`) USING BTREE,
-  KEY        `type` (`type`) USING BTREE,
-  KEY        `category` (`category`) USING BTREE
+  KEY    `type` (`type`) USING BTREE,
+  KEY    `category` (`category`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='商品点赞和收藏表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4500,7 +4500,7 @@ DROP TABLE IF EXISTS `eb_store_product_rule`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_store_product_rule`
 (
-  `id`        int                                                          NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `rule_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规格名称',
   `rule_value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规格值',
   `created_at` bigint DEFAULT NULL,
@@ -4666,7 +4666,7 @@ CREATE TABLE `eb_system_admin`
 (
   `id`         smallint unsigned NOT NULL AUTO_INCREMENT COMMENT '后台管理员表ID',
   `account`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '后台管理员账号',
-  `pwd`        char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci     NOT NULL COMMENT '后台管理员密码',
+  `pwd`        varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '后台管理员密码',
   `real_name`  varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '后台管理员姓名',
   `roles`      varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '后台管理员权限(menus_id)',
   `last_ip`    varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '后台管理员最后一次登录ip',
@@ -4692,9 +4692,10 @@ LOCK
 TABLES `eb_system_admin` WRITE;
 /*!40000 ALTER TABLE `eb_system_admin` DISABLE KEYS */;
 INSERT INTO `eb_system_admin`
-VALUES (1, 'admin', 'L8qdg72wbeQ=', '超管', '1', '127.0.0.1', 514, 1, 1, '11111111111', 0, 1734768311, 1735007553, 0),
-       (2, 'demo', 'Rb/KmlSjAxI=', '演示账号', '5', '113.102.138.163', 346, 1, 1, '18888888888', 0, 1734768311,
-        1734768311, 0);
+VALUES (1, 'admin', '$2a$10$XoY938kDItzKPVQRF9PWWufqRjz289xu7jAOZKqrgAJPGs6tbE1YC', '超管', '1', '127.0.0.1', 515, 1, 1,
+        '11111111111', 0, 1734768311, 1735202967, 0),
+       (2, 'demo', '$2a$10$1kQyebCtH4dTLXoF3pGki.X69DbOqs7EVSd4Hi/ZjrseVNEY73ppS', '演示账号', '5', '113.102.138.163',
+        346, 1, 1, '18888888888', 0, 1734768311, 1734768311, 0);
 /*!40000 ALTER TABLE `eb_system_admin` ENABLE KEYS */;
 UNLOCK
 TABLES;
@@ -14630,16 +14631,16 @@ DROP TABLE IF EXISTS `eb_system_role`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_system_role`
 (
-  `id`        int unsigned NOT NULL AUTO_INCREMENT COMMENT '身份管理id',
+  `id`     int unsigned NOT NULL AUTO_INCREMENT COMMENT '身份管理id',
   `role_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '身份管理名称',
-  `rules`     text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '身份管理权限(menus_id)',
-  `level`     tinyint unsigned NOT NULL DEFAULT '0',
-  `status`    tinyint unsigned NOT NULL DEFAULT '1' COMMENT '状态',
+  `rules`  text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '身份管理权限(menus_id)',
+  `level`  tinyint unsigned NOT NULL DEFAULT '0',
+  `status` tinyint unsigned NOT NULL DEFAULT '1' COMMENT '状态',
   `created_at` bigint DEFAULT NULL,
   `updated_at` bigint DEFAULT NULL,
   `deleted_at` bigint DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  KEY         `status` (`status`) USING BTREE
+  KEY      `status` (`status`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='身份管理表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -14666,7 +14667,7 @@ DROP TABLE IF EXISTS `eb_system_role_menu`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_system_role_menu`
 (
-  `rid`     int NOT NULL COMMENT '角色id',
+  `rid` int NOT NULL COMMENT '角色id',
   `menu_id` int NOT NULL COMMENT '权限id',
   `created_at` bigint DEFAULT NULL,
   `updated_at` bigint DEFAULT NULL,
@@ -15544,7 +15545,7 @@ CREATE TABLE `eb_user`
   KEY               `level` (`level`) USING BTREE,
   KEY               `status` (`status`) USING BTREE,
   KEY               `is_promoter` (`is_promoter`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -15558,7 +15559,11 @@ INSERT INTO `eb_user`
 VALUES (1, '18292417675', 'f6mcpGQ8NEmwbab2TlkpUg==', '', '', '', '', NULL, '', '', '大粽子',
         'crmebimage/public/maintain/2023/02/23/1c0fa967eb764d918f064744cc51dc70a6f2bj3sha.jpg', '18292417675', '', '',
         0.00, 0.00, 0, 0, 0, 1, 0, 0, NULL, '', 0, 0, 0, '', 0, '', 20230315174244, NULL, '/0/', 0, NULL, 1, 'CN', NULL,
-        1734768311, 1734768311, 0);
+        1734768311, 1734768311, 0),
+       (2, '15677197856', 'f6mcpGQ8NEmwbab2TlkpUg==', '', '', '', '', NULL, '', '', '小粽子',
+        'crmebimage/public/maintain/2023/02/23/1c0fa967eb764d918f064744cc51dc70a6f2bj3sha.jpg', '18292417675', '', '',
+        0.00, 0.00, 0, 0, 0, 1, 0, 0, NULL, '', 0, 0, 0, '', 0, '', 20230315174244, NULL, '/0/', 0, NULL, 1, 'CN', NULL,
+        1735115764, 1735115764, 0);
 /*!40000 ALTER TABLE `eb_user` ENABLE KEYS */;
 UNLOCK
 TABLES;
@@ -15786,7 +15791,7 @@ DROP TABLE IF EXISTS `eb_user_group`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_user_group`
 (
-  `id`         smallint unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint unsigned NOT NULL AUTO_INCREMENT,
   `group_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户分组名称',
   `created_at` bigint DEFAULT NULL,
   `updated_at` bigint DEFAULT NULL,
@@ -16075,15 +16080,15 @@ DROP TABLE IF EXISTS `eb_wechat_callback`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eb_wechat_callback`
 (
-  `id`           int NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `id`         int NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `to_user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '商家小程序名称',
   `from_user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '微信团队的 OpenID(固定值)',
-  `msg_type`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '消息类型',
-  `event`        varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '事件类型',
-  `content`      text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '内容',
-  `created_at`   bigint                                                        DEFAULT NULL,
-  `updated_at`   bigint                                                        DEFAULT NULL,
-  `deleted_at`   bigint                                                        DEFAULT NULL,
+  `msg_type`   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '消息类型',
+  `event`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '事件类型',
+  `content`    text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '内容',
+  `created_at` bigint                                                        DEFAULT NULL,
+  `updated_at` bigint                                                        DEFAULT NULL,
+  `deleted_at` bigint                                                        DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='微信回调表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -16242,4 +16247,4 @@ TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-24 17:00:49
+-- Dump completed on 2024-12-30 19:38:35

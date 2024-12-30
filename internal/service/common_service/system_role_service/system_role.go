@@ -44,8 +44,16 @@ type service struct {
 	systemRoleMenuService system_role_menu_service.Service
 }
 
+func (s *service) GetAllSystemRoleList(ctx context.Context) ([]*model.SystemRole, error) {
+	resp, err := s.systemRoleRepo.GetAllList(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
 func (s *service) List(ctx context.Context, req *validation.SystemRoleSearch) (*page.CommonPageResp[response.SystemRole], error) {
-	systemRoleList, total, err := s.systemRoleRepo.GetList(ctx, req)
+	systemRoleList, total, err := s.systemRoleRepo.GetPage(ctx, req)
 	if err != nil {
 		return nil, err
 	}

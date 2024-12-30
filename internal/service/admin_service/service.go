@@ -4,6 +4,7 @@ import (
 	"crmeb_go/internal/service/admin_service/admin_login_service"
 	"crmeb_go/internal/service/common_service/home_service"
 	"crmeb_go/internal/service/common_service/store_order_service"
+	"crmeb_go/internal/service/common_service/system_admin_service"
 	"crmeb_go/internal/service/common_service/system_config_service"
 	"crmeb_go/internal/service/common_service/system_group_data_service"
 	"crmeb_go/internal/service/common_service/system_menu_service"
@@ -28,6 +29,7 @@ var ProviderSet = wire.NewSet(
 	system_store_staff_service.New,
 	system_role_service.New,
 	system_role_menu_service.New,
+	system_admin_service.New,
 	user_service.New,
 	user_visit_record_service.New,
 )

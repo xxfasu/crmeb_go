@@ -2,6 +2,7 @@ package system_role_repository
 
 import (
 	"context"
+	"crmeb_go/internal/common/page"
 	"crmeb_go/internal/model"
 	"crmeb_go/internal/repository/gen"
 	"crmeb_go/internal/validation"
@@ -20,7 +21,14 @@ type repository struct {
 	db *gorm.DB
 }
 
-func (r *repository) GetList(ctx context.Context, condition *validation.SystemRoleSearch) ([]*model.SystemRole, int64, error) {
+func (r *repository) GetAllList(ctx context.Context) ([]*model.SystemRole, error) {
+	systemRole := gen.Q.SystemRole
+	return systemRole.WithContext(ctx).
+		Where(systemRole.Status.Eq(1)).
+		Order(systemRole.ID.Asc()).Find()
+}
+
+func (r *repository) GetPage(ctx context.Context, condition *validation.SystemRoleSearch) ([]*model.SystemRole, int64, error) {
 	systemRole := gen.Q.SystemRole
 	tx := systemRole.WithContext(ctx)
 	tx = tx.Select(systemRole.ID, systemRole.RoleName, systemRole.Status, systemRole.CreatedAt, systemRole.UpdatedAt)
@@ -31,7 +39,7 @@ func (r *repository) GetList(ctx context.Context, condition *validation.SystemRo
 		tx = tx.Where(systemRole.Status.Eq(*condition.Status))
 	}
 	tx = tx.Order(systemRole.ID.Asc())
-	return tx.FindByPage((condition.Page-1)*condition.Limit, condition.Limit)
+	return tx.FindByPage(page.PageParam(condition.PageParam))
 }
 
 func (r *repository) GetByID(ctx context.Context, id int64) (*model.SystemRole, error) {

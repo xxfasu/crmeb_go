@@ -10,6 +10,7 @@ import (
 	"crmeb_go/internal/casbin"
 	"crmeb_go/internal/handler/admin_handler/v1/admin_login_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/home_handler"
+	"crmeb_go/internal/handler/admin_handler/v1/system_admin_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_config_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_menu_handler"
 	"crmeb_go/internal/handler/admin_handler/v1/system_role_handler"
@@ -30,6 +31,7 @@ import (
 	"crmeb_go/internal/service/admin_service/admin_login_service"
 	"crmeb_go/internal/service/common_service/home_service"
 	"crmeb_go/internal/service/common_service/store_order_service"
+	"crmeb_go/internal/service/common_service/system_admin_service"
 	"crmeb_go/internal/service/common_service/system_config_service"
 	"crmeb_go/internal/service/common_service/system_group_data_service"
 	"crmeb_go/internal/service/common_service/system_menu_service"
@@ -92,13 +94,15 @@ func NewWire(client redis.UniversalClient, rLock *redsync.Redsync) (*gin.Engine,
 	system_role_serviceService := system_role_service.New(transaction, system_role_repositoryRepository, service, system_menu_serviceService, system_role_menu_serviceService)
 	system_role_handlerHandler := system_role_handler.New(system_role_serviceService)
 	system_menu_handlerHandler := system_menu_handler.New(system_menu_serviceService)
+	system_admin_serviceService := system_admin_service.New(transaction, system_role_serviceService, system_admin_repositoryRepository)
+	system_admin_handlerHandler := system_admin_handler.New(system_admin_serviceService)
 	store_order_repositoryRepository := store_order_repository.New(db)
 	store_order_serviceService := store_order_service.New(transaction, store_order_repositoryRepository)
 	user_visit_record_repositoryRepository := user_visit_record_repository.New(db)
 	user_visit_record_serviceService := user_visit_record_service.New(transaction, user_serviceService, user_visit_record_repositoryRepository)
 	home_serviceService := home_service.New(transaction, store_order_serviceService, user_serviceService, user_visit_record_serviceService)
 	home_handlerHandler := home_handler.New(home_serviceService)
-	engine := admin_routes.NewRouter(recovery, cors, logM, authM, casbinM, handler, system_store_staff_handlerHandler, system_config_handlerHandler, system_role_handlerHandler, system_menu_handlerHandler, home_handlerHandler)
+	engine := admin_routes.NewRouter(recovery, cors, logM, authM, casbinM, handler, system_store_staff_handlerHandler, system_config_handlerHandler, system_role_handlerHandler, system_menu_handlerHandler, system_admin_handlerHandler, home_handlerHandler)
 	return engine, func() {
 		cleanup()
 	}, nil
