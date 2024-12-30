@@ -135,3 +135,35 @@ func (s *service) Info(ctx context.Context, id int64) (*response.SystemAdmin, er
 	resp.ConvertFromModel(systemAdmin)
 	return resp, nil
 }
+
+func (s *service) UpdateStatus(ctx context.Context, id, status int64) error {
+	systemAdmin, err := s.systemAdminRepo.GetByID(ctx, id)
+	if err != nil {
+		return err
+	}
+	if systemAdmin == nil {
+		return errors.New("管理员不存在")
+	}
+	if systemAdmin.Status == status {
+		return nil
+	}
+	umap := make(map[string]any)
+	umap["status"] = status
+	return s.systemAdminRepo.UpdateFields(ctx, id, umap)
+}
+
+func (s *service) UpdateIsSms(ctx context.Context, id int64) error {
+	systemAdmin, err := s.systemAdminRepo.GetByID(ctx, id)
+	if err != nil {
+		return err
+	}
+	if systemAdmin == nil {
+		return errors.New("管理员不存在")
+	}
+	if len(systemAdmin.Phone) == 0 {
+		return errors.New("请先为管理员添加手机号")
+	}
+	umap := make(map[string]any)
+	umap["is_sms"] = systemAdmin.IsSms ^ 1
+	return s.systemAdminRepo.UpdateFields(ctx, id, umap)
+}

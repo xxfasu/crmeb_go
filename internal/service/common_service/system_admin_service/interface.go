@@ -13,4 +13,6 @@ type Service interface {
 	Delete(ctx context.Context, id int64) error
 	Update(ctx context.Context, req *validation.SystemAdminUpdate) error
 	Info(ctx context.Context, id int64) (*response.SystemAdmin, error)
+	UpdateStatus(ctx context.Context, id, status int64) error
+	UpdateIsSms(ctx context.Context, id int64) error
 }

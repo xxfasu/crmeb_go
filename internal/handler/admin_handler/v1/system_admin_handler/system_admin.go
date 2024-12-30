@@ -89,29 +89,34 @@ func (h *Handler) Info(ctx *gin.Context) {
 }
 
 func (h *Handler) UpdateStatus(ctx *gin.Context) {
-	req := new(validation.SystemAdminSearch)
-	if err := ctx.ShouldBindJSON(req); err != nil {
+	idStr := ctx.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
-		return
 	}
-	resp, err := h.service.List(ctx, req)
+	statusStr := ctx.Param("status")
+	status, err := strconv.Atoi(statusStr)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+	}
+	err = h.service.UpdateStatus(ctx, int64(id), int64(status))
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
 	}
-	response.OkWithData(ctx, resp)
+	response.Ok(ctx)
 }
 
 func (h *Handler) UpdateSms(ctx *gin.Context) {
-	req := new(validation.SystemAdminSearch)
-	if err := ctx.ShouldBindJSON(req); err != nil {
+	idStr := ctx.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
-		return
 	}
-	resp, err := h.service.List(ctx, req)
+	err = h.service.UpdateIsSms(ctx, int64(id))
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
 	}
-	response.OkWithData(ctx, resp)
+	response.Ok(ctx)
 }
