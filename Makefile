@@ -3,6 +3,59 @@ wire:
 	wire ./cmd/admin/wire
 	wire ./cmd/front/wire
 
-.PHONY: goconvey
-goconvey:
-	@cd test && goconvey -port 5555
+.PHONY: convey
+convey:
+	goconvey -port 5555
+
+
+
+.PHONY: mock
+
+# 查找所有 interface.go 文件
+REPOSITORY_INTERFACE_FILES := $(shell find internal/repository -type f -name "interface.go")
+COMMON_SERVICE_INTERFACE_FILES := $(shell find internal/service/common_service -type f -name "interface.go")
+ADMIN_SERVICE_INTERFACE_FILES := $(shell find internal/service/admin_service -type f -name "interface.go")
+FRONT_SERVICE_INTERFACE_FILES := $(shell find internal/service/front_service -type f -name "interface.go")
+
+mock:
+	@echo "开始生成mock文件..."
+
+	@for repository in $(REPOSITORY_INTERFACE_FILES); do \
+		SERVICE_NAME=$$(basename $$(dirname $$repository)); \
+		DEST_DIR=test/mocks/repository/mocks_$$SERVICE_NAME; \
+		MOCK_FILE=$$DEST_DIR/mocks_$$SERVICE_NAME.go; \
+		PACKAGE_NAME=mocks_$$SERVICE_NAME; \
+		echo "为 $$repository 生成mock文件..."; \
+		mkdir -p $$DEST_DIR; \
+		mockgen -source=$$repository -destination=$$MOCK_FILE -package=$$PACKAGE_NAME; \
+		echo "生成的mock文件位于$$MOCK_FILE"; \
+	done
+
+	@for admin_service in $(ADMIN_SERVICE_INTERFACE_FILES); do \
+		SERVICE_NAME=$$(basename $$(dirname $$admin_service)); \
+		DEST_DIR=test/mocks/service/admin_service/mocks_$$SERVICE_NAME; \
+		MOCK_FILE=$$DEST_DIR/mocks_$$SERVICE_NAME.go; \
+		PACKAGE_NAME=mocks_$$SERVICE_NAME; \
+		echo "为 $$admin_service 生成mock文件..."; \
+		mkdir -p $$DEST_DIR; \
+		mockgen -source=$$admin_service -destination=$$MOCK_FILE -package=$$PACKAGE_NAME; \
+		echo "生成的mock文件位于$$MOCK_FILE"; \
+	done
+
+	@for common_service in $(COMMON_SERVICE_INTERFACE_FILES); do \
+  		SERVICE_NAME=$$(basename $$(dirname $$common_service)); \
+  		DEST_DIR=test/mocks/service/common_service/mocks_$$SERVICE_NAME; \
+  		MOCK_FILE=$$DEST_DIR/mocks_$$SERVICE_NAME.go; \
+  		PACKAGE_NAME=mocks_$$SERVICE_NAME; \
+  		echo "为 $$common_service 生成mock文件..."; \
+  		mkdir -p $$DEST_DIR; \
+  		mockgen -source=$$common_service -destination=$$MOCK_FILE -package=$$PACKAGE_NAME; \
+  		echo "生成的mock文件位于$$MOCK_FILE"; \
+  	done
+
+	mockgen -source=internal/repository/db.go -destination=test/mocks/repository/mocks_transaction/mocks_transaction.go -package=mocks_transaction;
+	mockgen -source=internal/casbin/interface.go -destination=test/mocks/casbin/mocks_casbin.go -package=mocks_casbin;
+	mockgen -source=pkg/captcha/interface.go -destination=test/mocks/pkg/captcha/mocks_captcha.go -package=mocks_captcha
+	mockgen -source=pkg/cache/interface.go -destination=test/mocks/pkg/cache/mocks_cache.go -package=mocks_cache
+	mockgen -source=pkg/oss/oss.go -destination=test/mocks/pkg/oss/oss.go -package=mocks_oss
+	@echo "mock文件生成完成!"
