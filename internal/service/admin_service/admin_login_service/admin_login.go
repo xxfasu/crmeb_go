@@ -75,7 +75,7 @@ func (s *service) SystemAdminLogin(ctx context.Context, req *validation.SystemAd
 	if !util.ComparePasswords(systemAdmin.Pwd, req.Pwd) {
 		return resp, errors.New("密码错误")
 	}
-	token, err := getToken(ctx, s, systemAdmin)
+	token, err := s.getToken(ctx, systemAdmin)
 	if err != nil {
 		return resp, err
 	}

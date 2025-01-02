@@ -7,8 +7,6 @@ wire:
 convey:
 	goconvey -port 5555
 
-
-
 .PHONY: mock
 
 # 查找所有 interface.go 文件
@@ -57,5 +55,5 @@ mock:
 	mockgen -source=internal/casbin/interface.go -destination=test/mocks/casbin/mocks_casbin.go -package=mocks_casbin;
 	mockgen -source=pkg/captcha/interface.go -destination=test/mocks/pkg/captcha/mocks_captcha.go -package=mocks_captcha
 	mockgen -source=pkg/cache/interface.go -destination=test/mocks/pkg/cache/mocks_cache.go -package=mocks_cache
-	mockgen -source=pkg/oss/oss.go -destination=test/mocks/pkg/oss/oss.go -package=mocks_oss
+	mockgen -source=pkg/oss/interface.go -destination=test/mocks/pkg/oss/mocks_oss.go -package=mocks_oss
 	@echo "mock file generation is complete!"

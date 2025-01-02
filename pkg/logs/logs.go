@@ -73,9 +73,14 @@ func InitLog() {
 			EncodeCaller:   zapcore.ShortCallerEncoder,
 		})
 	}
+	writeSyncerList := make([]zapcore.WriteSyncer, 0)
+	writeSyncerList = append(writeSyncerList, zapcore.AddSync(os.Stdout))
+	if conf.Env.Environment != "local" {
+		writeSyncerList = append(writeSyncerList, zapcore.AddSync(&hook))
+	}
 	core := zapcore.NewCore(
 		encoder,
-		zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout), zapcore.AddSync(&hook)), // Print to console and file
+		zapcore.NewMultiWriteSyncer(writeSyncerList...), // Print to console and file
 		level,
 	)
 	if conf.Env.Environment != "prod" {

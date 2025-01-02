@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func getToken(ctx context.Context, s *service, systemAdmin *model.SystemAdmin) (string, error) {
+func (s *service) getToken(ctx context.Context, systemAdmin *model.SystemAdmin) (string, error) {
 	roles := strings.Split(systemAdmin.Roles, ",")
 	var menuList []*model.SystemMenu
 	var err error

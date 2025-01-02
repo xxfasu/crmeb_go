@@ -2,12 +2,15 @@ package service
 
 import (
 	"context"
+	"crmeb_go/internal/conf"
+	"crmeb_go/internal/model"
 	redis2 "crmeb_go/internal/redis"
 	"crmeb_go/internal/service/admin_service/admin_login_service"
 	"crmeb_go/internal/validation"
 	"crmeb_go/pkg/cache"
-	"crmeb_go/pkg/captcha"
 	"crmeb_go/pkg/jwt"
+	"crmeb_go/pkg/logs"
+	"crmeb_go/test/mocks/pkg/mocks_captcha"
 	"crmeb_go/test/mocks/repository/mocks_system_admin_repository"
 	"crmeb_go/test/mocks/repository/mocks_transaction"
 	"crmeb_go/test/mocks/service/common_service/mocks_system_config_service"
@@ -15,13 +18,14 @@ import (
 	"crmeb_go/test/mocks/service/common_service/mocks_system_menu_service"
 	"fmt"
 	"github.com/redis/go-redis/v9"
+	. "github.com/smartystreets/goconvey/convey"
 	"go.uber.org/mock/gomock"
 	"os"
 	"testing"
 )
 
 var jwtJWT *jwt.JWT
-var captchaCaptcha captcha.Captcha
+var mockCaptcha *mocks_captcha.MockCaptcha
 var rClient redis.UniversalClient
 var mockSystemAdminRepo *mocks_system_admin_repository.MockRepository
 var mockTransaction *mocks_transaction.MockTransaction
@@ -32,13 +36,17 @@ var systemGroupDataService *mocks_system_group_data_service.MockService
 func TestMain(m *testing.M) {
 	fmt.Println("begin")
 	var err error
+	conf.InitConfig("D:\\goproject\\xxfasu\\crmeb_go\\config")
+	if err != nil {
+		panic(err)
+	}
+	logs.InitLog()
 	rClient, err = redis2.InitRedis()
 	if err != nil {
 		panic(err)
 	}
 	cacheCache := cache.InitLocalCache(rClient)
 	jwtJWT = jwt.NewJwt(cacheCache)
-	captchaCaptcha = captcha.New(cacheCache)
 
 	code := m.Run()
 	fmt.Println("test end")
@@ -48,13 +56,14 @@ func TestMain(m *testing.M) {
 func NewService(t *testing.T) admin_login_service.Service {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	mockCaptcha = mocks_captcha.NewMockCaptcha(ctrl)
 	mockSystemAdminRepo = mocks_system_admin_repository.NewMockRepository(ctrl)
 	mockTransaction = mocks_transaction.NewMockTransaction(ctrl)
 	systemMenuService = mocks_system_menu_service.NewMockService(ctrl)
 	systemConfigService = mocks_system_config_service.NewMockService(ctrl)
 	systemGroupDataService = mocks_system_group_data_service.NewMockService(ctrl)
 	adminLoginService := admin_login_service.New(mockTransaction,
-		captchaCaptcha, jwtJWT,
+		mockCaptcha, jwtJWT,
 		systemMenuService,
 		systemConfigService,
 		systemGroupDataService,
@@ -63,20 +72,39 @@ func NewService(t *testing.T) admin_login_service.Service {
 }
 
 func TestAdminLoginService_SystemAdminLogin(t *testing.T) {
-	adminLoginService := NewService(t)
-	ctx := context.Background()
-	req := &validation.SystemAdminLogin{
-		Account: "12345678",
-		Pwd:     "12345678",
-		Key:     "12345678",
-		Code:    "12345678",
-	}
-	ip := "127.0.0.1"
+	Convey("管理端登录 SystemAdminLogin方法测试", t, func() {
+		// 注意：这里假设 NewService(t) 内部会将 gomock.Controller、mock 对象初始化好
+		// 或你可以在这里自己手动初始化 gomock.Controller 等。
+		adminLoginService := NewService(t)
+		ctx := context.Background()
 
-	login, err := adminLoginService.SystemAdminLogin(ctx, req, ip)
+		// 模拟一个登录请求
+		req := &validation.SystemAdminLogin{
+			Account: "123456",
+			Pwd:     "123456",
+			Key:     "123456",
+			Code:    "123456",
+		}
+		ip := "127.0.0.1"
 
-	if err != nil {
-		t.Error(err)
-	}
-	t.Log(login)
+		// mockCaptcha 验证成功
+		mockCaptcha.EXPECT().Verify(gomock.Any(), gomock.Any()).Return(true).AnyTimes()
+
+		// mockSystemAdminRepo 模拟查询到用户信息
+		mockSystemAdminRepo.EXPECT().GetUser(gomock.Any(), gomock.Any()).Return(&model.SystemAdmin{
+			ID:    1,
+			Pwd:   "$2a$10$XoY938kDItzKPVQRF9PWWufqRjz289xu7jAOZKqrgAJPGs6tbE1YC",
+			Roles: "1",
+		}, nil).AnyTimes()
+
+		// mockSystemAdminRepo 模拟更新
+		mockSystemAdminRepo.EXPECT().UpdateFields(gomock.Any(), gomock.Any(), gomock.Any()).Return(nil).AnyTimes()
+
+		// systemMenuService 模拟权限查询
+		systemMenuService.EXPECT().GetAllPermissions(gomock.Any()).Return([]*model.SystemMenu{}, nil).AnyTimes()
+		login, err := adminLoginService.SystemAdminLogin(ctx, req, ip)
+		Printf("结果为:%#v", *login)
+		So(err, ShouldBeNil)
+		So(login, ShouldNotBeNil)
+	})
 }
