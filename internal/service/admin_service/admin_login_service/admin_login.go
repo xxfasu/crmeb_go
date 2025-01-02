@@ -117,6 +117,7 @@ func (s *service) GetAdminInfo(ctx context.Context, loginUserData data.LoginUser
 	resp.PermissionsList = permList
 	return resp, nil
 }
+
 func (s *service) GetLoginPic(ctx context.Context) (*response.SystemLoginPic, error) {
 	resp := new(response.SystemLoginPic)
 	// 背景图

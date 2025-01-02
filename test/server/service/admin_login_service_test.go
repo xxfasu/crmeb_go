@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"crmeb_go/internal/common/data"
 	"crmeb_go/internal/conf"
 	"crmeb_go/internal/model"
 	redis2 "crmeb_go/internal/redis"
@@ -72,9 +73,7 @@ func NewService(t *testing.T) admin_login_service.Service {
 }
 
 func TestAdminLoginService_SystemAdminLogin(t *testing.T) {
-	Convey("管理端登录 SystemAdminLogin方法测试", t, func() {
-		// 注意：这里假设 NewService(t) 内部会将 gomock.Controller、mock 对象初始化好
-		// 或你可以在这里自己手动初始化 gomock.Controller 等。
+	Convey("AdminLoginService SystemAdminLogin方法测试", t, func() {
 		adminLoginService := NewService(t)
 		ctx := context.Background()
 
@@ -82,8 +81,8 @@ func TestAdminLoginService_SystemAdminLogin(t *testing.T) {
 		req := &validation.SystemAdminLogin{
 			Account: "123456",
 			Pwd:     "123456",
-			Key:     "123456",
-			Code:    "123456",
+			Key:     "",
+			Code:    "",
 		}
 		ip := "127.0.0.1"
 
@@ -106,5 +105,38 @@ func TestAdminLoginService_SystemAdminLogin(t *testing.T) {
 		Printf("结果为:%#v", *login)
 		So(err, ShouldBeNil)
 		So(login, ShouldNotBeNil)
+	})
+}
+
+func TestAdminLoginService_GetCode(t *testing.T) {
+	Convey("AdminLoginService GetCode方法测试", t, func() {
+		adminLoginService := NewService(t)
+		ctx := context.Background()
+
+		// mockCaptcha 验证成功
+		mockCaptcha.EXPECT().Gen().Return("key", "code", nil).AnyTimes()
+
+		resp, err := adminLoginService.GetCode(ctx)
+		Printf("结果为:%#v", *resp)
+		So(err, ShouldBeNil)
+		So(resp, ShouldNotBeNil)
+	})
+}
+
+func TestAdminLoginService_GetAdminInfo(t *testing.T) {
+	Convey("AdminLoginServiceGetAdminInfo方法测试", t, func() {
+		adminLoginService := NewService(t)
+		ctx := context.Background()
+
+		req := data.LoginUser{
+			Token:      "7cfcdd35-138d-4752-8e92-885dc837a758",
+			LoginTime:  1735818500,
+			ExpireTime: 1735836500,
+			User:       &model.SystemAdmin{ID: 1, Account: "admin", Pwd: "123456", RealName: "超管", Roles: "1", LastIP: "127.0.0.1", LoginCount: 516, Level: 1, Status: 1, Phone: "11111111111", IsSms: 0, CreatedAt: 1734768311, UpdatedAt: 1735809086, DeletedAt: 0},
+		}
+		resp, err := adminLoginService.GetAdminInfo(ctx, req)
+		Printf("结果为:%#v", *resp)
+		So(err, ShouldBeNil)
+		So(resp, ShouldNotBeNil)
 	})
 }
