@@ -17,6 +17,9 @@ import (
 func TestAdminLogin_Login(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	// authM := middleware.NewAuthM(jwtJWT)
+	// casbinService := mocks_casbin.NewMockService(ctrl)
+	// casbinM := middleware.NewCasbinM(casbinService, jwtJWT)
 	adminLoginService := mocks_admin_login_service.NewMockService(ctrl)
 	handler := admin_login_handler.New(adminLoginService)
 	router.POST("/login", handler.Login)

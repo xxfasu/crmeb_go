@@ -1,8 +1,12 @@
 package util
 
 import (
+	"database/sql"
 	"errors"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/copier"
+	"log"
 	"testing"
 	"time"
 
@@ -128,4 +132,23 @@ func convertOption(m any, u any) copier.Option {
 					"CreatedAt": "CreatedTime",
 				}},
 		}}
+}
+
+func TestGetColumns(t *testing.T) {
+	// 1. 连接数据库
+	dsn := "root:password@tcp(127.0.0.1:3306)/crmeb?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		log.Fatal("连接数据库失败:", err)
+	}
+	defer db.Close()
+
+	// 2. 获取指定表的所有列名
+	tableName := "eb_system_admin" // 假设要获取 eb_system_admin 表的字段
+	cols, err := getColumns(db, tableName)
+	if err != nil {
+		log.Fatalf("获取表 %s 字段信息失败: %v", tableName, err)
+	}
+
+	fmt.Println(formatColumns(cols, 1))
 }

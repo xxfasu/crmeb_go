@@ -44,7 +44,6 @@ func TestMain(m *testing.M) {
 	router.Use(logM.Handler())
 	router.Use(recoveryM.Handler())
 	router.Use(corsM.Handler())
-
 	code := m.Run()
 	fmt.Println("test end")
 	os.Exit(code)
